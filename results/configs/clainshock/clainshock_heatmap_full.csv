@@ -1,0 +1,222 @@
+Category,Scope,Parameter,Value
+Metadata,General,Project Root,.
+Metadata,General,Save Type,Static Frame
+Metadata,General,Timestamp,2026-10-29T17:07:04.328
+Metadata,General,source_origins,"String[""experiments/ClainShock/clainshock_800x800.jl""]"
+Git,Simulations,git_commit_count,92
+Git,Simulations,git_commit_hash,627fab059b5e1623505334ca4173d65c8ecc56ef
+Git,Simulations,git_commit_summary,LibGit2.GitCommit
+Julia,Main_Project,GLMakie,0.13.16
+Julia,Main_Project,HyperCloud,0.5.1
+Julia,Main_Project,Logging,1.11.0
+Julia,Main_Project,PDEStudio,0.4.5
+Julia,Main_Project,StaticArrays,1.9.24
+Julia,Main_Project,ThreadPinning,1.1.1
+Julia,System,Julia_Version,1.13.3
+Scene,Plot,component,1
+Scene,Plot,t,0.30000001192092896
+Scene,Plot,u_axis,:Solution
+Scene,Plot,x,0.0
+Scene,Plot,x_axis,:x
+Scene,Plot,y,0.0
+Scene,Plot,y_axis,:y
+Scene,Plot,z,0.0
+Scene,Plot,z_axis,:none
+Scene,Layout,base_plot,:heatmap
+Scene,Layout,compare_columns,2
+Scene,Layout,compare_link,:fully_coupled
+Scene,Layout,compare_target,:methods
+Scene,Layout,legend_add,:detached
+Scene,Layout,legend_base,:top
+Scene,Layout,plot_height,400
+Scene,Layout,plot_style,:heatmap_flat
+Scene,Layout,plot_width,500
+Scene,Camera,Axis_1_Limits,"Float64[0.0, 1.0, 0.0, 1.0]"
+Scene,Camera,Axis_2_Limits,"Float64[0.0, 1.0, 0.0, 1.0]"
+Scene,Camera,Axis_3_Limits,"Float64[0.0, 1.0, 0.0, 1.0]"
+Scene,Camera,Axis_4_Limits,"Float64[0.0, 1.0, 0.0, 1.0]"
+Scene,Camera,Axis_5_Limits,"Float64[0.0, 1.0, 0.0, 1.0]"
+Scene,Camera,Axis_6_Limits,"Float64[0.0, 1.0, 0.0, 1.0]"
+Scene,Labels,component_1,Component 1
+Scene,Labels,component_2,Component 2
+Scene,Labels,component_3,Component 3
+Scene,Labels,component_4,Component 4
+Scene,Exploration,anim_target,:t
+Scene,Exploration,component,1
+UI,axis_general,font_size,18
+UI,axis_general,label_size,18
+UI,axis_general,sort_legend,true
+UI,axis_general,ticklabel_size,16
+UI,axis_general,title_size,22
+UI,export,animation_FPS,30
+UI,export,animation_time,10.0
+UI,export,create_savefolder,false
+UI,export,dpi,300
+UI,export,mp4_compression,15
+UI,export,rasterization_enabled,false
+UI,export,rasterization_quality,2
+UI,export,save_formats,"String[""pdf"", ""svg"", ""png""]"
+UI,hud,close_loop,false
+UI,hud,color,:red
+UI,hud,line_style,:dash
+UI,hud,line_width,3.0
+UI,hud,marker_size,15.0
+UI,hud,mode,lines
+UI,hud,points,Any[]
+UI,hud,visible,false
+UI,labels,colorbar_label,<empty>
+UI,labels,legend_label,<empty>
+UI,labels,title,default
+UI,labels,x_label,<empty>
+UI,labels,y_label,<empty>
+UI,labels,z_label,<empty>
+UI,outliers_extrema,mark_outliers,false
+UI,outliers_extrema,outlier_threshold,1.5
+UI,outliers_extrema,remove_outliers,false
+UI,outliers_extrema,track_max,false
+UI,outliers_extrema,track_min,false
+UI,plot_style,bottom_margin,60
+UI,plot_style,color_map,:viridis
+UI,plot_style,color_range,Any[]
+UI,plot_style,colors,"Any[(:black, 0.8), :blue, :green, :orange, :purple, :yellow]"
+UI,plot_style,dashed_lines,false
+UI,plot_style,labels,false
+UI,plot_style,levels,100
+UI,plot_style,line_direction,:horizontal
+UI,plot_style,line_styles,"Any[:solid, (:dash, :dense), (:dot, :dense), :dash, :dot]"
+UI,plot_style,line_width,2.5
+UI,plot_style,marker_size,15.0
+UI,plot_style,markers,"Symbol[:circle, :rect, :utriangle, :dtriangle, :cross]"
+UI,plot_style,method_index,1
+UI,plot_style,reference,Any[]
+UI,plot_style,show_lines,true
+UI,plot_style,show_scatter,false
+UI,x_axis,grid_visibility,true
+UI,x_axis,label_offset,5.0
+UI,x_axis,lims,Any[]
+UI,x_axis,log_scale,false
+UI,x_axis,padding,0.0
+UI,x_axis,scale_offset,0.0
+UI,x_axis,tick_count,0
+UI,x_axis,tick_format,default
+UI,x_axis,tick_label_visibility,true
+UI,y_axis,grid_visibility,true
+UI,y_axis,label_offset,5.0
+UI,y_axis,lims,Any[]
+UI,y_axis,log_scale,false
+UI,y_axis,padding,0.0
+UI,y_axis,scale_offset,0.0
+UI,y_axis,tick_count,0
+UI,y_axis,tick_format,default
+UI,y_axis,tick_label_visibility,true
+UI,z_axis,label_offset,5.0
+Simulation,Shared,Grid_Ns,"(800, 800)"
+Simulation,Shared,Grid_bc_map,"Dict{Int64, AbstractBoundaryCondition}(1 => ExactQuadrantBC(states=((0.138, 0.16642800000000002, 0.16642800000000002, 0.27321216800000003), (0.5323, 0.0, 0.6419538, 1.1370981414), (0.5323, 0.6419538, 0.0, 1.1370981414), (1.5, 0.0, 0.0, 3.750000000000001)), p0=(0.5, 0.5), mins=(0.0, 0.0), maxs=(1.0, 1.0), s_left=-0.4220847070758307, s_right=-0.6633810065102821, s_bottom=-0.4220847070758307, s_top=-0.6633810065102821), 2 => ExactQuadrantBC(states=((0.138, 0.16642800000000002, 0.16642800000000002, 0.27321216800000003), (0.5323, 0.0, 0.6419538, 1.1370981414), (0.5323, 0.6419538, 0.0, 1.1370981414), (1.5, 0.0, 0.0, 3.750000000000001)), p0=(0.5, 0.5), mins=(0.0, 0.0), maxs=(1.0, 1.0), s_left=-0.4220847070758307, s_right=-0.6633810065102821, s_bottom=-0.4220847070758307, s_top=-0.6633810065102821), 3 => ExactQuadrantBC(states=((0.138, 0.16642800000000002, 0.16642800000000002, 0.27321216800000003), (0.5323, 0.0, 0.6419538, 1.1370981414), (0.5323, 0.6419538, 0.0, 1.1370981414), (1.5, 0.0, 0.0, 3.750000000000001)), p0=(0.5, 0.5), mins=(0.0, 0.0), maxs=(1.0, 1.0), s_left=-0.4220847070758307, s_right=-0.6633810065102821, s_bottom=-0.4220847070758307, s_top=-0.6633810065102821), 4 => ExactQuadrantBC(states=((0.138, 0.16642800000000002, 0.16642800000000002, 0.27321216800000003), (0.5323, 0.0, 0.6419538, 1.1370981414), (0.5323, 0.6419538, 0.0, 1.1370981414), (1.5, 0.0, 0.0, 3.750000000000001)), p0=(0.5, 0.5), mins=(0.0, 0.0), maxs=(1.0, 1.0), s_left=-0.4220847070758307, s_right=-0.6633810065102821, s_bottom=-0.4220847070758307, s_top=-0.6633810065102821), 5 => ExactQuadrantBC(states=((0.138, 0.16642800000000002, 0.16642800000000002, 0.27321216800000003), (0.5323, 0.0, 0.6419538, 1.1370981414), (0.5323, 0.6419538, 0.0, 1.1370981414), (1.5, 0.0, 0.0, 3.750000000000001)), p0=(0.5, 0.5), mins=(0.0, 0.0), maxs=(1.0, 1.0), s_left=-0.4220847070758307, s_right=-0.6633810065102821, s_bottom=-0.4220847070758307, s_top=-0.6633810065102821))"
+Simulation,Shared,Grid_domain,:rectangular
+Simulation,Shared,Grid_maxs,"(1.0, 1.0)"
+Simulation,Shared,Grid_mins,"(0.0, 0.0)"
+Simulation,Shared,Grid_mover,:none
+Simulation,Shared,Grid_randomness_factor,"(0.2, 0.2)"
+Simulation,Shared,Grid_seed,42
+Simulation,Shared,IC_name,:q_riemann
+Simulation,Shared,IC_p0,"(0.5, 0.5)"
+Simulation,Shared,IC_states,"((0.138, 0.16642800000000002, 0.16642800000000002, 0.27321216800000003), (0.5323, 0.0, 0.6419538, 1.1370981414), (0.5323, 0.6419538, 0.0, 1.1370981414), (1.5, 0.0, 0.0, 3.750000000000001))"
+Simulation,Shared,PDE_D,2
+Simulation,Shared,PDE_gamma,1.4
+Simulation,Shared,PDE_name,:euler
+Simulation,Shared,Scheme_MLS_order,2
+Simulation,Shared,T,Float32
+Simulation,Shared,Time_CFL,0.8
+Simulation,Shared,Weight_alpha,1.0
+Simulation,Shared,Weight_name,:exponential
+Simulation,Shared,Weight_range,2.5
+Simulation,Shared,merge_factor,0.0
+Simulation,Shared,relax_epsilon,1.0e-6
+Simulation,Shared,relax_indices,"Int64[1, 5, 9, 13, 17]"
+Simulation,Shared,relax_velocities,"((4.0, -4.0, 0.0, 0.0, 4.0, -4.0, 0.0, 0.0, 4.0, -4.0, 0.0, 0.0, 4.0, -4.0, 0.0, 0.0), (0.0, 0.0, 4.0, -4.0, 0.0, 0.0, 4.0, -4.0, 0.0, 0.0, 4.0, -4.0, 0.0, 0.0, 4.0, -4.0))"
+Simulation,Shared,sim_func_name,:run_direct_simulation
+Simulation,Shared,snapshots,20
+Simulation,Shared,tmax,0.3
+Simulation,RK2MUSCL1,Flux_name,:Rusanov
+Simulation,RK2MUSCL1,Limiter_mode,:hard
+Simulation,RK2MUSCL1,Limiter_name,:none
+Simulation,RK2MUSCL1,MOOD_criterion,:none
+Simulation,RK2MUSCL1,MOOD_strategy,:EPD1
+Simulation,RK2MUSCL1,Scheme_name,:MUSCL
+Simulation,RK2MUSCL1,Scheme_order,1
+Simulation,RK2MUSCL1,Time_stepper,:RK2
+Simulation,RK2MUSCL1,ignore,"Symbol[:Kinetic_velocities, :Kinetic_epsilon, :Kinetic_indices, :Kinetic_interior_factor, :save_relax]"
+Simulation,RK2MUSCL1,sim_func_name,:run_direct_simulation
+Simulation,"RK2MUSCL2(EPD1,AR,MLS2)",Flux_name,:AlignedRusanov
+Simulation,"RK2MUSCL2(EPD1,AR,MLS2)",Limiter_mode,:hard
+Simulation,"RK2MUSCL2(EPD1,AR,MLS2)",Limiter_name,:none
+Simulation,"RK2MUSCL2(EPD1,AR,MLS2)",MOOD_criterion,:U2
+Simulation,"RK2MUSCL2(EPD1,AR,MLS2)",MOOD_delta_relax,0.0001
+Simulation,"RK2MUSCL2(EPD1,AR,MLS2)",MOOD_strategy,:EPD1
+Simulation,"RK2MUSCL2(EPD1,AR,MLS2)",Scheme_MLS_order,2
+Simulation,"RK2MUSCL2(EPD1,AR,MLS2)",Scheme_name,:MUSCL
+Simulation,"RK2MUSCL2(EPD1,AR,MLS2)",Scheme_order,2
+Simulation,"RK2MUSCL2(EPD1,AR,MLS2)",Time_stepper,:RK2
+Simulation,"RK2MUSCL2(EPD1,AR,MLS2)",ignore,"Symbol[:Kinetic_velocities, :Kinetic_epsilon, :Kinetic_indices, :Kinetic_interior_factor, :save_relax]"
+Simulation,"RK2MUSCL2(EPD1,AR,MLS2)",sim_func_name,:run_direct_simulation
+Simulation,"RK2MUSCL2(EPD2,AR,MLS2)",Flux_name,:AlignedRusanov
+Simulation,"RK2MUSCL2(EPD2,AR,MLS2)",Limiter_mode,:hard
+Simulation,"RK2MUSCL2(EPD2,AR,MLS2)",Limiter_name,:none
+Simulation,"RK2MUSCL2(EPD2,AR,MLS2)",MOOD_criterion,:U2
+Simulation,"RK2MUSCL2(EPD2,AR,MLS2)",MOOD_delta_relax,0.0001
+Simulation,"RK2MUSCL2(EPD2,AR,MLS2)",MOOD_strategy,:EPD2
+Simulation,"RK2MUSCL2(EPD2,AR,MLS2)",Scheme_MLS_order,2
+Simulation,"RK2MUSCL2(EPD2,AR,MLS2)",Scheme_name,:MUSCL
+Simulation,"RK2MUSCL2(EPD2,AR,MLS2)",Scheme_order,2
+Simulation,"RK2MUSCL2(EPD2,AR,MLS2)",Time_stepper,:RK2
+Simulation,"RK2MUSCL2(EPD2,AR,MLS2)",ignore,"Symbol[:Kinetic_velocities, :Kinetic_epsilon, :Kinetic_indices, :Kinetic_interior_factor, :save_relax]"
+Simulation,"RK2MUSCL2(EPD2,AR,MLS2)",sim_func_name,:run_direct_simulation
+Simulation,"RK2MUSCL2(VK,AR,MLS2)",Flux_name,:AlignedRusanov
+Simulation,"RK2MUSCL2(VK,AR,MLS2)",Limiter_mode,:hard
+Simulation,"RK2MUSCL2(VK,AR,MLS2)",Limiter_name,:VK
+Simulation,"RK2MUSCL2(VK,AR,MLS2)",MOOD_criterion,:none
+Simulation,"RK2MUSCL2(VK,AR,MLS2)",MOOD_strategy,:EPD1
+Simulation,"RK2MUSCL2(VK,AR,MLS2)",Scheme_MLS_order,2
+Simulation,"RK2MUSCL2(VK,AR,MLS2)",Scheme_name,:MUSCL
+Simulation,"RK2MUSCL2(VK,AR,MLS2)",Scheme_order,2
+Simulation,"RK2MUSCL2(VK,AR,MLS2)",Time_stepper,:RK2
+Simulation,"RK2MUSCL2(VK,AR,MLS2)",ignore,"Symbol[:Kinetic_velocities, :Kinetic_epsilon, :Kinetic_indices, :Kinetic_interior_factor, :save_relax]"
+Simulation,"RK2MUSCL2(VK,AR,MLS2)",sim_func_name,:run_direct_simulation
+Simulation,"RK3MUSCL3(EPD1,AR,MLS3)",Flux_name,:AlignedRusanov
+Simulation,"RK3MUSCL3(EPD1,AR,MLS3)",Limiter_mode,:hard
+Simulation,"RK3MUSCL3(EPD1,AR,MLS3)",Limiter_name,:none
+Simulation,"RK3MUSCL3(EPD1,AR,MLS3)",MOOD_criterion,:U2
+Simulation,"RK3MUSCL3(EPD1,AR,MLS3)",MOOD_delta_relax,0.0001
+Simulation,"RK3MUSCL3(EPD1,AR,MLS3)",MOOD_strategy,:EPD1
+Simulation,"RK3MUSCL3(EPD1,AR,MLS3)",Scheme_MLS_order,3
+Simulation,"RK3MUSCL3(EPD1,AR,MLS3)",Scheme_name,:MUSCL
+Simulation,"RK3MUSCL3(EPD1,AR,MLS3)",Scheme_order,3
+Simulation,"RK3MUSCL3(EPD1,AR,MLS3)",Time_stepper,:RK3
+Simulation,"RK3MUSCL3(EPD1,AR,MLS3)",ignore,"Symbol[:Kinetic_velocities, :Kinetic_epsilon, :Kinetic_indices, :Kinetic_interior_factor, :save_relax]"
+Simulation,"RK3MUSCL3(EPD1,AR,MLS3)",sim_func_name,:run_direct_simulation
+Simulation,"RK4SSPMUSCL4(EPD1,AR,MLS4)",Flux_name,:AlignedRusanov
+Simulation,"RK4SSPMUSCL4(EPD1,AR,MLS4)",Limiter_mode,:hard
+Simulation,"RK4SSPMUSCL4(EPD1,AR,MLS4)",Limiter_name,:none
+Simulation,"RK4SSPMUSCL4(EPD1,AR,MLS4)",MOOD_criterion,:U2
+Simulation,"RK4SSPMUSCL4(EPD1,AR,MLS4)",MOOD_delta_relax,0.0001
+Simulation,"RK4SSPMUSCL4(EPD1,AR,MLS4)",MOOD_strategy,:EPD1
+Simulation,"RK4SSPMUSCL4(EPD1,AR,MLS4)",Scheme_MLS_order,4
+Simulation,"RK4SSPMUSCL4(EPD1,AR,MLS4)",Scheme_name,:MUSCL
+Simulation,"RK4SSPMUSCL4(EPD1,AR,MLS4)",Scheme_order,4
+Simulation,"RK4SSPMUSCL4(EPD1,AR,MLS4)",Time_stepper,:RK4SSP
+Simulation,"RK4SSPMUSCL4(EPD1,AR,MLS4)",ignore,"Symbol[:Kinetic_velocities, :Kinetic_epsilon, :Kinetic_indices, :Kinetic_interior_factor, :save_relax]"
+Simulation,"RK4SSPMUSCL4(EPD1,AR,MLS4)",sim_func_name,:run_direct_simulation
+Simulation,Config,methods,"Symbol[:RK2MUSCL1, Symbol(""RK2MUSCL2(EPD1,AR,MLS2)""), Symbol(""RK2MUSCL2(EPD2,AR,MLS2)""), Symbol(""RK2MUSCL2(VK,AR,MLS2)""), Symbol(""RK3MUSCL3(EPD1,AR,MLS3)""), Symbol(""RK4SSPMUSCL4(EPD1,AR,MLS4)"")]"
+Simulation,Config,defaults,"Symbol[:RK2MUSCL1, Symbol(""RK2MUSCL2(VK,AR,MLS2)""), Symbol(""RK2MUSCL2(EPD2,AR,MLS2)""), Symbol(""RK2MUSCL2(EPD1,AR,MLS2)""), Symbol(""RK3MUSCL3(EPD1,AR,MLS3)""), Symbol(""RK4SSPMUSCL4(EPD1,AR,MLS4)"")]"
+Simulation,Config,reference,none
+Simulation,Config,postprocess,none
+Config,Dimensions,allowed_dims,"(:x, :y, :z, :t)"
+Config,Dimensions,max_params,2
+Config,Resolution_Base,t,50
+Config,Resolution_Base,x,800
+Config,Resolution_Base,y,800
+Config,Resolution_Base,z,200
+Config,Resolution_Ref,t,100
+Config,Resolution_Ref,x,400
+Config,Resolution_Ref,y,400
+Config,Resolution_Ref,z,400

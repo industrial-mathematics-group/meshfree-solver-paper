@@ -1,0 +1,16 @@
+# Supplementary material: meshfree MUSCL schemes with a posteriori order detection
+
+Contents of this archive, by folder.
+
+| Folder | Contents |
+|---|---|
+| `paper/` | `main_light.tex` / `.pdf`, `refs.bib`, `main_light.bbl` and the figures it includes (`figures/`). Build: `latexmk -pdf main_light.tex`. |
+| `addendum/` | Mathematical addendum with the statements and proofs behind the method: `math_addendum.tex` / `.pdf`, bibliography `refs.bib` + `math_addendum_refs.bib`, TikZ figure in `figures/`. Build: `latexmk -pdf math_addendum.tex`. |
+| `stability/` | Stability note `stability_combined.tex` / `.pdf` (bibliography `stability_combined_refs.bib`, tables read from `tables/`). `scripts/` are the NumPy/SciPy/SymPy computations behind the tables and certificates, `data/` their outputs (`.jsonl`, `.md`, `.npy`). |
+| `lean/` | Lean 4 formalization (Lake project): `MeshfreeAddendum` (results of the addendum) and `MeshfreeStability` (Part I of the stability note). See `lean/README.md` and `lean/STABILITY.md`. Build: `lake exe cache get && lake build` (toolchain pinned in `lean-toolchain`, Mathlib pinned in `lake-manifest.json`). `AxiomCheck.lean` in each library prints the axioms used. |
+| `fv_reference/` | Finite-volume reference code for the 2-D shock problems (MUSCL with MC limiter, HLLC, SSP-RK3, Numba). `fv.py` is the solver (`python fv.py problem h [limiter] [flux]`), `analyze.py` / `plot.py` extract wave positions and plot, `rh.py`, `tst.py`, `tst2.py` give exact plane- and oblique-shock relations used as checks. `reference_solutions.md` gives the reference wave positions (from shock relations and from FV runs at several resolutions) and the method of the FV computations. |
+| `scripts/` | Independent NumPy scripts cited in the paper: `stencil_diagnostics.py` (MLS stencil diagnostics, Table "Stencil diagnostics"), `fallback_positivity*.py` and `aligned_flux_diagnostics.py` (Monte Carlo checks of the first-order fallback, geometric vs aligned flux orientation), `make_epd_figure*.py` (TikZ sketches of the interface rules), `figure_measurements/` (wave positions read from the colour-map exports). |
+| `results/configs/` | Per figure: the HyperCloud run configurations (`*_source_N.jl`) and the PDEStudio export metadata (`*.csv`: run parameters, axis limits, plot settings). Paths in them are relative to the HyperCloud simulations project. Folders are named after the exported plots (`clainshock` = 2-D Riemann problem, `dmr_*` = double Mach reflection, `mach3step_*` = Mach 3 forward-facing step, `vortex_conv_muscl3` = isentropic vortex). |
+| `results/reports/` | Tables of the HyperCloudCore 0.7.8 runs that the paper reports. `RUNS.md` lists the studies, hardware and precision; `2026-10-29-rerun-078-tables.md` (convergence, Euler shock problems, vortex), `2026-10-29-conservation-defect-tables-078.md`, `2026-10-29-sod1d.md`, and `2026-10-29-rerun-078-results.txt` (summary line of every run). |
+
+Python requirements: numpy, scipy, sympy, numba (FV code), matplotlib and pillow (plots and figure measurements); cvxpy for the SDP certificates in `stability/scripts`.

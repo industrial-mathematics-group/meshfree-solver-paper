@@ -1,0 +1,12 @@
+{"D": 2, "type": "merge", "m": 4, "K": 2, "orient": "geometric", "h": 0.08333333333333333, "ntheta": 64, "alpha_h": 2.2667782220695313e-16, "theta_worst": [0.0, 0.0], "kreiss": 1.005448306869235}
+{"D": 2, "type": "merge", "m": 4, "K": 3, "orient": "geometric", "h": 0.08333333333333333, "ntheta": 64, "alpha_h": 3.3191042507022906e-16, "theta_worst": [0.0, 0.0], "kreiss": 1.0221932328077172}
+{"D": 2, "type": "merge", "m": 6, "K": 2, "orient": "geometric", "h": 0.05555555555555555, "ntheta": 64, "alpha_h": -7.158490320273027e-16, "theta_worst": [0.0, 0.0], "kreiss": 1.0039141749602005}
+{"D": 2, "type": "merge", "m": 6, "K": 3, "orient": "geometric", "h": 0.05555555555555555, "ntheta": 64, "alpha_h": 7.470556891327344e-16, "theta_worst": [0.0, 0.0], "kreiss": 1.0127592468227096}
+{"D": 2, "type": "merge", "m": 8, "K": 2, "orient": "geometric", "h": 0.041666666666666664, "ntheta": 64, "alpha_h": 1.0788395976297626e-17, "theta_worst": [0.0, 0.0], "kreiss": 1.0027466226080826}
+{"D": 2, "type": "merge", "m": 8, "K": 3, "orient": "geometric", "h": 0.041666666666666664, "ntheta": 64, "alpha_h": -1.7949762751542306e-16, "theta_worst": [0.0, 0.0], "kreiss": 1.0102800427556515}
+{"D": 2, "type": "insert", "m": 4, "K": 2, "orient": "geometric", "h": 0.08333333333333333, "ntheta": 64, "alpha_h": 1.825821869454007e-17, "theta_worst": [0.0, 0.0], "kreiss": 1.0069473256212302}
+{"D": 2, "type": "insert", "m": 4, "K": 3, "orient": "geometric", "h": 0.08333333333333333, "ntheta": 64, "alpha_h": 1.5670335399657157e-16, "theta_worst": [0.0, 0.0], "kreiss": 1.011910098362634}
+{"D": 2, "type": "insert", "m": 6, "K": 2, "orient": "geometric", "h": 0.05555555555555555, "ntheta": 64, "alpha_h": -3.9175509519941943e-16, "theta_worst": [0.0, 0.0], "kreiss": 1.0040093323560455}
+{"D": 2, "type": "insert", "m": 6, "K": 3, "orient": "geometric", "h": 0.05555555555555555, "ntheta": 64, "alpha_h": -1.2705137155297324e-16, "theta_worst": [0.0, 0.0], "kreiss": 1.0073887706581592}
+{"D": 2, "type": "insert", "m": 8, "K": 2, "orient": "geometric", "h": 0.041666666666666664, "ntheta": 64, "alpha_h": 4.3258072438652125e-17, "theta_worst": [0.0, 0.0], "kreiss": 1.0026403368311725}
+{"D": 2, "type": "insert", "m": 8, "K": 3, "orient": "geometric", "h": 0.041666666666666664, "ntheta": 64, "alpha_h": 6.994855061078072e-17, "theta_worst": [0.0, 0.0], "kreiss": 1.0060339883655358}

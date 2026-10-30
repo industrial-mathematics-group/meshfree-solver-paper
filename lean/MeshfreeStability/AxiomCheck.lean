@@ -1,0 +1,85 @@
+import MeshfreeStability
+
+/-! Prints the axioms used by the main results of the stability formalization. Only the
+standard axioms `propext`, `Classical.choice` and `Quot.sound` should appear; `sorryAx` would
+indicate an unfinished proof. -/
+
+open Meshfree Meshfree.Stability
+
+#print axioms stagewise_mood_max_principle
+#print axioms euler_l1_bounds
+#print axioms euler_l1_bounds_defect
+#print axioms riemannAvg_identity
+#print axioms local_entropy_inequality
+#print axioms global_entropy_balance
+#print axioms global_entropy_nonincreasing
+#print axioms ssp_convex_functional
+#print axioms energy_bound
+#print axioms energy_bound_sqrt
+#print axioms energy_forced
+#print axioms linear_ode_exists
+#print axioms markov_max_principle
+#print axioms stationary_conserved
+#print axioms markov_energy_identity
+#print axioms markov_L2_contraction
+#print axioms euler_step_max
+#print axioms euler_step_contraction_p
+#print axioms rk_contraction_p
+#print axioms markov_volume_bound
+#print axioms truncation_identity
+#print axioms remainder_le
+#print axioms beta_zero_of_symmetric
+#print axioms moment_corrected_first_moment
+#print axioms moment_corrected_admissible
+#print axioms corrector_identity
+#print axioms drift_error_bound
+#print axioms odd_of_anticommute
+#print axioms even_of_commute
+#print axioms skew_qf_zero
+#print axioms lattice_contraction_iff
+#print axioms lattice_contraction_iff'
+#print axioms k2_nearest_neighbour
+#print axioms k2_nearest_neighbour_D
+#print axioms k2_symbol_mu_form
+#print axioms k2_mu_form_eq
+#print axioms E_eq_cheb
+#print axioms k2_lattice_1d
+#print axioms k2_lattice_1d_symbol
+#print axioms E12_closed_form
+#print axioms P11_P21_nonneg
+#print axioms bloch_bound_iff
+#print axioms bloch_stable_iff
+#print axioms bloch_unstable
+#print axioms dop_V_symmetrize
+#print axioms dop_weighted_bound
+#print axioms gaarding_transfer
+#print axioms deformed_energy
+#print axioms deformed_stability
+#print axioms squares_expand
+#print axioms local_squares
+#print axioms deformed_squares
+#print axioms support_distances
+#print axioms nsd_kernel
+#print axioms residual_zero_left_null
+#print axioms separation_disjoint
+#print axioms superposition_qf
+#print axioms defects_energy
+#print axioms defects_stability
+#print axioms defects_norm_equiv
+#print axioms zone_radius_choice
+#print axioms defects_rate_bounded
+#print axioms numerical_abscissa_lower_bound
+#print axioms nn_interp_slope
+#print axioms nn_rusanov_upwind
+#print axioms nn_slope_normal_eq
+#print axioms nn_conservation
+#print axioms nn_energy_identity
+#print axioms nn_Q_second_form
+#print axioms nn_uniform_nonneg
+#print axioms nn_Q_indefinite
+#print axioms two_periodic_det_neg
+#print axioms cos_sin_taylor
+#print axioms cos_taylor_bound
+#print axioms parity_expansion
+#print axioms local_symbol_re
+#print axioms parity_remainder

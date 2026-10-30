@@ -1,0 +1,1271 @@
+\documentclass[11pt,a4paper]{article}
+
+% ---------------------------------------------------------------------------
+% Combined stability note for the meshfree MUSCL schemes (29 Oct 2026).
+% Merges stability_note.tex (first order, lattices, spectra) and
+% high_order_stability_note.tex (Bloch, deformed lattices, defects, obstructions).
+% Both originals are kept unchanged. Tables are read from tables/*.tex,
+% bibliography stability_combined_refs.bib (union of the two .bib files).
+% Build: latexmk -pdf stability_combined.tex
+% ---------------------------------------------------------------------------
+\usepackage[margin=2.5cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{caption}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{microtype}
+\usepackage[colorlinks=true,linkcolor=blue!50!black,citecolor=green!35!black,urlcolor=blue!60!black]{hyperref}
+\usepackage[capitalise,nameinlink]{cleveref}
+
+\captionsetup{font=small,labelfont=bf}
+\setlist{itemsep=2pt,topsep=4pt}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{observation}[theorem]{Observation}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{heuristic}[theorem]{Heuristic}
+\numberwithin{equation}{section}
+\crefname{observation}{Observation}{Observations}
+\crefname{heuristic}{Heuristic}{Heuristics}
+\crefname{assumption}{Assumption}{Assumptions}
+
+% status labels used in the summary tables and in theorem headers
+\definecolor{provedc}{rgb}{0.05,0.40,0.15}
+\definecolor{condc}{rgb}{0.55,0.35,0.0}
+\definecolor{numc}{rgb}{0.15,0.25,0.60}
+\newcommand{\Proved}{\textcolor{provedc}{\textsf{\textbf{proved}}}}
+\newcommand{\CompProved}{\textcolor{provedc}{\textsf{\textbf{proved (computer-assisted, exact)}}}}
+\newcommand{\CondProved}{\textcolor{condc}{\textsf{\textbf{proved under a numerically checked hypothesis}}}}
+\newcommand{\Measured}{\textcolor{numc}{\textsf{\textbf{numerical only}}}}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\T}{\mathbb{T}}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\nb}{\nu}
+\newcommand{\cnb}{\bar\nu}
+\newcommand{\Ad}{\mathcal{G}}
+\newcommand{\Lop}{\mathcal{L}}
+\newcommand{\Fs}{F^{*}}
+\newcommand{\sgn}{\operatorname{sign}}
+\newcommand{\Csp}{\mathcal{C}}
+\newcommand{\CFL}{\mathrm{CFL}}
+\renewcommand{\Re}{\operatorname{Re}}
+\renewcommand{\Im}{\operatorname{Im}}
+\newcommand{\spec}{\operatorname{spec}}
+\newcommand{\res}{\mathrm{res}}
+\newcommand{\ii}{\mathrm{i}}
+\newcommand{\A}[1]{\cite[#1]{Addendum}}
+\makeatletter
+\newcommand{\inputrows}[1]{\@@input #1 }% primitive input, usable inside tabular
+\makeatother
+
+\title{Stability of meshfree MUSCL schemes on point clouds:\\ what is proved and what is only measured}
+\author{Working note for P.~Jung (companion to the mathematical addendum)}
+\date{Draft, 29~October 2026 (revised after review)\\[2pt]\small Combines \texttt{stability\_note.tex} and \texttt{high\_order\_stability\_note.tex} (28--29~October 2026)}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We collect what is known about the stability of the meshfree MUSCL schemes of \cite{JungMUSCL2026,Addendum} and separate it strictly into results with a proof (Part~I) and results that are only supported by computations (Part~II).
+
+\emph{Proved.} (1) Through positivity, on arbitrary clouds: a maximum principle for scalar laws under stage-wise MOOD with the strict discrete maximum principle, for every design order; $\ell^1$ bounds for the Euler equations up to the conservation defect; a local entropy inequality for the first-order scheme. (2) For linear advection, the first-order aligned operator generates a Markov chain on the particles, and the scheme is contractive in every $\ell^p$ norm weighted with its stationary distribution $\pi$, on arbitrary clouds on which the chain has a positive stationary distribution. The same structure shows that the first-order scheme converges to a solution with a \emph{wrong} transport speed on irregular clouds, at a rate set by the size of a corrector that we only measure (it behaves like $h^{1/2}$ for random jitter). (3) For the high-order schemes ($K\ge2$, linear advection, no MOOD): von Neumann stability of order two on lattices; an exact reduction of stability on periodic clouds to a uniform bound on $m\times m$ Bloch semigroups; stability on smoothly deformed lattices with constant stencil topology (unconditionally for $K=2$ in one dimension); and, in one dimension, stability on deformed lattices with localised insertion/merging defects, given local Lyapunov certificates computed by semidefinite programming, up to a residual (with a residual-free statement for lattices with defects whose separation grows like $|\log h|$). (4) Two obstructions explain why the energy method in a volume norm cannot work on jittered clouds, and a local-symbol expansion explains why even orders are fragile.
+
+\emph{Measured only.} Spectra, Kreiss constants and Bloch symbols on jittered clouds show no visible growth in the settings of the paper (jitter $0.2h$), with Kreiss constants $1.002$--$1.33$, except an extremely weak Bloch instability ($\alpha h\le10^{-9}$) of one periodic pattern at $K=2$; weak instabilities ($\alpha h\approx2\cdot10^{-6}$) for $K=2$ and failures for $K=4$ when the stencil topology varies (jitter $0.4h$); order three is stable in every setting tested. On lattices, orders three to five are stable except order four with the geometric orientation in two dimensions. The first-order scheme advects $0.1$--$0.45\%$ too slowly on perturbed clouds, and a moment correction of the dissipation removes this. Stability of the high-order schemes on random clouds remains unproved.
+\end{abstract}
+
+\tableofcontents
+
+% ===========================================================================
+\section{Overview}\label{sec:overview}
+% ===========================================================================
+
+\subsection{The question and how this note is organised}
+
+The question is whether the schemes of \cite{JungMUSCL2026}, analysed in the addendum \cite{Addendum} (cited as [A] with its numbering), are stable, and how stability relates to the positivity that [A] proves. The answer depends on the notion of stability (nonlinear bounds or Lax--Richtmyer stability of the linearised scheme), on the order (first order or $K\ge2$) and on the cloud (arbitrary, lattice, periodic, smoothly deformed, with defects, randomly jittered).
+
+\begin{itemize}
+\item \textbf{Part I (\cref{sec:nonlinear,sec:markov,sec:lattice,sec:bloch,sec:deformed,sec:defects,sec:limits})} contains only statements with proofs. Where a proof rests on a hypothesis that is checked numerically and not proved (a corrector bound, a frozen symbol for $K\ge3$, a semidefinite certificate), the hypothesis is stated in the theorem and flagged in \cref{tab:proved}.
+\item \textbf{Part II (\cref{sec:numlattice,sec:numfirst,sec:numrandom,sec:numdefects})} contains the numerical evidence, written as numbered \emph{Observations}. Nothing in Part~II is used in a proof in Part~I, except as the explicitly named hypotheses.
+\item \textbf{Part III (\cref{sec:consequences,sec:open})} draws consequences for the scheme and the paper and lists the open questions.
+\end{itemize}
+All numbers come from an independent NumPy/SciPy implementation of the linear scheme described in \cref{app:code}; it tests the scheme as defined in [A], not HyperCloudCore.jl.
+
+\subsection{Bottom line}
+
+\begin{enumerate}[label=(\alph*)]
+\item \emph{Positivity gives nonlinear bounds on every cloud.} Everything that [A] proves by writing an update as a convex combination of admissible states also bounds a convex functional: a maximum principle (\cref{thm:maxprinciple}), an entropy inequality (\cref{prop:entropy}) and, with conservation, $\ell^1$ bounds for Euler (\cref{prop:euler}). These hold for the high-order schemes under MOOD, because MOOD falls back to the positive first-order scheme wherever a bound would fail.
+\item \emph{For linear problems, positivity is a Markov chain.} The first-order aligned operator is a Markov generator, and its stationary distribution $\pi$ gives the norm in which the scheme contracts (\cref{thm:markov}). No antisymmetry and no regular cloud are needed.
+\item \emph{Stability is not convergence on irregular clouds.} The same chain has a drift: the first-order scheme transports with a wrong velocity, by a defect that does not vanish as $h\to0$ (\cref{thm:drift}, measured in \cref{obs:drift}). A moment correction of the dissipation fixes it (\cref{prop:moment}).
+\item \emph{High order: proofs exist for structured clouds only.} Lattices (\cref{thm:k2}), periodic clouds (\cref{thm:bloch}), smooth deformations of lattices (\cref{thm:deformed}) and, in 1-D, deformations with localised defects (\cref{thm:defects}). On randomly jittered clouds the energy method in any volume norm provably fails (\cref{prop:obstruction,prop:nn}), and stability is only measured (\cref{sec:numrandom}).
+\item \emph{Odd orders are safer, and stencil topology matters more than jitter.} All instabilities found are at even order (explained by \cref{prop:parity}) and occur when the neighbour count varies from particle to particle.
+\end{enumerate}
+
+\begin{table}[p]
+\centering
+\caption{\textbf{Part I: proved results.} ``Rests on'' names every ingredient that is \emph{not} proved here. All results assume the idealisations of \A{Rem.~1.1} (unregularised fits, time step as assumed); the linear results assume linear advection, periodic boundaries, no limiter and no MOOD.}\label{tab:proved}
+\footnotesize\setlength{\tabcolsep}{4pt}
+\begin{tabular}{>{\raggedright}p{4.4cm}>{\raggedright}p{2.1cm}>{\raggedright}p{2.2cm}>{\raggedright\arraybackslash}p{6.0cm}}
+\toprule
+Statement & Notion & Clouds & Status / rests on\\
+\midrule
+\multicolumn{4}{l}{\emph{Nonlinear, from positivity (\cref{sec:nonlinear})}}\\
+\Cref{thm:maxprinciple}: maximum principle, stage-wise MOOD, scalar laws, any order & $\ell^\infty$ & arbitrary & \Proved{} for the strict DMP ($\delta=0$, no overrides); does not cover the relaxed DMP with u2 overrides used in the runs\\
+\Cref{prop:euler}: $\ell^1$ bounds for Euler & $\ell^1$ + invariant domain & arbitrary & \Proved; exact for antisymmetric weights, otherwise up to the conservation defect (a~posteriori)\\
+\Cref{prop:entropy,cor:entropy}: entropy inequality, first order & entropy & arbitrary & \Proved; needs an upper bound of the Riemann fan; global form up to pair defects\\
+\midrule
+\multicolumn{4}{l}{\emph{First order, linear advection (\cref{sec:markov})}}\\
+\Cref{thm:markov}: Markov structure & $\ell^p(\pi)$ contraction & arbitrary (positive stationary $\pi$) & \Proved; $L^2$ constant $\sqrt{\rho_h}$, whose uniformity in $h$ is only measured (\cref{obs:rho})\\
+\Cref{prop:consistency}: truncation error & consistency & arbitrary & \Proved; $O(1)$ on irregular stencils\\
+\Cref{thm:drift}: drift, convergence to the wrong speed & convergence & arbitrary periodic & \CondProved: rate $h+\eta_h$ with the corrector size $\eta_h=\max|\delta|$, measured $\eta_h\approx h^{1/2}$ (\cref{obs:drift})\\
+\Cref{prop:moment}: moment-corrected dissipation & positivity, consistency & arbitrary & \Proved{} (existence of the correction needs $x_i$ inside the convex hull of its neighbours)\\
+\midrule
+\multicolumn{4}{l}{\emph{High order, linear advection (\cref{sec:lattice,sec:bloch,sec:deformed,sec:defects})}}\\
+\Cref{lem:skew}: central part skew-symmetric & structure & lattices & \Proved\\
+\Cref{thm:k2}: order two & von Neumann & lattices & \CompProved{} in 1-D for $\kappa<10$ (exact rational arithmetic); \Proved{} for nearest neighbours in any dimension\\
+\Cref{thm:bloch,prop:blochsuff,cor:blochunstable}: Bloch reduction & Lax--Richtmyer & periodic (supercell repeated) & \Proved; turns stability into a finite-dimensional check, done numerically for given patterns (\cref{obs:bloch})\\
+\Cref{thm:deformed}: smoothly deformed lattices & Lax--Richtmyer & $x=\varphi(s)$, constant topology & \Proved{} given frozen von Neumann stability (D4): proved for $K=2$ in 1-D (\cref{cor:k2deformed}), \Measured{} for $K=3,4$ (1-D) and $K=2,3$ (2-D); uses the Lax--Nirenberg inequality on the torus\\
+\Cref{thm:defects,cor:defects}: deformed lattices with localised defects & Lax--Richtmyer up to a residual & 1-D, defects separated by $\sigma h$ & \CondProved: local certificates from an SDP, verified a~posteriori in floating point (\cref{obs:cert}); strict dissipativity (D5) checked numerically for $\kappa=2.5$; residual-free (\cref{cor:defects}(i)) only for $\varphi=\mathrm{id}$\\
+\midrule
+\multicolumn{4}{l}{\emph{Structural and negative results (\cref{sec:limits})}}\\
+\Cref{prop:obstruction}: energy method in a volume norm fails & numerical abscissa & arbitrary & \Proved{} as an inequality in the defect $d$; the rate $\omega_V\ge c\varepsilon^2/h$ for jitter $\varepsilon h$ needs $\|d\|_V\gtrsim\varepsilon/h$, which is \Measured{} (\cref{tab:pi})\\
+\Cref{prop:nn}: exact energy identity, $K=2$, nearest neighbours & $L^2$ & 1-D & \Proved; on admissible slopes the dissipation form can be definite on coarse non-uniform grids and becomes indefinite under refinement (proved for 2-periodic patterns)\\
+\Cref{prop:parity}: local symbols and the parity of $K$ & consistency of dissipation & arbitrary & \Proved; its consequence for stability (\cref{heur:fluct}) is a heuristic\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[p]
+\centering
+\caption{\textbf{Part II: numerical results only} (no proof). ``Settings of the paper'': jitter $0.2h$ with $\kappa=2.5$ or $5.5$, as in \cite{JungMUSCL2026}.}\label{tab:measured}
+\footnotesize\setlength{\tabcolsep}{4pt}
+\begin{tabular}{>{\raggedright}p{4.4cm}>{\raggedright}p{2.6cm}>{\raggedright\arraybackslash}p{8.2cm}}
+\toprule
+Question & Clouds & Finding\\
+\midrule
+Orders three to five, von Neumann (\cref{obs:lattice}) & lattices & stable with the aligned orientation; with the geometric orientation unstable only for $K=4$ in 2-D at $\kappa=3.5$ (and marginally $5.5$). RK2 is unstable for $K=4,5$\\
+Spread $\rho_h$ of $\pi$ (\cref{obs:rho}) & perturbed & $1.2$--$1.4$ in 1-D, $1.6$--$1.9$ in 2-D (growing slowly with $n$) in the settings of the paper; grows to $16$ when some particles have only three neighbours\\
+Drift of the first-order scheme (\cref{obs:drift}) & perturbed & corrector $\max|\delta|/h$ grows like $h^{-1/2}$ ($0.19$ to $0.64$ for $N=400$ to $102400$); wave speed $0.1$--$0.45\%$ too slow at every resolution; the moment correction reduces it to $3\cdot10^{-8}$\\
+Spectra, Kreiss constants, $K=2$--$5$ (\cref{obs:spectra,obs:random}) & jittered & jitter $0.2h$: $\alpha=0$ to round-off, $\mathcal K_V=1.002$--$1.33$, flat in $h$. Jitter $0.4h$: weak $1/h$ instability for $K=2$ ($\alpha h\approx2\cdot10^{-6}$), blow-up for $K=4$ (geometric) on near-interpolatory stencils; $K=3$ stable\\
+Bloch symbols of jittered supercells (\cref{obs:bloch}) & periodic & jitter $0.2h$: stable refinement families for $K=3,4$, constants $\le1.17$; $K=2$ weakly unstable on one of two patterns ($\alpha h\le9\cdot10^{-10}$); jitter $0.4h$: genuine weak instability for $K=2$, failures for $K=4$\\
+Local symbols (\cref{obs:local}) & jittered & local diffusion coefficient of $K=2$ fluctuates with std $0.10$--$0.18$; zero for $K=3$, as predicted\\
+Weight $\pi$, diagonal Lyapunov weights (\cref{obs:pi,obs:lyapunov}) & jittered & $\pi$ removes the conservation-defect obstruction; the SDP finds no diagonal Lyapunov weight for $K=3$\\
+Deformed lattices (\cref{obs:deformed}) & $x=\varphi(s)$ & $\omega_V=O(1)$ and decreasing, $\mathcal K_V-1<10^{-4}$; varying topology gives $\omega_V\propto1/h$\\
+Certificates, defect arrays, superposition, random defects (\cref{obs:cert,obs:defectbloch,obs:super,obs:defectrandom}) & lattices with defects & residual decays exponentially for $K=3,4$; for $K=2$ only slowly at insert and (beyond $\varrho=12$) merge defects, whose periodic arrays are weakly unstable; $K=3$ stable at every defect density; $K=4$ fails at density $0.1$; 2-D: sum of squares found, certificates not computed\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ===========================================================================
+\section{Setting and notions of stability}\label{sec:setting}
+% ===========================================================================
+
+\subsection{The scheme}
+
+We use the notation of [A]: interior particles $I$, neighbourhoods $\nb(i)$, offsets $x_{ij}=x_j-x_i$, derivative weights $c^{(d)}_{ij}$ of degree $q_i$ with zero row sums \A{Lem.~3.3}, interface states $U_{ij}$, the Rusanov flux \A{(4.3)} with orientation $\sigma_{ij,d}$ and the scheme \A{(4.4)}, $\dd U_i/\dd t=\Lop_i(U)=-2\sum_jc_{ij}\cdot(\Fs_{ij}-F(U_i))$. We abbreviate $\sum_{j,d}=\sum_{j\in\nb(i)}\sum_{d=1}^D$. Particle volumes are $V_i>0$ with $\sum_iV_i=|\Omega|$, and $\|U\|_V^2=\sum_iV_i|U_i|^2$ is the discrete $L^2$ norm. Jittered clouds are lattices with spacing $h$ whose points are displaced uniformly in $[-\varepsilon h,\varepsilon h]$ per coordinate (``jitter $\varepsilon h$''); the support radius is $\kappa h$.
+
+\paragraph{The first-order operator.} With piecewise constant states $U_{ij}=U_i$, $U_{ji}=U_j$ and zero row sums,
+\begin{equation}\label{eq:L1}
+\Lop^{1}_i(U)=\sum_{j,d}\Big[s_{ij,d}\,\sigma_{ij,d}c^{(d)}_{ij}\,(U_j-U_i)-c^{(d)}_{ij}\big(F_d(U_j)-F_d(U_i)\big)\Big],
+\end{equation}
+and on aligned edges $\sigma_{ij,d}c^{(d)}_{ij}=|c^{(d)}_{ij}|$. By \A{Prop.~5.6}, this is the operator that a particle at order one sees under EPD1 and EPD2.
+
+\paragraph{Linear advection.} For $F_d(U)=a_dU$ with a constant $a\in\R^D$ and the Rusanov speed $s_{ij,d}=|a_d|$, the scheme is a linear system $\dd U/\dd t=L_hU$ with an $N\times N$ matrix $L_h$. The first-order aligned operator is
+\begin{equation}\label{eq:Q}
+(QU)_i=\sum_{j\in\nb(i)}q_{ij}\,(U_j-U_i),\qquad q_{ij}=\sum_{d=1}^D\big(|a_d|\,|c^{(d)}_{ij}|-a_d\,c^{(d)}_{ij}\big)\ge0 .
+\end{equation}
+For the high-order schemes, $L_h$ denotes the operator with all particles at the design order $K\ge2$, the divergence degree $q=q_{\mathrm{div}}(K)$, unregularised fits, $s_d=|a_d|$, no limiter and no MOOD. It splits into a central and a dissipative part,
+\begin{equation}\label{eq:split}
+(L_hU)_i=\underbrace{-\sum_{j,d}a_d\,c^{(d)}_{ij}\big(U_{ij}+U_{ji}-2U_i\big)}_{(C_hU)_i}\ +\ \underbrace{\sum_{j,d}|a_d|\,\sigma_{ij,d}c^{(d)}_{ij}\big(U_{ji}-U_{ij}\big)}_{(S_hU)_i},
+\end{equation}
+with the interface states $U_{ij}=\mathcal R_i(\tfrac12x_{ij})$ of the reconstruction fits of degree $K-1$ \A{(4.1)}. $L_h\mathbf 1=0$ by the zero row sums \A{Lem.~3.3(ii)} and the reproduction of constants. All operators are homogeneous of degree $-1$ under dilation: if the cloud is scaled by $\theta$, $L_h$ becomes $L_h/\theta$ \A{Lem.~3.3(iii)}.
+
+\subsection{Notions of stability}
+
+\paragraph{Lax--Richtmyer stability.} A family $L_h$ on clouds $X_h$ is \emph{stable} if
+\begin{equation}\label{eq:stab}
+\|e^{tL_h}\|_{H_h}\le C\,e^{\omega t}\quad\text{for all }t\ge0\text{ and all }h,
+\end{equation}
+with $C$, $\omega$ independent of $h$ and norms $\|\cdot\|_{H_h}$ uniformly equivalent to $\|\cdot\|_V$ \cite{GKO2013}; the fully discrete version replaces $e^{tL_h}$ by powers of the one-step operator. Together with consistency this gives convergence. For a translation-invariant operator on a periodic lattice, $L_h$ is circulant with symbol $\lambda(\theta)$, $\theta\in[-\pi,\pi]^D$, and stability in $\|\cdot\|_V$ with $C=1$, $\omega=0$ is the von Neumann condition $\Re\lambda(\theta)\le0$.
+
+\paragraph{Energy method, spectral quantities.} For a positive weight $H=(H_i)$ let $\langle U,W\rangle_H=\sum_iH_i\bar U_iW_i$, $L^{*_H}=H^{-1}L^{\mathsf T}H$ the adjoint, and
+\begin{equation}\label{eq:numabs}
+\omega_H(L)=\max_{U\ne0}\frac{\Re\langle U,LU\rangle_H}{\|U\|_H^2}
+\end{equation}
+the \emph{numerical abscissa}, the largest eigenvalue of the $H$-symmetric part $\tfrac12(L+L^{*_H})$. The energy method is the inequality $\frac{\dd}{\dd t}\|U\|_H^2\le2\omega_H\|U\|_H^2$, which gives \eqref{eq:stab} with $C=1$, $\omega=\omega_H$; it proves stability if and only if $\omega_{H_h}(L_h)$ is bounded independently of $h$. The \emph{spectral abscissa} $\alpha(L)=\max\Re\spec L$ satisfies $\alpha\le\omega_H$ for every $H$ and $\|e^{tL}\|_H\ge e^{t\alpha}$. The \emph{Kreiss constant} $\mathcal K_H(L)=\sup_{t\ge0}\|e^{tL}\|_H$ (in this note the semigroup bound, or maximal transient growth; in the literature the name often denotes the resolvent quantity $\sup_{\Re z>0}\Re z\,\|(z-L)^{-1}\|$, which bounds it up to a factor $eN$) is finite if and only if $\alpha\le0$ and the imaginary eigenvalues are semisimple; \eqref{eq:stab} with $\omega=0$ is $\sup_h\mathcal K_{V}(L_h)<\infty$ \cite{TrefethenEmbree2005}. These are the quantities measured in Part~II.
+
+\begin{remark}[Stability is a property of a family of clouds]\label{rem:dilation}
+If $X_h=hX_1$ for a fixed finite cloud $X_1$, then $L_h=L_1/h$ and $\sup_{h,t}\|e^{tL_h}\|=\mathcal K(L_1)$: the family is stable if and only if $\alpha(L_1)\le0$ with semisimple imaginary eigenvalues. A measurement of $\alpha$ and $\mathcal K$ on given clouds therefore decides stability for those clouds and their dilations; the open question is always the uniformity over a family (finer and finer clouds that are not dilations of each other). A positive $\alpha h$ that does not decrease with $h$ is an instability with growth rate proportional to $1/h$.
+\end{remark}
+
+\paragraph{Nonlinear problems.} Here we use bounds that the scheme preserves: invariant domains, maximum principles, $\ell^1$ bounds and entropy inequalities.
+
+% ###########################################################################
+\part{Proved results}
+% ###########################################################################
+
+% ===========================================================================
+\section{Nonlinear stability from positivity (any order, arbitrary clouds)}\label{sec:nonlinear}
+% ===========================================================================
+
+\subsection{A maximum principle for stage-wise MOOD}
+
+The proof of \A{Thm.~6.3} uses of PAD only that a flagged particle is lowered until the first-order operator applies, and of the first-order operator only that it maps admissible states to admissible states. For a scalar conservation law the first-order operator satisfies the stronger local-extremum-diminishing property of \A{Cor.~5.3}, and the DMP \A{(6.4)} is the matching detection criterion. This gives a maximum principle for the high-order scheme.
+
+\begin{theorem}[Maximum principle of stage-wise MOOD]\label{thm:maxprinciple}
+Consider a scalar conservation law, $M=1$, with smooth fluxes $f_d$, and let the explicit Runge--Kutta method have $\Csp>0$, with MOOD applied by \A{Alg.~1}. Assume:
+\begin{enumerate}[label=(M\arabic*)]
+\item the interface rule is EPD1 or EPD2, or $K=1$ with any rule;
+\item the aligned Rusanov flux is used, in either divergence mode, with signs taken from the weights in use \A{Rem.~5.5}, and the derivative fits of all interior particles are unregularized on $\Pi_{q_i}$-unisolvent neighbourhoods;
+\item $s_{ij,d}\ge\max\{|f_d'(w)|: w \text{ between } Y_{k-1,i} \text{ and } Y_{k-1,j}\}$ at every checkpoint (true for the Rusanov speed $s_{ij,d}=\max\{|f'_d(Y_{k-1,i})|,|f'_d(Y_{k-1,j})|\}$ if every $f_d$ is convex or concave, for instance for linear advection and Burgers' equation);
+\item the detection consists of the DMP \eqref{eq:dmp0} below, with $\delta=0$ and without overrides (and, optionally, PAD);
+\item the boundary operator maps interior states in $[m,M]$ to ghost states in $[m,M]$, where $m=\min_lU^0_l$ and $M=\max_lU^0_l$ over all particles (for instance periodic boundaries, or Dirichlet data in $[m,M]$);
+\item at every checkpoint $k$, every particle $i$ with $k_i=1$ at the end of the checkpoint satisfies $2\tau\sum_{j,d}s_{ij,d}|c^{(d)}_{ij}|\le1$ with $\tau=\Delta t/\Csp$.
+\end{enumerate}
+Here the DMP with $\delta=0$ flags $W_{k-1,i}$ if and only if
+\begin{equation}\label{eq:dmp0}
+W_{k-1,i}\notin\Big[\min_{l\in\cnb(i)}Y_{k-1,l},\ \max_{l\in\cnb(i)}Y_{k-1,l}\Big].
+\end{equation}
+Then every checkpoint terminates with $W_{k-1,i}$ in the interval \eqref{eq:dmp0} for all $i\in I$, and $m\le Y_{k,l}\le M$ and $m\le U^n_l\le M$ for all stages, all steps and all particles, for every distribution of the orders that MOOD produces. In particular $\|U^n\|_\infty\le\|U^0\|_\infty$.
+\end{theorem}
+
+\begin{proof}
+We follow the induction of \A{Thm.~6.3} and show that $Y_k\in[m,M]$ at all particles and that $W_{k-1,i}$ lies in the interval \eqref{eq:dmp0}. For $k=1$, $Y_1=U^n\in[m,M]$ by the induction over the steps (and by (M5) for the ghosts). Let $k\ge2$, and consider $i\in I$ and the last pass of checkpoint $k$ in which $i\in T$. By exact locality, $W_{k-1,i}=Y_{k-1,i}+\tau\Lop_i(Y_{k-1})$ with the final orders. If $W_{k-1,i}$ violated \eqref{eq:dmp0}, it would have been flagged in that pass; with $k_i>1$, $i$ would have been lowered and checked again, contradicting the choice of the pass. Hence $k_i=1$. By (M1) and \A{Prop.~5.6}, $\Lop_i$ is the first-order operator \eqref{eq:L1}, all edges of $i$ are aligned (since $k_i=1<K$ or $K=1$), and by (M2) the weights in use have zero row sums and $\sigma_{ij,d}c^{(d)}_{ij}=|c^{(d)}_{ij}|$. The scalar part of \A{Cor.~5.3}, whose hypotheses are (M3) and (M6), gives
+\[
+W_{k-1,i}=Y_{k-1,i}+\tau\sum_{j,d}\big(s_{ij,d}|c^{(d)}_{ij}|-c^{(d)}_{ij}a_{ij,d}\big)(Y_{k-1,j}-Y_{k-1,i})
+\]
+with non-negative coefficients whose sum is at most one, so $W_{k-1,i}$ lies in \eqref{eq:dmp0}, a contradiction. Thus all $W_{k-1,i}$ satisfy \eqref{eq:dmp0}, and since $Y_{k-1}\in[m,M]$ at all particles (interior by induction, ghosts by (M5)), $W_{k-1,i}\in[m,M]$. The substeps $W_1,\dots,W_{k-2}$ are unchanged since their checkpoints. By \A{Lem.~6.1}, $Y_{k,i}=v_kU^n_i+\sum_{j<k}\alpha_{kj}W_{j,i}$ is a convex combination of values in $[m,M]$. Ghost values of $Y_k$ lie in $[m,M]$ by (M5).
+\end{proof}
+
+\begin{remark}[Scope]\label{rem:maxprinciple}
+\begin{enumerate}[label=(\roman*)]
+\item The theorem holds for every design order $K$, both divergence modes and every cloud on which the fits are unregularized. It is a genuinely nonlinear statement: it bounds the high-order scheme because MOOD makes it nonlinear, and it says nothing about the scheme without MOOD.
+\item With the relaxed DMP \A{(6.4)}, $\delta>0$, a substep may exceed the local bounds by $\delta$, and particles whose neighbourhood range is below $\delta^3$ are not checked at all. Without the plateau exemption the argument gives $m-n\,s\,\delta\le U^n\le M+n\,s\,\delta$ after $n$ steps of an $s$-stage method, a bound that grows linearly; with the exemption we have no bound. The u2 overrides for smooth extrema \cite{JungMUSCL2026} accept values outside the local bounds by design, and the theorem does not cover them. The runs of \cite{JungMUSCL2026} use both relaxations, so \cref{thm:maxprinciple} covers a stricter variant of what is run.
+\item For systems there is no maximum principle; \A{Thm.~6.3} is the corresponding statement for the invariant domain.
+\item \emph{Time step.} (M6) is twice as strict as the positivity condition \A{(5.1)}. With the time step of the implementation, $\Delta t=\CFL\cdot\min_i\big(D\sum_d\lambda_d\sum_j|\hat c^{(d)}_{ij}|\big)^{-1}$ \A{Rem.~6.5(iii)}, it holds if $\CFL\le D\,\Csp/2$ (RK3: $\CFL\le0.5$ in 1-D and $\le1$ in 2-D; SSPRK(5,4): $\CFL\le0.754\,D$), up to the difference between the weights with and without constant term. Runs with $\CFL$ above this bound are not covered even in the strict variant.
+\end{enumerate}
+\end{remark}
+
+\subsection{\texorpdfstring{$\ell^1$}{l1} bounds for the Euler equations}
+
+Positivity of density and pressure turns conservation into bounds.
+
+\begin{proposition}[$\ell^1$ bounds from positivity and conservation]\label{prop:euler}
+Let the hypotheses of \A{Thm.~6.3} hold for the Euler equations \A{(2.2)} on a periodic cloud (no ghost particles), let $V_i>0$, and let $\mathcal{M}^n=\sum_{i}V_iU^n_i=(\mathcal{M}^n_\rho,\mathcal{M}^n_m,\mathcal{M}^n_E)$. Then for all $n$
+\begin{equation}\label{eq:l1}
+\sum_iV_i|\rho^n_i|=\mathcal{M}^n_\rho,\qquad \sum_iV_i|E^n_i|=\mathcal{M}^n_E,\qquad \sum_iV_i|m^n_i|\le\sqrt{2\,\mathcal{M}^n_\rho\,\mathcal{M}^n_E},\qquad \sum_iV_i\frac{p^n_i}{\gamma-1}\le\mathcal{M}^n_E .
+\end{equation}
+\begin{enumerate}[label=(\roman*)]
+\item If the generalized face vectors $S_{ij}=2V_ic_{ij}$ are antisymmetric, $S_{ij}=-S_{ji}$, and the pairs with $x_{ij,d}=0$ satisfy the condition after \A{Prop.~4.4}, then $\mathcal{M}^n=\mathcal{M}^0$, and \eqref{eq:l1} are uniform bounds in terms of the initial data.
+\item In general $\mathcal{M}^{n}=\mathcal{M}^0+\Delta^n$, where $\Delta^n$ is the accumulated second sum of the balance \A{(4.6)}, evaluated at the stages with the weights $\Delta t\,b_k$. The bounds \eqref{eq:l1} then hold with $\mathcal{M}^0_\rho+|\Delta^n_\rho|$ and $\mathcal{M}^0_E+|\Delta^n_E|$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+By \A{Thm.~6.3}, $\rho^n_i>0$ and $p^n_i>0$, hence $E^n_i=p^n_i/(\gamma-1)+|m^n_i|^2/(2\rho^n_i)>0$, which gives the first two identities and the last inequality, and $|m^n_i|\le\sqrt{2\rho^n_iE^n_i}$. The Cauchy--Schwarz inequality gives $\sum_iV_i\sqrt{2\rho_iE_i}\le\sqrt{2\sum_iV_i\rho_i\sum_iV_iE_i}$. For (i) and (ii), $\mathcal{M}^{n+1}-\mathcal{M}^n=\Delta t\sum_kb_k\sum_iV_i\Lop_i(Y_k)$ by \A{(6.1)}, and $\sum_iV_i\Lop_i(Y)$ is the right-hand side of \A{(4.6)}, whose first sum is empty without ghost particles and whose second sum vanishes under (i) by the discussion after \A{Prop.~4.4}.
+\end{proof}
+
+\begin{remark}
+\begin{enumerate}[label=(\roman*)]
+\item \Cref{prop:euler} is the precise sense in which positivity implies stability for the Euler equations: without positivity, conservation of $\sum_iV_iU_i$ bounds nothing, since positive and negative values may cancel. It gives no $\ell^\infty$ bound, and density may concentrate; the same holds for positive finite volume schemes.
+\item In (ii), $\Delta^n$ is an a~posteriori quantity. An a~priori bound would need bounds of the fluxes, i.e.\ $\ell^\infty$ bounds, which we do not have. The conservation defects measured in \cite{JungMUSCL2026} (relative mass defects of order $10^{-4}$--$10^{-3}$ in the frozen mode, and up to a few percent in the coupled mode with MOOD) quantify how far the bounds are from the exact ones.
+\end{enumerate}
+\end{remark}
+
+\subsection{An entropy inequality for the first-order scheme}
+
+For a convex entropy $\eta$ with entropy fluxes $q_d$, $\eta'(U)F_d'(U)=q_d'(U)$, the positivity proof can be redone with Riemann averages in place of the states $U_j-\sigma F_d(U_j)/s$ of \A{Prop.~5.2}, as for first-order schemes on graphs \cite{GuermondPopov2016}. For $U_L,U_R\in\Ad$ and a direction $d$, let $\lambda^{\max}_d(U_L,U_R)$ be the largest absolute wave speed of the one-dimensional Riemann problem $\partial_tV+\partial_\xi F_d(V)=0$ with the data $U_L$ for $\xi<0$ and $U_R$ for $\xi>0$.
+
+\begin{proposition}[Local entropy inequality]\label{prop:entropy}
+Let $\Ad$ be convex and invariant under the Riemann problems of all directions, let $i\in I$ use piecewise constant states and the aligned orientation on all its edges, with zero-sum weights, and let $U_l\in\Ad$ for $l\in\cnb(i)$. Let
+\begin{equation}\label{eq:entropycfl}
+s_{ij,d}\ge\lambda^{\max}_d(U_i,U_j)\ \text{ for all } j,d,\qquad 2\tau\sum_{j,d}s_{ij,d}|c^{(d)}_{ij}|\le1 .
+\end{equation}
+Then $U^+_i=U_i+\tau\Lop^1_i(U)\in\Ad$ and, for every entropy pair $(\eta,q)$,
+\begin{equation}\label{eq:entropy}
+\eta(U^+_i)\le\eta(U_i)+\tau\sum_{j,d}\Big[s_{ij,d}|c^{(d)}_{ij}|\big(\eta(U_j)-\eta(U_i)\big)-c^{(d)}_{ij}\big(q_d(U_j)-q_d(U_i)\big)\Big].
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+For $c^{(d)}_{ij}\ne0$ let $\sigma=\sgn c^{(d)}_{ij}$, $s=s_{ij,d}$ and $\bar U_{ij,d}=\tfrac12(U_i+U_j)-\sigma\big(F_d(U_j)-F_d(U_i)\big)/(2s)$. If $\sigma=1$, let $V$ be the solution of the Riemann problem with $U_L=U_i$, $U_R=U_j$; if $\sigma=-1$, with $U_L=U_j$, $U_R=U_i$. Its waves stay in $|\xi|\le st$, so integrating the conservation law over $(-\tfrac12,\tfrac12)\times(0,t^*)$ with $t^*=1/(2s)$ gives $\int_{-1/2}^{1/2}V(\xi,t^*)\,\dd\xi=\bar U_{ij,d}$ \cite{HLL1983}, hence $\bar U_{ij,d}\in\Ad$ by invariance and convexity. Integrating the entropy inequality $\partial_t\eta(V)+\partial_\xi q_d(V)\le0$ over the same rectangle and applying Jensen's inequality gives
+\[
+\eta(\bar U_{ij,d})\le\int_{-1/2}^{1/2}\eta(V(\xi,t^*))\,\dd\xi\le\tfrac12\big(\eta(U_i)+\eta(U_j)\big)-\frac{\sigma}{2s}\big(q_d(U_j)-q_d(U_i)\big)
+\]
+in both cases. Next, $2s|c^{(d)}_{ij}|(\bar U_{ij,d}-U_i)=s|c^{(d)}_{ij}|(U_j-U_i)-c^{(d)}_{ij}(F_d(U_j)-F_d(U_i))$, because $\sigma|c^{(d)}_{ij}|=c^{(d)}_{ij}$. By \eqref{eq:L1} and the aligned orientation,
+\[
+U_i^+=\Big(1-2\tau\sum_{j,d}s_{ij,d}|c^{(d)}_{ij}|\Big)U_i+\sum_{j,d}2\tau s_{ij,d}|c^{(d)}_{ij}|\,\bar U_{ij,d},
+\]
+a convex combination by \eqref{eq:entropycfl}. Hence $U_i^+\in\Ad$, and Jensen's inequality with the bound for $\eta(\bar U_{ij,d})$ gives \eqref{eq:entropy}.
+\end{proof}
+
+\begin{remark}\label{rem:entropy}
+\begin{enumerate}[label=(\roman*)]
+\item \Cref{prop:entropy} needs an upper bound of the maximum wave speed of the Riemann problem, which is a stronger requirement than the hypothesis $s\ge\lambda_d(U_j)$ of \A{Prop.~5.2}. For scalar laws with convex or concave $f_d$, the Rusanov speed, the larger of $|f_d'(U_i)|$ and $|f_d'(U_j)|$, is such a bound. For the Euler equations the Rusanov speed $\max\{\lambda_d(U_i),\lambda_d(U_j)\}$ is not guaranteed to bound the Riemann fan in general; guaranteed and inexpensive upper bounds are given in \cite{GuermondPopov2016JCP}. The time step condition carries a factor two compared with \A{(5.1)}.
+\item The right-hand side of \eqref{eq:entropy} is the first-order operator applied to the pair $(\eta,q)$ instead of $(U,F)$. This is a non-conservative cell entropy inequality: summing it with volumes does not telescope.
+\end{enumerate}
+\end{remark}
+
+\begin{corollary}[Global entropy balance]\label{cor:entropy}
+Let all interior particles satisfy the hypotheses of \cref{prop:entropy} on a periodic cloud. Then
+\begin{equation}\label{eq:globalentropy}
+\sum_iV_i\eta(U^+_i)\le\sum_iV_i\eta(U_i)-\tau\sum_{\{i,j\}}\sum_{d=1}^D\Big[d_{ij,d}\big(q_d(U_i)+q_d(U_j)\big)-s_{ij,d}\,e_{ij,d}\big(\eta(U_j)-\eta(U_i)\big)\Big]
+\end{equation}
+with the pair defects $d_{ij,d}$, $e_{ij,d}$ of \A{Prop.~4.4}. If the volume-weighted weights are antisymmetric, the total entropy $\sum_iV_i\eta(U_i)$ does not increase, also under every SSP Runge--Kutta method with $\Delta t/\Csp$ in place of $\tau$. For a linear symmetric hyperbolic system, $F_d(U)=A_dU$ with $A_d=A_d^{\mathsf T}$ and $s_{ij,d}\ge\rho(A_d)$, the choice $\eta=\tfrac12|U|^2$ makes the first-order aligned scheme contractive in $\|\cdot\|_V$ on every cloud with antisymmetric volume-weighted weights.
+\end{corollary}
+
+\begin{proof}
+Multiply \eqref{eq:entropy} by $V_i$ and sum. The sum of the right-hand sides is $\tau\sum_iV_i\Lop^1_i$ evaluated for $(\eta,q)$, which by \A{Prop.~4.4}, applied with $F$ replaced by $q$ and $U$ by $\eta$ (the proof uses only the form \eqref{eq:L1}), equals the pair sum in \eqref{eq:globalentropy}. Antisymmetry gives $d_{ij,d}=e_{ij,d}=0$. For a Runge--Kutta method with $\Csp>0$, every stage is a convex combination of $U^n$ and forward Euler substeps \A{Lem.~6.1}, and convexity of $\eta$ carries the bound over. For linear symmetric systems with $s\ge\rho(A_d)$ the Riemann fan lies in $|\xi|\le\rho(A_d)\,t$, and $(\tfrac12|U|^2,\tfrac12U\cdot A_dU)$ is an entropy pair.
+\end{proof}
+
+Without antisymmetry, \eqref{eq:globalentropy} bounds the entropy production by the pair defects, which are $O(h^{D-1})$ per pair on irregular clouds while $V_i=O(h^D)$; summed over the $O(h^{-D})$ pairs this does not give an $h$-independent bound. For linear advection, \cref{sec:markov} replaces the volumes by a better weight and removes this obstacle.
+
+% ===========================================================================
+\section{The first-order scheme on arbitrary clouds (linear advection)}\label{sec:markov}
+% ===========================================================================
+
+\subsection{The first-order operator as a Markov generator}
+
+\begin{theorem}[Markov structure]\label{thm:markov}
+Let $a\in\R^D$, let the derivative weights of all particles have zero row sums, and let $Q$ be the first-order aligned operator \eqref{eq:Q} on a periodic cloud.
+\begin{enumerate}[label=(\roman*)]
+\item $q_{ij}\ge0$ for $j\ne i$ and $Q\mathbf 1=0$: $Q$ is the generator of a continuous-time Markov chain on the particles, $e^{tQ}$ is a stochastic matrix for $t\ge0$, and $\min_lU_l(0)\le U_i(t)\le\max_lU_l(0)$.
+\item If the directed graph with the edges $i\to j$ for $q_{ij}>0$ is strongly connected, there is a unique $\pi\in\R^N$ with $\pi_i>0$, $\sum_i\pi_i=1$ and $\pi^{\mathsf T}Q=0$, and $\sum_i\pi_iU_i(t)$ is conserved.
+\item Let $\pi>0$ be any stationary distribution, $\pi^{\mathsf T}Q=0$ (by (ii) it exists under strong connectivity; on a lattice with $a$ parallel to an axis the chain is not irreducible, but the uniform $\pi$ is stationary). For $1\le p<\infty$ and $\|U\|_{\pi,p}^p=\sum_i\pi_i|U_i|^p$, $\|e^{tQ}U\|_{\pi,p}\le\|U\|_{\pi,p}$, and
+\begin{equation}\label{eq:energy}
+\frac{\dd}{\dd t}\|U\|_{\pi,2}^2=-\sum_{i}\sum_{j\in\nb(i)}\pi_i\,q_{ij}\,(U_j-U_i)^2\le0 .
+\end{equation}
+\item The forward Euler step $U\mapsto(\mathrm{Id}+\tau Q)U$ with $\tau\max_i\sum_jq_{ij}\le1$, and every Runge--Kutta method with $\Csp>0$ for which $\tau=\Delta t/\Csp$ satisfies this condition, are contractive in $\|\cdot\|_{\pi,p}$ for $1\le p\le\infty$.
+\item With $\rho_h=\max_i(\pi_i/V_i)/\min_i(\pi_i/V_i)$, $\|e^{tQ}\|_V\le\sqrt{\rho_h}$, and the same bound holds for the steps in (iv). Hence the first-order scheme is stable in the sense of \eqref{eq:stab}, with $C=\sqrt{\rho}$ and $\omega=0$, on every family of clouds with $\rho_h\le\rho$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(i) $|a_d||c|-a_dc\ge0$ for all real $c$, and $Q\mathbf 1=0$ by construction. A matrix with non-negative off-diagonal entries and zero row sums generates a semigroup of stochastic matrices: $e^{tQ}=e^{-t\mu}e^{t(Q+\mu\mathrm{Id})}$ with $\mu=\max_i\sum_jq_{ij}$ and $Q+\mu\mathrm{Id}\ge0$ entrywise, and $e^{tQ}\mathbf 1=\mathbf 1$. (ii) For an irreducible generator on a finite state space the stationary distribution exists, is unique and positive \cite[Ch.~3]{Norris1997}; $\frac{\dd}{\dd t}\pi^{\mathsf T}U=\pi^{\mathsf T}QU=0$. (iii) Let $P=e^{tQ}$, which is stochastic with $\pi^{\mathsf T}P=\pi^{\mathsf T}$. Jensen's inequality for the convex function $|\cdot|^p$ and the probability vector $(P_{ij})_j$ gives $|(PU)_i|^p\le\sum_jP_{ij}|U_j|^p$; multiplying by $\pi_i$ and summing gives the claim. For \eqref{eq:energy}, expand the right-hand side, $\sum_{i,j}\pi_iq_{ij}(U_j^2-2U_iU_j+U_i^2)$, and use $\sum_i\pi_iq_{ij}=\pi_j\sum_kq_{jk}$, which is $\pi^{\mathsf T}Q=0$ written out; the result is $-2\sum_i\pi_iU_i(QU)_i=-\frac{\dd}{\dd t}\|U\|^2_{\pi,2}$. (iv) Under the time step condition, $\mathrm{Id}+\tau Q$ is stochastic with $\pi^{\mathsf T}(\mathrm{Id}+\tau Q)=\pi^{\mathsf T}$, and the argument of (iii) applies; for $p=\infty$ stochasticity suffices. Runge--Kutta methods with $\Csp>0$ are convex combinations of such steps \A{Lem.~6.1}. (v) $\min_l(\pi_l/V_l)\|U\|_V^2\le\|U\|_{\pi,2}^2\le\max_l(\pi_l/V_l)\|U\|_V^2$.
+\end{proof}
+
+\begin{remark}\label{rem:markov}
+\begin{enumerate}[label=(\roman*)]
+\item \Cref{thm:markov} is the linear form of the positivity argument: the hypothesis (b) of \A{Prop.~5.2}, $\sigma c\ge0$, is exactly what makes $q_{ij}\ge0$. With the geometric orientation on perturbed clouds about $3\%$ of the weights have the wrong sign \A{Rem.~5.4}, $Q$ is not a generator, and the argument fails. The weights may have any degree, and no antisymmetry is needed; the price is the weight $\pi$, which is not the volume.
+\item On a periodic lattice, $Q$ is circulant, its column sums equal its row sums, and $\pi$ is uniform: $\rho_h=1$ with $V_i=h^D$. On perturbed clouds $\pi$ must be computed. The theory for chains in random environments suggests that $\rho_h$ stays bounded when the cloud is uniformly well conditioned and grows slowly (like an extreme value of local quantities) when nearly degenerate stencils occur with positive probability; this is \emph{not proved} here, and $\rho_h$ is only measured (\cref{obs:rho}).
+\item The norms $\|\cdot\|_{\pi,p}$ depend on $a$. For variable coefficients, nonlinear problems and systems there is no common stationary weight; this is where the antisymmetric weights of \cref{cor:entropy} would be needed.
+\end{enumerate}
+\end{remark}
+
+\subsection{Consistency and convergence of the first-order scheme}\label{sec:drift}
+
+Stability does not give convergence without consistency, and the first-order scheme is not consistent in the pointwise sense on irregular clouds.
+
+\begin{proposition}[Truncation error of the first-order operator]\label{prop:consistency}
+Let \A{Ass.~2.1} hold, let the derivative weights reproduce linear functions \A{Lem.~3.3(i)}, and let $u$ be smooth. With the first moments of the dissipation weights,
+\begin{equation}\label{eq:beta}
+\beta^{d}_i=\sum_{j\in\nb(i)}|c^{(d)}_{ij}|\,x_{ij}\in\R^D,
+\end{equation}
+the first-order operator satisfies
+\begin{equation}\label{eq:trunc}
+(Qu)_i+a\cdot\nabla u(x_i)=\sum_{d=1}^D|a_d|\,\beta^{d}_i\cdot\nabla u(x_i)+r_i,\qquad|r_i|\le C\,h,
+\end{equation}
+with $u$ evaluated at the particles. On centrally symmetric stencils $\beta^d_i=0$. On irregular stencils $\beta^d_i=O(1)$, so the truncation error is $O(1)$.
+\end{proposition}
+
+\begin{proof}
+With $u(x_j)-u(x_i)=x_{ij}\cdot\nabla u(x_i)+\rho_{ij}$, $|\rho_{ij}|\le\tfrac12\|\nabla^2u\|_\infty|x_{ij}|^2$, and $\sum_jc^{(d)}_{ij}x_{ij}=e_d$,
+$(Qu)_i=\sum_d|a_d|\beta^d_i\cdot\nabla u(x_i)-a\cdot\nabla u(x_i)+\sum_{j,d}(|a_d||c^{(d)}_{ij}|-a_dc^{(d)}_{ij})\rho_{ij}$, and the last sum is $O(h^{-1})\,O(h^2)$ by \A{Lem.~3.5}. On a centrally symmetric stencil $|c_{ij'}|=|c_{ij}|$ by \A{Lem.~3.7(i)} and $x_{ij'}=-x_{ij}$.
+\end{proof}
+
+The $\beta^d_i$ fluctuate from particle to particle on perturbed lattices. Fluctuations average out, but their $\pi$-mean does not, and it changes the transport speed.
+
+\begin{theorem}[Drift of the first-order scheme]\label{thm:drift}
+Let \A{Ass.~2.1} hold on periodic clouds, let $Q$ be irreducible with stationary distribution $\pi$, and let $\bar\beta^d=\sum_i\pi_i\beta^d_i$. Let $\delta^d$ be the solutions of the corrector equations $Q\delta^{d}=\beta^{d}-\bar\beta^{d}$ (componentwise, $\delta^d_i\in\R^D$, normalized by $\sum_i\pi_i\delta^d_i=0$; they exist because $\pi^{\mathsf T}(\beta^d-\bar\beta^d)=0$), and let $\eta_h=\max_{i,d}|\delta^d_i|$ be the \emph{corrector size}. Let $u$ be a smooth periodic solution of
+\begin{equation}\label{eq:effective}
+\partial_tu+a_{\mathrm{eff}}\cdot\nabla u=0,\qquad a_{\mathrm{eff}}=a-\sum_{d=1}^D|a_d|\,\bar\beta^{d},
+\end{equation}
+and $U$ the solution of $\dd U/\dd t=QU$. Then
+\begin{equation}\label{eq:drifterror}
+\|U(t)-u(t)\|_{\pi,2}\le\|U(0)-u(0)\|_{\pi,2}+C(1+t)\,(h+\eta_h),
+\end{equation}
+with $C$ depending on the constants of \A{Ass.~2.1}, $\kappa$, $|a|$ and $u$. In particular, if $\eta_h\to0$, the scheme converges at the rate $h+\eta_h$ to the solution of \eqref{eq:effective}, and it converges to the solution of the advection equation with velocity $a$ only if $\sum_d|a_d|\bar\beta^d\to0$.
+\end{theorem}
+
+\begin{proof}
+Let $e=U-u$. Since $\partial_tu=-a_{\mathrm{eff}}\cdot\nabla u$, \cref{prop:consistency} gives $\dd e/\dd t=Qe+\tau$ with $\tau_i=(Qu)_i+a_{\mathrm{eff}}\cdot\nabla u(x_i)=\sum_d|a_d|(\beta^d_i-\bar\beta^d)\cdot\nabla u(x_i)+r_i$. Let $\psi_i=\sum_d|a_d|\,\delta^d_i\cdot\nabla u(x_i)$. Then
+\[
+(Q\psi)_i=\sum_d|a_d|\Big[(Q\delta^d)_i\cdot\nabla u(x_i)+\sum_jq_{ij}\,\delta^d_j\cdot\big(\nabla u(x_j)-\nabla u(x_i)\big)\Big],
+\]
+and the second term is bounded by $\sum_d|a_d|\,\eta_h\,\|\nabla^2u\|_\infty\sum_jq_{ij}|x_{ij}|\le C\eta_h$, because $\sum_jq_{ij}|x_{ij}|\le2|a|\kappa h\sum_{j,d}|c^{(d)}_{ij}|\le C$ by \A{Lem.~3.5}. Hence $\tau=Q\psi+r'$ with $|r'_i|\le C(h+\eta_h)$, and $\tilde e=e+\psi$ satisfies $\dd\tilde e/\dd t=Q\tilde e+r'+\partial_t\psi$ with $|\partial_t\psi_i|\le \eta_h\,|a|\,\|\nabla\partial_tu\|_\infty$. By Duhamel's formula and \cref{thm:markov}(iii), $\|\tilde e(t)\|_{\pi,2}\le\|\tilde e(0)\|_{\pi,2}+Ct(h+\eta_h)$, and $\|\psi\|_{\pi,2}\le C\eta_h$ gives \eqref{eq:drifterror}.
+\end{proof}
+
+On a lattice $\bar\beta^d=0$. Whether $\bar\beta^d\ne0$ on irregular clouds, and how large it is, is a property of the cloud; it is measured in \cref{obs:drift} ($0.1$--$0.45\%$ of the speed, not decreasing with $h$), together with the corrector size. Heuristically, $\delta$ is a discrete integral of $\beta-\bar\beta$ along the flow; the part of $\beta$ that is linear in the jitter is a discrete difference and telescopes, the quadratic part does not, so for independent jitter one expects $\eta_h\sim h^{1/2}$ up to logarithms, which is what is measured. The theorem then gives convergence to the wrong speed at the rate $h^{1/2}$.
+
+\begin{proposition}[Moment-corrected dissipation]\label{prop:moment}
+The defect is in the dissipation, not in the derivative weights. Replace the dissipation coefficients $s_{ij,d}|c^{(d)}_{ij}|$ by $\gamma^{d}_{ij}=s_{i,d}|c^{(d)}_{ij}|+\epsilon^{d}_{ij}$ with $\epsilon^d_{ij}\ge0$ and
+\[
+\sum_{j\in\nb(i)}\epsilon^{d}_{ij}\,x_{ij}=-s_{i,d}\,\beta^{d}_i ,
+\]
+where all neighbours use the same dissipation speed $s_{i,d}$ (for linear advection $s_{i,d}=|a_d|$; in general $s_{i,d}=\max_js_{ij,d}$, which only adds dissipation). Such $\epsilon^d_{ij}$ exist whenever $-\beta^d_i$ lies in the cone spanned by the offsets, for instance if $x_i$ lies in the interior of the convex hull of its neighbours. Then:
+\begin{enumerate}[label=(\roman*)]
+\item the positivity statement of \A{Prop.~5.2} holds with the time step condition $\tau\sum_{j,d}\gamma^{d}_{ij}\le1$;
+\item the scalar maximum principle, \cref{thm:maxprinciple} and \cref{thm:markov} hold, with the time step conditions taken for the corrected coefficients: (M6) becomes $2\tau\sum_{j,d}\gamma^d_{ij}\le1$, and in \cref{thm:markov}(iv) $\tau\max_i\sum_jq_{ij}\le1$ for the entries $q_{ij}=\sum_d(\gamma^d_{ij}-a_dc^{(d)}_{ij})$ (the uncorrected conditions do not suffice, since $\gamma^d_{ij}\ge s_{i,d}|c^{(d)}_{ij}|$);
+\item the first moment vanishes, and \eqref{eq:trunc} holds with $\beta=0$: the scheme is consistent of order one.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(i) $U^+_i=(1-\tau\sum\gamma)U_i+\tau\sum_{j,d}\gamma^d_{ij}\big(U_j-c^{(d)}_{ij}F_d(U_j)/\gamma^d_{ij}\big)$ and $\gamma^d_{ij}\ge s_{ij,d}|c^{(d)}_{ij}|$, so these states are admissible by \A{Lem.~5.1} (for $c^{(d)}_{ij}=0$ they are $U_j$). (ii) All coefficients stay non-negative, which is all that the proofs use. (iii) The proof of \cref{prop:consistency} with $\gamma$ in place of $s|c|$ produces the first moment $\sum_j\gamma^d_{ij}x_{ij}=s_{i,d}\beta^d_i-s_{i,d}\beta^d_i=0$.
+\end{proof}
+
+The correction is not implemented in HyperCloudCore.jl; its numerical effect is in \cref{obs:moment}. It costs one small nonnegative solve per first-order particle, but it makes the dissipation coefficients less symmetric and therefore enlarges the pair defects $e_{ij,d}$ of \A{Prop.~4.4}, i.e.\ the conservation error, exactly where the first-order operator acts under MOOD (near discontinuities). An implementation should report the mass defect with and without it; it is safest as an option for pure first-order runs.
+
+% ===========================================================================
+\section{High order on lattices}\label{sec:lattice}
+% ===========================================================================
+
+On a periodic Cartesian lattice with spacing $h$, with all particles at the same order $K$, the same divergence degree $q$, unregularized fits and no limiter, $L_h$ is translation invariant. With the splitting \eqref{eq:split}, call an orientation \emph{odd} if $\sigma_{ij',d}=-\sigma_{ij,d}$ whenever $c^{(d)}_{ij}\ne0$, for the involution $j\mapsto j'$ of \A{Def.~3.6}. The geometric orientation is odd on lattices (pairs with $x_{ij,d}=0$ have $c^{(d)}_{ij}=0$, by the argument of \A{Lem.~3.7(i)} for the reflection in the $d$-th coordinate, under which $c^{(d)}$ is odd), and so is the aligned one, by \A{Lem.~3.7(i)}.
+
+\begin{lemma}[Skew-symmetric central part]\label{lem:skew}
+For any $K$ and $q$ and any odd orientation, $C_h^{\mathsf T}=-C_h$ and $S_h^{\mathsf T}=S_h$. Hence the symbol of $C_h$ is imaginary, that of $S_h$ real, $\Re\lambda(\theta)=\hat S(\theta)$, and the semi-discrete scheme is stable, $\|e^{tL_h}\|_V\le1$, if and only if $S_h\le0$.
+\end{lemma}
+
+\begin{proof}
+Index the particles by $\mathbb Z^D$ (modulo the period), $x_i=hi$, and let $(RU)_i=U_{-i}$ be the point reflection. All fits are the same linear maps of the data at the offsets, and by central symmetry they commute with $y\mapsto-y$, as in the proof of \A{Prop.~4.3}; hence the interface states of the reflected data are $U_{ij}[RU]=U_{(-i)(-j)}[U]$. The weights depend only on the offset and are odd, $c^{(d)}_{(-i)(-j)}=-c^{(d)}_{ij}$, by \A{Lem.~3.7(i)}. Therefore
+\[
+(C_hRU)_i=-\sum_{j,d}a_dc^{(d)}_{ij}\big(U_{(-i)(-j)}+U_{(-j)(-i)}-2U_{-i}\big)=\sum_{j,d}a_dc^{(d)}_{(-i)(-j)}\big(\cdots\big)=-(C_hU)_{-i},
+\]
+i.e.\ $C_hR=-RC_h$. In terms of the stencil, $(C_hU)_i=\sum_l\beta_lU_{i+l}$, this reads $\beta_{-l}=-\beta_l$. The transpose of a real convolution has the stencil $\beta_{-l}$, so $C_h^{\mathsf T}=-C_h$. For $S_h$, the product $\sigma_{ij,d}c^{(d)}_{ij}$ of two odd functions of the offset is even, and the same computation gives $S_hR=RS_h$, an even stencil and $S_h^{\mathsf T}=S_h$. A real circulant matrix is skew-symmetric if and only if its symbol is imaginary, and symmetric if and only if it is real; circulant matrices are normal, so $\|e^{tL_h}\|_V=\max_\theta e^{t\Re\lambda(\theta)}$.
+\end{proof}
+
+For $K=1$ the dissipation is $S_hU_i=\sum_{j,d}s_d|c^{(d)}_{ij}|(U_j-U_i)$ with symmetric weights, a negative semidefinite graph Laplacian. For $K\ge2$ the jumps $U_{ji}-U_{ij}$ are high-order differences, and the sign of $S_h$ is not obvious; with the geometric orientation and $q\ge3$, some $\sigma c$ are negative \A{Rem.~5.4(i)}, and $S_h$ may be indefinite.
+
+\begin{theorem}[Order two on lattices]\label{thm:k2}
+Let $K=2$ (so $q=1$, and the geometric and the aligned orientation coincide on lattices), $s_d=|a_d|$, and let the weight function $w$ be positive.
+\begin{enumerate}[label=(\roman*)]
+\item In one dimension, for every support radius $\kappa h$ with $1\le\kappa<10$, $\Re\lambda(\theta)\le0$ for all $\theta$.
+\item In $D$ dimensions with $1\le\kappa<\sqrt2$ (neighbours $\pm he_d$ only), $\Re\lambda(\theta)=-\frac{1}{2h}\sum_d|a_d|\,(1-\cos\theta_d)^2$.
+\end{enumerate}
+In both cases $\|e^{tL_h}\|_V\le1$. The proof of (i) is computer-assisted in exact rational arithmetic; the proof of (ii) is by hand.
+\end{theorem}
+
+\begin{proof}
+On a lattice the moment matrices of the degree-one fits are diagonal by the reflection symmetries, so $c^{(d)}_{ij}=w_{ij}x_{ij,d}/M_d$ with $M_d=\sum_jw_{ij}x_{ij,d}^2$, and the reconstruction slope is $g_{i,d}=\sum_jc^{(d)}_{ij}(U_j-U_i)$; then $U_{ij}=U_i+\tfrac12x_{ij}\cdot g_i$ and $\sgn c^{(d)}_{ij}=\sgn x_{ij,d}$. For $U_l=e^{i\theta\cdot x_l/h}$ and $h=1$ one finds $g_i=\mathrm{i}\,S(\theta)U_i$ with $S_d=\sum_jc^{(d)}_{ij}\sin\varphi_j$, $\varphi_j=\theta\cdot x_{ij}$, and, by pairing $j$ with $j'$,
+\begin{equation}\label{eq:rek2}
+\Re\lambda(\theta)=\sum_d|a_d|\sum_j|c^{(d)}_{ij}|\Big[\cos\varphi_j-1+\tfrac12\,(x_{ij}\cdot S)\sin\varphi_j\Big].
+\end{equation}
+(ii) Only $j=\pm e_d$ contribute to direction $d$, with $|c^{(d)}|=\tfrac12$ and $S_d=\sin\theta_d$, so the bracket is $\cos\theta_d-1+\tfrac12\sin^2\theta_d=-\tfrac12(1-\cos\theta_d)^2$.
+(i) Let the offsets be $\pm n$, $n=1,\dots,m$, $m<10$, and $\mu_n=2w_nn/M\ge0$, so that $\sum_n n\mu_n=1$. Then \eqref{eq:rek2} becomes, with $t=\theta/2$,
+\[
+\begin{aligned}
+-\frac{\Re\lambda}{|a|}&=\Big(\sum_nn\mu_n\Big)\Big(\sum_n\mu_n(1-\cos 2nt)\Big)-\tfrac12\Big(\sum_nn\mu_n\sin2nt\Big)\Big(\sum_n\mu_n\sin2nt\Big)
+=\sum_{n,m}\mu_n\mu_m\,E_{nm}(t),\\
+E_{nm}(t)&=n\sin^2mt+m\sin^2nt-(n+m)\sin nt\cos nt\,\sin mt\cos mt .
+\end{aligned}
+\]
+With $c=\cos t$, $\sin nt=\sin t\,U_{n-1}(c)$ and $\cos nt=T_n(c)$ (Chebyshev polynomials), $E_{nm}(t)=\sin^2t\,P_{nm}(c)$ with the integer polynomial $P_{nm}=nU_{m-1}^2+mU_{n-1}^2-(n+m)U_{n-1}T_nU_{m-1}T_m$. For $1\le m\le n\le9$, $P_{nm}\ge0$ on $[-1,1]$, which we verified in exact rational arithmetic (\texttt{certify\_K2\_1d.py}: square-free decomposition and Sturm counting of the roots in $(-1,1)$ of odd multiplicity). For instance, $E_{12}(t)=2\sin^2t\,(6c^2+1)(1-c^2)\ge0$. Hence all $E_{nm}\ge0$, and $\Re\lambda\le0$ for $\mu\ge0$.
+\end{proof}
+
+\begin{remark}\label{rem:k2limits}
+$P_{10,1}$ takes negative values, so the entrywise argument stops at $\kappa=10$; this does not imply instability, since only the quadratic form on $\mu\ge0$ matters (a random search, \cref{obs:lattice}, found no violation). For $\kappa\ge\sqrt2$ in two dimensions, \eqref{eq:rek2} couples the directions through $x_{ij}\cdot S$, and we have no proof. Orders $K\ge3$ on lattices are only treated numerically (\cref{obs:lattice}).
+\end{remark}
+
+% ===========================================================================
+\section{High order on periodic clouds: Bloch reduction}\label{sec:bloch}
+% ===========================================================================
+
+Let $Y=\{y_1,\dots,y_m\}\subset[0,1)^D$ be a \emph{supercell} with $m$ particles in arbitrary position, and consider the infinite periodic cloud $Y+\Z^D$ with nominal spacing $h_1=m^{-1/D}$ (any fixed value will do). For $\ell\in\N$ let
+\begin{equation}
+X_\ell=\tfrac1\ell\,(Y+\Z^D)\ \text{ on the torus }\T^D=\R^D/\Z^D,\qquad h=h_1/\ell,
+\end{equation}
+which has $m\ell^D$ particles, indexed by $(p,k)$ with $p\in\{1,\dots,m\}$ and $k\in\Z_\ell^D$. We assume that the support radius is smaller than the period of the infinite cloud, $\kappa h_1<1$, and that the stencils of the infinite cloud are unisolvent as required by [A]. By translation invariance of the infinite cloud and homogeneity, the operator of the scheme on $Y+\Z^D$ has the block structure $L^{(1)}_{(p,k),(q,k')}=A(k'-k)_{pq}$ with $m\times m$ blocks $A(k)$, nonzero only for $|k|_\infty\le k_0$ (two stencil layers, $k_0\le\lceil2\kappa h_1\rceil$), and
+\begin{equation}\label{eq:blockcirc}
+(L_\ell)_{(p,k),(q,k')}=\ell\,A(k'-k \bmod \ell)_{pq}\qquad\text{for }\ell>2k_0 .
+\end{equation}
+The \emph{Bloch symbol} of the cloud is the trigonometric polynomial
+\begin{equation}\label{eq:bloch}
+\hat A(\theta)=\sum_{k\in\Z^D}A(k)\,e^{\ii\theta\cdot k}\in\C^{m\times m},\qquad\theta\in\T^D_{2\pi}=[-\pi,\pi]^D .
+\end{equation}
+Let $V_Y=(V_p)$ be positive volumes of the supercell and $V_{(p,k)}=V_p/\ell^D$ the periodic volumes of $X_\ell$; $\|\cdot\|_{V_Y}$ is the weighted norm on $\C^m$.
+
+\begin{theorem}[Bloch reduction]\label{thm:bloch}
+Let $\Theta_\ell=\frac{2\pi}{\ell}\{0,\dots,\ell-1\}^D\subset\T^D_{2\pi}$. For $\ell>2k_0$ and $t\ge0$,
+\begin{equation}\label{eq:blochnorm}
+\|e^{tL_\ell}\|_V=\max_{\theta\in\Theta_\ell}\big\|e^{t\ell\hat A(\theta)}\big\|_{V_Y},
+\end{equation}
+and therefore
+\begin{equation}\label{eq:KY}
+\sup_{\ell>2k_0}\ \sup_{t\ge0}\|e^{tL_\ell}\|_V=\sup_{\theta\in\T^D_{2\pi}}\ \sup_{s\ge0}\big\|e^{s\hat A(\theta)}\big\|_{V_Y}=:\mathcal K_Y\in[1,\infty].
+\end{equation}
+The refinement family $(L_\ell)$ is stable in the sense of \eqref{eq:stab}, for some $C$ and $\omega$, if and only if $\mathcal K_Y<\infty$; in that case \eqref{eq:stab} holds with $C=\mathcal K_Y$ and $\omega=0$.
+\end{theorem}
+
+\begin{proof}
+The discrete Fourier transform in the cell index, $\hat U_p(\theta)=\ell^{-D/2}\sum_{k\in\Z_\ell^D}U_{(p,k)}e^{-\ii\theta\cdot k}$, $\theta\in\Theta_\ell$, is unitary from $\ell^2(\Z_\ell^D)$ onto $\ell^2(\Theta_\ell)$ for each $p$, and since the volumes do not depend on $k$, $\|U\|_V^2=\ell^{-D}\sum_{\theta\in\Theta_\ell}\|\hat U(\theta)\|_{V_Y}^2$. By \eqref{eq:blockcirc}, $\widehat{L_\ell U}(\theta)=\ell\hat A(\theta)\hat U(\theta)$ (for $\ell>2k_0$ the sum over $k'-k \bmod\ell$ coincides with the sum over $\Z^D$), hence $L_\ell$ is unitarily equivalent to $\ell\bigoplus_{\theta\in\Theta_\ell}\hat A(\theta)$ in the weighted norms, which gives \eqref{eq:blochnorm}.
+
+For \eqref{eq:KY}, let $f(\theta)=\sup_{s\ge0}\|e^{s\hat A(\theta)}\|_{V_Y}$. By \eqref{eq:blochnorm} with $s=t\ell$, the left-hand side equals $\sup_\ell\max_{\theta\in\Theta_\ell}f(\theta)=\sup_{\theta\in\Theta}f(\theta)$ with $\Theta=\bigcup_{\ell>2k_0}\Theta_\ell$, which is dense in $\T^D_{2\pi}$. The function $f$ is a supremum of continuous functions of $\theta$ ($\hat A$ is a polynomial in $e^{\pm\ii\theta_d}$), hence lower semicontinuous, and for a lower semicontinuous function the supremum over a dense set equals the supremum over the whole space: if $c<f(\theta_0)$, the open set $\{f>c\}$ contains $\theta_0$ and therefore a point of $\Theta$.
+
+If $\mathcal K_Y<\infty$, \eqref{eq:stab} holds with $C=\mathcal K_Y$, $\omega=0$. Conversely, let $\|e^{tL_\ell}\|_V\le Ce^{\omega t}$ for all $\ell>2k_0$ and $t$. If $\theta\in\Theta_{\ell_1}$, then $\theta\in\Theta_{j\ell_1}$ for all $j\in\N$, and \eqref{eq:blochnorm} gives $\|e^{s\hat A(\theta)}\|\le Ce^{\omega s/(j\ell_1)}$ for all $s$ and $j$, hence $f(\theta)\le C$. So $f\le C$ on $\Theta$, and by the density argument on $\T^D_{2\pi}$.
+\end{proof}
+
+\begin{remark}\label{rem:bloch}
+\begin{enumerate}[label=(\roman*)]
+\item For $m=1$, $\hat A(\theta)$ is the von Neumann symbol $h_1\lambda(\theta)$ of \cref{sec:lattice}, and $\mathcal K_Y<\infty$ if and only if $\Re\lambda\le0$ (a normal operator). For $m>1$ the symbols are not normal, and $\Re\spec\hat A(\theta)\le0$ is necessary but not sufficient for a bound uniform in $\theta$; the quantity that matters is the Kreiss constant of the $m\times m$ family.
+\item The theorem is a statement about \emph{refinement by repetition}: the irregular pattern inside the cell is fixed and reproduced at every scale, as in a mesh generated by mapping a reference pattern to the cells of a coarse grid. A cloud with fresh random jitter at every resolution is not of this form; but every finite periodic cloud is the $\ell=1$ member of such a family, and $\hat A(\theta)$ for $\theta\ne0$ describes all its refinements by repetition.
+\item The weighted norm can be taken as any periodic volume norm, since all are uniformly equivalent on $\C^m$. Stability does not depend on this choice, but the value of $\mathcal K_Y$ does.
+\item Bloch (Floquet) reduction is classical for periodic media \cite{Kuchment1993}; the only point specific to the scheme is the block-circulant structure \eqref{eq:blockcirc}, which follows from translation invariance of the infinite cloud and the exact dilation homogeneity of the fits. It holds for every orientation, every divergence mode, both EPD rules with all particles at order $K$, and also for the first-order operator.
+\end{enumerate}
+\end{remark}
+
+\begin{proposition}[Sufficient condition]\label{prop:blochsuff}
+Suppose that for every $\theta\in\T^D_{2\pi}\setminus\{0\}$ all eigenvalues of $\hat A(\theta)$ have negative real part, and that $0$ is a simple eigenvalue of $\hat A(0)$ (its eigenvector is $\mathbf 1$) while the other eigenvalues of $\hat A(0)$ have negative real part. Then $\mathcal K_Y<\infty$.
+\end{proposition}
+
+\begin{proof}
+Let $\mathcal M_\delta=\{M\in\C^{m\times m}:\alpha(M)\le-\delta\}$. On a compact subset of $\mathcal M_\delta$ the resolvent $(z-M)^{-1}$ is continuous on the compact set of $(M,z)$ with $z$ on the boundary of a fixed rectangle containing all spectra in $\Re z\le-\delta/2$, so by the Dunford integral $\|e^{sM}\|\le C_1e^{-\delta s/2}$ uniformly; hence $\sup_{s\ge0}\|e^{sM}\|=\max_{s\in[0,S]}\|e^{sM}\|$ for a fixed $S$, which is a continuous function of $M$. By continuity of the eigenvalues there is $\delta_0>0$ such that for $|\theta|\le\delta_0$ the spectrum of $\hat A(\theta)$ consists of one simple eigenvalue $\lambda_0(\theta)$ near $0$ and the rest in $\Re z\le-2\delta$ for some $\delta>0$; $\lambda_0$ and its Riesz projector $P(\theta)$ are analytic in $\theta$ \cite[Ch.~II]{Kato1995}, and $\Re\lambda_0(\theta)\le0$ by hypothesis ($=0$ at $\theta=0$, $<0$ otherwise). Then $e^{s\hat A(\theta)}=e^{s\lambda_0(\theta)}P(\theta)+e^{s\hat A(\theta)}(I-P(\theta))$; the first term is bounded by $\|P(\theta)\|\le C_2$, and the second is $e^{s\hat A(\theta)}(I-P(\theta))=\frac1{2\pi\ii}\oint_\Gamma e^{sz}(z-\hat A(\theta))^{-1}\dd z$ over a fixed contour $\Gamma$ in $\Re z\le-\delta$ enclosing the rest of the spectrum for all $|\theta|\le\delta_0$; the resolvent is continuous on the compact set of $(\theta,z)$, so this term is bounded by $C_3e^{-\delta s}$. For $|\theta|\ge\delta_0$ the spectral abscissa of $\hat A(\theta)$ is a continuous negative function on a compact set, so $\hat A(\theta)\in\mathcal M_{\delta'}$ for some $\delta'>0$, and the first part applies again.
+\end{proof}
+
+\begin{corollary}[Instability]\label{cor:blochunstable}
+If $\Re\lambda>0$ for an eigenvalue $\lambda$ of $\hat A(\theta_*)$ at some $\theta_*$, then there are $\gamma>0$ and $\ell_0$ such that $\|e^{tL_\ell}\|_V\ge e^{\gamma t\ell}=e^{\gamma h_1t/h}$ for all $\ell\ge\ell_0$ and $t\ge0$: the refinement family is unstable with growth rate proportional to $1/h$.
+\end{corollary}
+
+\begin{proof}
+By continuity, $\alpha(\hat A(\theta))\ge\gamma>0$ on a neighbourhood of $\theta_*$, which contains a point of $\Theta_\ell$ for all large $\ell$; apply \eqref{eq:blochnorm} and $\|e^{sM}\|\ge e^{s\alpha(M)}$.
+\end{proof}
+
+\Cref{thm:bloch} reduces stability on a periodic cloud to a finite-dimensional, $\theta$-dependent check. For a given pattern this check is carried out numerically (sampled $\theta$, floating point) in \cref{obs:bloch}; it is not a proof for any specific pattern.
+
+% ===========================================================================
+\section{High order on smoothly deformed lattices}\label{sec:deformed}
+% ===========================================================================
+
+The second family on which stability can be proved consists of clouds $X_h=\varphi(S_h)$, $S_h=h(\Z^D+\tfrac12)\cap[0,1)^D$, for a fixed diffeomorphism $\varphi$ of the torus, $\varphi(s)=s+\psi(s)$ with a $1$-periodic displacement $\psi$. Such clouds are irregular (no two stencils are congruent) but \emph{coherent}: the stencil of particle $i$ depends smoothly on its position. The idea is classical \cite{Kreiss1964,LaxNirenberg1966}: a scheme with smoothly varying coefficients is stable if its frozen-coefficient symbols are, and the tool is the sharp G{\aa}rding inequality for difference operators.
+
+\begin{assumption}\label{ass:deformed}
+Let $\varphi\in C^3(\T^D;\R^D)$ be a diffeomorphism with $\det D\varphi\ge c_0>0$, and $A(s)=D\varphi(s)$.
+\begin{enumerate}[label=(D\arabic*)]
+\item \emph{Constant stencil topology.} There is a finite symmetric set $\mathcal N\subset\Z^D\setminus\{0\}$ and $\delta_T>0$ with $|A(s)l|\le\kappa-\delta_T$ for $l\in\mathcal N$ and $|A(s)l|\ge\kappa+\delta_T$ for $l\notin\mathcal N$, for all $s$.
+\item \emph{Uniform unisolvency.} For every $s$ the stencil $\{A(s)l:l\in\mathcal N\}$ is $\Pi_{K-1}$- and $\Pi_q$-unisolvent.
+\item \emph{Constant orientation signs.} For every $l\in\mathcal N$ and $d$, either the orientation $\sigma_{i,i+l,d}$ is the same for all particles $i$ and all $h$, or the frozen dissipation coefficient of the pair vanishes identically, $\gamma^{(d)}_l(s)=0$ for all $s$ (as for pairs with $x_{ij,d}\equiv0$ under separable deformations). For the geometric orientation the first alternative holds if $(A(s)l)_d\ne0$ for all $s$.
+\item \emph{Frozen stability.} For every $s$ the scheme on the affine lattice $A(s)\Z^D$ (with the neighbour set $\mathcal N$, weights $w(|A(s)l|/\kappa)$ and the orientation signs of (D3)) has a von Neumann symbol $\mu_s(\theta)$ with $\Re\mu_s(\theta)\le0$ for all $\theta\in\T^D_{2\pi}$.
+\end{enumerate}
+\end{assumption}
+
+(D1)--(D3) are geometric conditions on $\varphi$. (D4) is a condition on the scheme: it is \emph{proved} for $K=2$ in one dimension (\cref{cor:k2deformed}) and only \emph{checked numerically} otherwise (\cref{obs:deformed}).
+
+By (D1) and $x_{i,i+l}=\varphi(s_i+hl)-\varphi(s_i)=h\int_0^1A(s_i+\tau hl)l\,\dd\tau$, there is $h_0$ such that for $h\le h_0$ every particle has the neighbours $\{i+l:l\in\mathcal N\}$. The frozen operator of (D4) is the operator of the scheme on a centrally symmetric lattice, so \cref{lem:skew} applies to it: its central part is skew-symmetric and its dissipative part symmetric, $\Re\mu_s(\theta)$ is the symbol of the dissipative part, and $\Re\mu_s(\theta)=\sum_{l}\beta^{\mathrm d}_l(s)\cos(\theta\cdot l)$ with real, even coefficients $\beta^{\mathrm d}_{-l}=\beta^{\mathrm d}_l$, while the central coefficients are odd, $\beta^{\mathrm c}_{-l}=-\beta^{\mathrm c}_l$. In one dimension $A(s)=\varphi'(s)$ is a scalar and the affine lattice is a rescaled lattice; (D4) is then the lattice condition of \cref{sec:lattice} for the weights $w(\varphi'(s)|l|/\kappa)$.
+
+We need the sharp G{\aa}rding inequality for difference operators with smooth coefficients.
+
+\begin{theorem}[Lax--Nirenberg \cite{LaxNirenberg1966}, see also \cite{Vaillancourt1970}]\label{thm:LN}
+Let $P_h=\sum_{l\in F}b_l(s)\,T_h^l$, $F\subset\Z^D$ finite, $(T^l_hu)(s)=u(s+hl)$, act on grid functions on $S_h$, with coefficients $b_l\in C^2(\T^D)$ (complex, or matrix valued) and symbol $p(s,\theta)=\sum_lb_l(s)e^{\ii\theta\cdot l}$. If $\Re p(s,\theta)\ge0$ for all $s,\theta$ (in the matrix case: the Hermitian part), then
+\begin{equation}
+\Re\langle u,P_hu\rangle_{\ell^2}\ \ge\ -K_{\mathrm{LN}}\,h\,\|u\|^2_{\ell^2}\qquad\text{for all }u,
+\end{equation}
+with $K_{\mathrm{LN}}$ depending only on $F$ and the $C^2$ norms of the $b_l$.
+\end{theorem}
+
+\noindent The theorem is stated in \cite{LaxNirenberg1966,Vaillancourt1970} for $\ell^2(h\Z^D)$; the proofs (Friedrichs symmetrization with a smooth, compactly supported kernel) are local and carry over to periodic coefficients and periodic grid functions on the torus with the same constant. We use it in this form without writing out the adaptation. (In one dimension, \cref{rem:deformed1d} gives an elementary replacement under an extra hypothesis.)
+
+\begin{theorem}[Stability on smoothly deformed lattices]\label{thm:deformed}
+Under \cref{ass:deformed}, with the volumes $V_i=\det A(s_i)\,h^D$, there are $h_0>0$ and $\omega\ge0$, independent of $h$, such that
+\begin{equation}\label{eq:deformed}
+\|e^{tL_h}\|_V\le e^{\omega t}\qquad\text{for all }t\ge0,\ h\le h_0 .
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+\emph{Step 1: structure of the coefficients.} For $h\le h_0$ the stencils are translates of $\mathcal N$ in the index lattice, so $L_h=h^{-1}\sum_{l\in\mathcal N_2}B_l(s_i;h)\,T^l_h$ with $\mathcal N_2=(\mathcal N\cup\{0\})+(\mathcal N\cup\{0\})$ (the reconstruction of a neighbour $j$ involves the neighbours of $j$). The coefficient $hL_{i,i+l}$ is a fixed smooth function $\Phi_l$ of the scaled offsets $x_{i,i+l'}/h$ and $x_{i+l',i+l'+l''}/h$, $l',l''\in\mathcal N$ (the fits are rational functions of the offsets and of the weights $w(|x|/\kappa h)$, smooth wherever the scaled moment matrices are invertible, which by (D2) and compactness holds on a uniform neighbourhood of the frozen configurations; the orientation signs are constant by (D3)). The scaled offsets are $\Lambda_{l'}(s_i;h)=\int_0^1A(s_i+\tau hl')l'\,\dd\tau$, which are $C^2$ functions of $s_i$ with $C^2$ norms bounded uniformly in $h$ (because $\varphi\in C^3$) and satisfy $\Lambda_{l'}(s;h)=A(s)l'+O(h)$. Hence $B_l(\cdot;h)\in C^2(\T^D)$ uniformly in $h$, and
+\begin{equation}\label{eq:Bl}
+B_l(s;h)=\beta_l(s)+h\,B'_l(s;h),\qquad \sup_h\|B'_l(\cdot;h)\|_{C^0}<\infty,
+\end{equation}
+where $\beta_l(s)=\Phi_l(A(s)l',A(s)l'')$ are the coefficients of the frozen operator of (D4); $\beta_l\in C^2$. The pairs of (D3) with identically vanishing frozen dissipation contribute coefficients that are $O(h)$ by the same expansion and are included in $hB'_l$. The splitting \eqref{eq:split} induces $B_l=B^{\mathrm c}_l+B^{\mathrm d}_l$ and $\beta_l=\beta^{\mathrm c}_l+\beta^{\mathrm d}_l$ with the parities stated above.
+
+\emph{Step 2: the central part.} Write $L_h=h^{-1}(P^{\mathrm c}_h+P^{\mathrm d}_h)$ accordingly. The $V$-adjoint of $P^{\mathrm c}_h=\sum_lB^{\mathrm c}_l(s_i;h)T^l$ is $\sum_l\frac{V_{i+l}}{V_i}\overline{B^{\mathrm c}_{-l}(s_{i+l};h)}\,T^l$, so the coefficients of $P^{\mathrm c}_h+(P^{\mathrm c}_h)^{*_V}$ are
+\[
+B^{\mathrm c}_l(s_i;h)+\frac{\det A(s_i+hl)}{\det A(s_i)}\,B^{\mathrm c}_{-l}(s_i+hl;h)
+=\beta^{\mathrm c}_l(s_i)+\beta^{\mathrm c}_{-l}(s_i)+O(h)=O(h),
+\]
+using \eqref{eq:Bl}, the Lipschitz continuity of $\beta^{\mathrm c}_{-l}$ and of $\det A$, and $\beta^{\mathrm c}_{-l}=-\beta^{\mathrm c}_l$. A difference operator with finitely many $O(h)$ coefficients has $V$-norm $O(h)$, hence $\Re\langle U,P^{\mathrm c}_hU\rangle_V\le C_1h\|U\|_V^2$.
+
+\emph{Step 3: the dissipative part.} By \eqref{eq:Bl}, $P^{\mathrm d}_h=P^{\mathrm d}_0+hP^{\mathrm d}_1$ with $P^{\mathrm d}_0=\sum_l\beta^{\mathrm d}_l(s_i)T^l$ and $\|P^{\mathrm d}_1\|_V\le C_2$. Further, $\langle U,P^{\mathrm d}_0U\rangle_V=\langle u,\tilde P u\rangle_{\ell^2}$ with $u=V^{1/2}U$ and $\tilde P=V^{1/2}P^{\mathrm d}_0V^{-1/2}=\sum_l\big(\det A(s_i)/\det A(s_i+hl)\big)^{1/2}\beta^{\mathrm d}_l(s_i)T^l=P^{\mathrm d}_0+O(h)$ in operator norm. The operator $-P^{\mathrm d}_0$ has $C^2$ coefficients and the real symbol $-\sum_l\beta^{\mathrm d}_l(s)\cos(\theta\cdot l)=-\Re\mu_s(\theta)\ge0$ by (D4). \Cref{thm:LN} gives $\Re\langle u,P^{\mathrm d}_0u\rangle_{\ell^2}\le K_{\mathrm{LN}}h\|u\|^2_{\ell^2}$, and therefore $\Re\langle U,P^{\mathrm d}_hU\rangle_V\le(K_{\mathrm{LN}}+C_2+C_3)h\|U\|_V^2$.
+
+\emph{Step 4.} Together, $\Re\langle U,L_hU\rangle_V\le\omega\|U\|_V^2$ with $\omega=C_1+K_{\mathrm{LN}}+C_2+C_3$, so $\frac{\dd}{\dd t}\|U\|_V^2\le2\omega\|U\|_V^2$ and \eqref{eq:deformed} follows.
+\end{proof}
+
+\begin{corollary}[Order two in one dimension]\label{cor:k2deformed}
+Let $D=1$, $K=2$, $w$ positive, $1\le\kappa<10$, and let $\varphi\in C^3(\T)$ be a diffeomorphism such that the number of neighbours on each side, $\lfloor\kappa/\varphi'(s)\rfloor$, is the same for all $s$ (and $\kappa/\varphi'(s)$ stays away from integers). Then \eqref{eq:deformed} holds.
+\end{corollary}
+
+\begin{proof}
+(D1) is the hypothesis, (D2) holds for any two distinct points, (D3) holds for the geometric orientation since $x_{i,i+l}$ has the sign of $l$, and also for the aligned one: in one dimension a degree-one fit with constant term has $c_{i,i+l}=w_{i,i+l}(x_{i,i+l}-\bar x_i)/\sum_jw_{ij}(x_{ij}-\bar x_i)^2$ with the weighted mean offset $\bar x_i=O(h^2)$ on a $C^2$ deformation, so $\sgn c_{i,i+l}=\sgn l$ for $h\le h_0$. (D4) is \cref{thm:k2}(i), whose proof is valid for every set of positive weights $\mu_n\ge0$ and offsets $\pm n$, $n\le m<10$, hence for the frozen lattice $\varphi'(s)\Z$ with weights $w(\varphi'(s)n/\kappa)$: the symbol of the rescaled lattice is the symbol of the unit lattice divided by $\varphi'(s)$.
+\end{proof}
+
+\begin{remark}\label{rem:deformed}
+\begin{enumerate}[label=(\roman*)]
+\item \emph{What the theorem does and does not say.} It gives \eqref{eq:stab} with $C=1$ and an $\omega$ that depends on the $C^3$ norm of $\varphi$; it does not give $\omega=0$, and indeed $\omega_V(L_h)$ is positive (\cref{obs:deformed}). The mechanism is exactly the one that fails on jittered clouds: there, the coefficients are not Lipschitz on the scale $h$, the commutator terms of Step~2 are $O(1)$ instead of $O(h)$, and \cref{prop:obstruction} shows that no volume weight can repair this.
+\item \emph{Frozen instabilities.} The exceptions found on lattices ($K=4$, geometric orientation, $\kappa=3.5$ in 2-D, \cref{obs:lattice}) violate (D4), and the theorem does not apply; \cref{cor:blochunstable} shows that any periodic refinement of such a lattice is unstable.
+\item \emph{Fully discrete.} The theorem is semi-discrete. Semi-boundedness of $L_h-\omega I$ transfers to explicit Runge--Kutta methods of order three and four under a CFL condition $\Delta t\|L_h\|\le c$ by the energy arguments of Levy and Tadmor \cite{LevyTadmor1998,Tadmor2002}; we do not pursue this.
+\item \emph{Varying topology.} If $\varphi'$ crosses a value where the neighbour count changes, the coefficients jump and (D1) fails; then $\omega_V$ is measured to grow like $1/h$ (\cref{obs:deformed}).
+\end{enumerate}
+\end{remark}
+
+% ===========================================================================
+\section{High order on deformed lattices with localised defects (1-D)}\label{sec:defects}
+% ===========================================================================
+
+The clouds produced by particle management (insertion into holes, merging of close pairs) are not jittered lattices: away from the places where a particle was inserted or removed they are smooth deformations of a lattice, and the irregularity is concentrated in \emph{defects} of bounded size. This section proves stability for such clouds in one dimension, given local certificates. The mechanism: the dissipation form of the lattice is written as a sum of \emph{local} nonnegative squares (Fej\'er--Riesz), each defect is handled by a finite semidefinite programme that produces a local, non-diagonal Lyapunov weight, and the local certificates of different defects superpose because the squares are local. The obstruction of \cref{prop:obstruction} is circumvented, not contradicted: the weight is a volume weight only away from the defects.
+
+\paragraph{What is proved and what is computed.} \Cref{lem:fr,lem:deformedsquares,lem:support,thm:defects} and \cref{cor:defects} are proved. The \emph{inputs} of \cref{thm:defects}, the certificates of \cref{def:cert}, are computed by a semidefinite programme in floating point and verified a~posteriori by floating-point eigenvalues (\cref{obs:cert}); a fully rigorous statement for specific defect types would need a verified (e.g.\ interval-arithmetic) eigenvalue bound. Hypothesis (D5) below is likewise checked numerically for $\kappa=2.5$.
+
+Throughout this section $D=1$ unless said otherwise and the operator is written in the units $h=1$ (\cref{rem:dilation}): $L=hL_h$, and a weight $W$ stands for $W_h=hW$. The frozen lattice of spacing $g$ is $g(\Z+\frac12)$ with the neighbourhood radius $\kappa$; its operator is $L^{(g)}=g^{-1}L[\kappa/g]$ by dilation, where $L[\kappa']$ is the operator of the unit lattice with radius $\kappa'$, and its row is $\ell_g(k)=L^{(g)}_{i,i+k}$, $|k|\le d$. We assume (D1)--(D4) of \cref{ass:deformed} for $g\in[g_-,g_+]$ (constant topology $\mathcal N=\{\pm1,\dots,\pm d_{\mathcal N}\}$, unisolvency, constant signs, $\Re\mu_g\le0$) and in addition
+\begin{enumerate}[label=(D\arabic*),start=5]
+\item \emph{Strict dissipativity off $\theta=0$.} With $m\ge1$ the order of vanishing of $\Re\mu_g$ at $\theta=0$ ($\Re\mu_g(\theta)=O(\theta^{2m})$, $m$ given by \cref{prop:parity}, the same for all $g$), there is $c_0>0$ with $-\Re\mu_g(\theta)\ge c_0(1-\cos\theta)^m$ for all $\theta$ and all $g\in[g_-,g_+]$.
+\end{enumerate}
+By \cref{prop:parity} applied to the lattice, $\Re\mu_g(\theta)=O(\theta^{2m})$ with $2m=K+2$ for even $K$ and $2m=K+1$ for odd $K$, so (D5) asks that the leading dissipation coefficient does not vanish and that there is no other zero of $\Re\mu_g$ on $[-\pi,\pi]$.
+
+\subsection{The lattice dissipation form as a sum of local squares}
+
+\begin{lemma}[Local squares]\label{lem:fr}
+Under (D4)--(D5) there is, for every $g\in[g_-,g_+]$, a real polynomial $b_g(z)=\sum_{k=0}^db_k(g)z^k$ with
+\begin{equation}\label{eq:fr}
+-g\big(\ell_g(k)+\ell_g(-k)\big)=\sum_{k'}b_{k'}(g)\,b_{k'+k}(g)\quad(|k|\le d),
+\quad\text{i.e.}\quad -2g\Re\mu_g(\theta)=|b_g(e^{\ii\theta})|^2 ,
+\end{equation}
+and $g\mapsto b_g$ is Lipschitz on $[g_-,g_+]$. Consequently, for the periodic lattice of spacing $g$ with the volume weight $V=gI$, every grid function $u$ satisfies
+\begin{equation}\label{eq:squares}
+-u^{\mathsf T}\big(VL^{(g)}+(L^{(g)})^{\mathsf T}V\big)u=\sum_jB^{(g)}_j(u),\qquad B^{(g)}_j(u)=\Big(\sum_{k=0}^db_k(g)\,u_{j+k}\Big)^2\ge0 .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+$f_g(\theta)=-2g\Re\mu_g(\theta)=-g\sum_k(\ell_g(k)+\ell_g(-k))e^{\ii k\theta}$ is a real, even trigonometric polynomial of degree $d$, nonnegative by (D4). By (D5), $f_g(\theta)=(1-\cos\theta)^mq_g(\theta)$ with a trigonometric polynomial $q_g\ge c_0>0$ of degree $d-m$ (division of the cosine polynomial $f_g$, as a polynomial in $x=\cos\theta$, by $(1-x)^m$). The Fej\'er--Riesz theorem \cite[Sec.~1.12]{GrenanderSzego1958} gives $q_g=|r_g(e^{\ii\theta})|^2$ with $r_g$ a real polynomial of degree $d-m$ without zeros in the closed unit disc (the outer factor), and $1-\cos\theta=\frac12|1-e^{\ii\theta}|^2$, so $b_g(z)=2^{-m/2}(1-z)^mr_g(z)$. The outer factor of a strictly positive trigonometric polynomial is a real-analytic function of its coefficients ($r_g=\exp(\frac12P_+\log q_g)$ with the Riesz projection $P_+$), and the coefficients of $q_g$ are Lipschitz in $g$ because $\ell_g$ is (the fits are smooth functions of the scaled offsets $gk$ and of the weights $w(gk/\kappa)$, cf.\ Step~1 of the proof of \cref{thm:deformed}), whence the Lipschitz continuity of $b_g$. Expanding $|b_g|^2$ gives the first identity in \eqref{eq:fr}, and summing $B_j^{(g)}$ over $j$ collects exactly the coefficients of the periodic Toeplitz form $-(VL^{(g)}+(L^{(g)})^{\mathsf T}V)$, whose $(i,i+k)$ entry is $-g(\ell_g(k)+\ell_g(-k))$.
+\end{proof}
+
+\begin{lemma}[Deformed lattices, local form]\label{lem:deformedsquares}
+Let $\varphi\in C^2(\T)$ satisfy (D1)--(D5) with $g(s)=\varphi'(s)\in[g_-,g_+]$, let $X_h=\varphi(S_h)$ and $V_i=g(s_i)h$. Then there are $C$ and $h_0$ such that for $h\le h_0$ and all $u$,
+\begin{equation}\label{eq:deformedsquares}
+u^{\mathsf T}\big(VL_h+L_h^{\mathsf T}V\big)u\ \le\ -\sum_jB^{(g_j)}_j(u)+C\,h\,|u|^2,\qquad g_j=g(s_j),
+\end{equation}
+and more precisely the matrix $R=VL_h+L_h^{\mathsf T}V+\sum_jB_j^{(g_j)}$ has bandwidth $2d$ and entries $|R_{ij}|\le Ch$.
+\end{lemma}
+
+\begin{proof}
+By Step~1 of the proof of \cref{thm:deformed}, $hL_{i,i+k}=\Phi_k(\text{scaled offsets of }i\text{ and its neighbours})$ with $\Phi_k$ smooth and the scaled offsets equal to $g_ik'+O(h)$, so $hL_{i,i+k}=\ell_{g_i}(k)+O(h)$ with $O(h)$ uniform (here $\varphi\in C^2$ suffices since only the first-order expansion of the offsets is used). Hence $(VL_h+L_h^{\mathsf T}V)_{i,i+k}=g_i\ell_{g_i}(k)+g_{i+k}\ell_{g_{i+k}}(-k)+O(h)=g_i(\ell_{g_i}(k)+\ell_{g_i}(-k))+O(h)$ by the Lipschitz continuity of $g\mapsto g\ell_g$. On the other hand $(\sum_jB_j^{(g_j)})_{i,i+k}=\sum_{k'}b_{k'}(g_{i-k'})b_{k'+k}(g_{i-k'})=\sum_{k'}b_{k'}(g_i)b_{k'+k}(g_i)+O(h)$ by \cref{lem:fr}, which by \eqref{eq:fr} equals $-g_i(\ell_{g_i}(k)+\ell_{g_i}(-k))+O(h)$. The sum $R$ therefore has $O(h)$ entries and bandwidth $2d$, and $|u^{\mathsf T}Ru|\le(4d+1)\max|R_{ij}|\,|u|^2$.
+\end{proof}
+
+\begin{remark}\label{rem:deformed1d}
+Since $\sum_jB_j\ge0$, \cref{lem:deformedsquares} gives $\Re\langle U,L_hU\rangle_V\le\frac{C}{2g_-}\|U\|_V^2$: an elementary proof of \cref{thm:deformed} in one dimension, with $\varphi\in C^2$ instead of $C^3$ and without the sharp G{\aa}rding inequality, at the price of hypothesis (D5). What it adds is the \emph{local} form of the dissipation, which is what the defects need.
+\end{remark}
+
+\subsection{Local certificates}
+
+A \emph{defect type} $\tau$ is a finite modification of the lattice inside a window: a finite set $Y_\tau\subset\R$ which coincides with $\Z+\frac12$ outside $(-\rho_0,\rho_0)$. The three types used below are
+\[
+\text{merge: }Y=(\Z+\tfrac12)\setminus\{\tfrac12\},\qquad
+\text{insert: }Y=(\Z+\tfrac12)\cup\{1\},\qquad
+\text{shift: }Y=(\Z+\tfrac12)\setminus\{\tfrac12\}\cup\{\tfrac12+\delta\}\ (\delta=0.3),
+\]
+with $\rho_0=1$; merging two particles into one at their midpoint is, up to a shift of the lattice, the merge type. The \emph{defect cloud} of type $\tau$ at spacing $g$ is $gY_\tau$ (radius $\kappa$); its operator $L_{\tau,g}$ coincides, in every row at distance $>(\rho_0+2\kappa)g$ from the centre $z=0$ (merge, shift) or $z=1$ (insert), with the lattice operator $L^{(g)}$, because a row depends on the cloud within distance $2\kappa$ \A{(4.4)}, i.e.\ within $2\kappa/g$ spacings. \emph{Units.} The support radius is $\kappa$ in physical units (as in \texttt{ho\_defect\_cert.py}); to keep the zone constants in units of the spacing, $\kappa$ in the zone radii, separations and distances of this section stands for $\kappa/g_-$, the radius in spacings, and $d\le4\kappa$ is assumed ($d=4$ for $\kappa=2.5$, $g\in[0.85,1.15]$). For a \emph{zone radius} $\varrho\ge\rho_0$ let
+\begin{equation}\label{eq:zones}
+\begin{aligned}
+Z&=\{y\in gY_\tau:|y-z|\le\varrho g\},\qquad
+Z'=\{y\in gY_\tau:|y-z|\le(\varrho+d+4\kappa)g\},\\
+\mathcal J_{\mathrm{far}}&=\{j\in g(\Z+\tfrac12):\ \{j,j+g,\dots,j+dg\}\cap Z=\emptyset\}.
+\end{aligned}
+\end{equation}
+For a symmetric matrix $W$ with $W_{yy'}=g\delta_{yy'}$ whenever $y\notin Z$ or $y'\notin Z$ (``$W=gI$ outside $Z$'') define
+\begin{equation}\label{eq:E}
+E_\tau(W)=WL_{\tau,g}+L_{\tau,g}^{\mathsf T}W+\sum_{j\in\mathcal J_{\mathrm{far}}}B^{(g)}_j ,
+\end{equation}
+where $B_j^{(g)}$ denotes the matrix of the square in \eqref{eq:squares}, supported on $\{j,\dots,j+dg\}\subset gY_\tau$ (all these sites are lattice sites outside $Z$, hence particles).
+
+\begin{lemma}[Support]\label{lem:support}
+$E_\tau(W)_{yy'}=0$ unless $y,y'\in Z'$, and $E_\tau(W)$ is affine in the block $W_Z$.
+\end{lemma}
+
+\begin{proof}
+Let $y\notin Z'$, so $|y-z|>(\varrho+d+4\kappa)g$. The entry $(y,y')$ of $WL+L^{\mathsf T}W$ vanishes unless $|y-y'|\le2\kappa g$; for such $y'$, both $y$ and $y'$ are outside $Z$ (so $W=gI$ there) and at distance $>(\rho_0+2\kappa)g$ from $z$, so both rows are lattice rows and the entry equals $g(\ell_g(k)+\ell_g(-k))$, $y'=y+kg$. The squares containing $y$ have $j\in\{y-dg,\dots,y\}$, so their sites $j,j+g,\dots,j+dg$ lie within $dg$ of $y$, hence at distance $>(\varrho+4\kappa)g\ge\varrho g$ from $z$ and outside $Z$: these squares are all far, and their contribution to the entry $(y,y')$ is the full lattice sum $\sum_{k'}b_{k'}b_{k'+k}=-g(\ell_g(k)+\ell_g(-k))$ by \eqref{eq:fr}. The two cancel. Affinity in $W_Z$ is clear.
+\end{proof}
+
+\begin{definition}[Local certificate]\label{def:cert}
+A \emph{certificate} of type $\tau$, spacing $g$, zone radius $\varrho$ and residual $\res\ge0$ is a symmetric block $W_Z\in\R^{Z\times Z}$ with
+\begin{equation}\label{eq:cert}
+c_W\,gI\preceq W_Z\preceq C_W\,gI,\qquad E_\tau(W)\big|_{Z'\times Z'}\preceq \res\,I ,
+\end{equation}
+for the extension $W$ of $W_Z$ by $gI$. The smallest residual $\res_\tau(g,\varrho)$ for given $(c_W,C_W)$ is the optimal value of a semidefinite programme in the $\frac12|Z|(|Z|+1)$ entries of $W_Z$.
+\end{definition}
+
+\begin{proposition}[The residual cannot be zero]\label{prop:residual}
+If $L_{\tau,g}$ has no bounded left null vector that is constant outside $Z$, then $\res_\tau(g,\varrho)>0$.
+\end{proposition}
+
+\begin{proof}
+$\mathbf 1^{\mathsf T}E_\tau(W)\mathbf 1=2\,\mathbf 1^{\mathsf T}WL\mathbf 1+\sum_{\mathrm{far}}B_j(\mathbf 1)=0$ because $L\mathbf 1=0$ and $b_g(1)=0$ ($m\ge1$). Hence $E\preceq0$ forces $E\mathbf 1=0$, i.e.\ $L^{\mathsf T}W\mathbf 1=0$, i.e.\ $W\mathbf 1$ is a left null vector (\cref{prop:obstruction} in local form), and it equals $g$ outside $Z$. The optimum of the SDP is attained, since the feasible set $c_WgI\preceq W_Z\preceq C_WgI$ is compact, so $\res_\tau=0$ would produce such a vector.
+\end{proof}
+
+Away from the defect, $\pi^{\mathsf T}L=0$ is a linear recurrence with constant coefficients, so $\pi-\bar\pi$ decays exponentially but generically does not vanish; this is confirmed numerically (\cref{obs:cert}). The best one can expect is therefore $\res_\tau(g,\varrho)\to0$ exponentially in $\varrho$.
+
+\subsection{Superposition}
+
+\begin{theorem}[Lattices with defects]\label{thm:defects}
+Let $D=1$, let $\varphi\in C^2(\T)$ satisfy (D1)--(D5) with $g=\varphi'\in[g_-,g_+]$, and let $\mathcal T$ be a finite set of defect types with certificates $(W_{\tau,g},\res_\tau(g))$ of zone radius $\varrho$ for all $\tau\in\mathcal T$, $g\in[g_-,g_+]$, with common bounds $(c_W,C_W)$ and $\res^*=\sup_{\tau,g}\res_\tau(g)$. Let $S_h$ be obtained from the lattice $h(\Z+\frac12)$ by placing defects of types $\tau_A\in\mathcal T$ at centres $z_A$, $A\in\mathcal A_h$, with
+\begin{equation}\label{eq:separation}
+|z_A-z_B|\ \ge\ \sigma h,\qquad \sigma=2\varrho+2d+12\kappa+2\qquad(A\ne B),
+\end{equation}
+and let $X_h=\varphi(S_h)$. Then there are $h_0$ and $C$, depending on $\varphi$, $\kappa$, $K$, $\varrho$ and $\mathcal T$ but not on $h$ and not on the number or the positions of the defects, such that for $h\le h_0$ the weight $W_h$ equal to $g(s_i)h$ outside the zones and to $h\,W_{\tau_A,g(z_A)}$ on the zone of $A$ satisfies
+\begin{equation}\label{eq:defects}
+\min(c_W,1)\,g_-h\le W_h\le\max(C_W,1)\,g_+h,\qquad
+\Re\langle U,L_hU\rangle_{W_h}\le\Big(C+\frac{\res^*}{2\min(c_W,1)g_-}\,\frac1h\Big)\|U\|^2_{W_h},
+\end{equation}
+and consequently
+\begin{equation}\label{eq:defectsbound}
+\|e^{tL_h}\|_V\le\frac{g_+}{g_-}\sqrt{\frac{\max(C_W,1)}{\min(c_W,1)}}\ \exp\Big(\Big(C+\frac{\res^*}{2\min(c_W,1)g_-}\,\frac1h\Big)t\Big)\qquad(t\ge0,\ h\le h_0).
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Write everything in units $h=1$ and let $u\in\R^{X_h}$. Let $Z_A,Z'_A$ be the zones of \eqref{eq:zones} around $z_A$ (in the reference coordinate $s$) and $\mathcal J_{\mathrm{far}}$ the set of lattice sites $j$ such that $\{j,\dots,j+d\}$ meets no $Z_A$. We decompose
+\[
+u^{\mathsf T}(WL+L^{\mathsf T}W)u=-\sum_{j\in\mathcal J_{\mathrm{far}}}B_j^{(g_j)}(u)+u^{\mathsf T}Ru,\qquad R:=WL+L^{\mathsf T}W+\sum_{j\in\mathcal J_{\mathrm{far}}}B_j^{(g_j)},
+\]
+and show that $R=\sum_AR_A+R_0$ with $R_A$ supported on $Z'_A\times Z'_A$, $R_A=E_{\tau_A}(W_{\tau_A,g(z_A)})+O(h)$ entrywise, and $R_0$ banded with $O(h)$ entries.
+
+\emph{Far pairs.} Let $(i,j)$ be a pair of particles with $|s_i-s_j|\le2\kappa$ (otherwise all entries vanish) such that neither lies in any $Z'_A$. Then both rows are rows of the deformed lattice without defects (their $2\kappa$-neighbourhoods contain no defect, since $|s_i-z_A|>\varrho+d+4\kappa\ge\rho_0+2\kappa$), both weights are volume weights, and every square through $i$ or $j$ is far. By the entrywise statement of \cref{lem:deformedsquares}, $R_{ij}=O(h)$.
+
+\emph{Pairs near a defect.} Let $i\in Z'_A$ and $|s_i-s_j|\le2\kappa$. By \eqref{eq:separation}, $|s_j-z_B|\ge\sigma-(\varrho+d+4\kappa)-2\kappa=\varrho+d+6\kappa+2>\varrho+d+4\kappa$ for $B\ne A$, so $j\notin Z'_B$: $R_{ij}$ belongs to the block $Z''_A\times Z''_A$ with $Z''_A=\{|s-z_A|\le\varrho+d+6\kappa\}$, and these blocks are disjoint for different $A$, since $\sigma>2(\varrho+d+6\kappa)$. Within $Z''_A$ the cloud $X_h$ is, in the scaled coordinate $(x-\varphi(z_A))/h$, the defect cloud $g(z_A)Y_{\tau_A}$ up to $O(h)$ displacements (since $\varphi(s)-\varphi(z_A)=g(z_A)(s-z_A)+O(h^2\cdot\varrho'^2)$ for $|s-z_A|\le\varrho'h$; the $O(h)$ terms below are therefore $O(\varrho^2h)$, with constants depending on $\varrho$), so the rows of $L$ at particles of $Z''_A$ are those of $L_{\tau_A,g(z_A)}$ up to $O(h)$; the weights are $W_{\tau_A,g(z_A)}$ on $Z_A$ and $g(s_i)=g(z_A)+O(h)$ outside; and the far squares meeting $Z''_A$ have coefficients $b(g_j)=b(g(z_A))+O(h)$ and are exactly the far squares of the single-defect cloud. Hence $R|_{Z''_A\times Z''_A}=E_{\tau_A}(W_{\tau_A,g(z_A)})+O(h)$, and by \cref{lem:support} the first term is supported on $Z'_A\times Z'_A$.
+
+\emph{Conclusion.} With $\res_A=\res_{\tau_A}(g(z_A))\le\res^*$ and the certificate inequality,
+\[
+u^{\mathsf T}Ru\le\sum_A\res_A|u_{Z'_A}|^2+C'h|u|^2\le(\res^*+C'h)|u|^2\le\frac{\res^*+C'h}{\min(c_W,1)g_-}\,u^{\mathsf T}Wu ,
+\]
+where $C'$ collects the $O(h)$ entries over a band of width $4d+1$ (far pairs) and the disjoint blocks $Z''_A$ (bounded size). Restoring the units $h$ ($L_h=L/h$, $W_h=hW$) gives \eqref{eq:defects} with $C=C'/(2\min(c_W,1)g_-)$ and $\frac{\dd}{\dd t}\|U\|_{W_h}^2\le2(C+\res^*/(2\min(c_W,1)g_-h))\|U\|^2_{W_h}$, and \eqref{eq:defectsbound} follows from the norm equivalence in \eqref{eq:defects} together with $g_-h\le V_i\le g_+h$: $\|U\|_V^2\le g_+h|U|^2\le\frac{g_+}{\min(c_W,1)g_-}\|U\|^2_{W_h}$ and $\|U\|^2_{W_h}\le\frac{\max(C_W,1)g_+}{g_-}\|U\|_V^2$, so the constant is $\frac{g_+}{g_-}\sqrt{\max(C_W,1)/\min(c_W,1)}$.
+\end{proof}
+
+\begin{corollary}\label{cor:defects}
+In the setting of \cref{thm:defects}:
+\begin{enumerate}[label=(\roman*)]
+\item Let $\varphi=\mathrm{id}$ (lattices with defects, $g=1$). If $\res_\tau(1,\varrho)\le C_0e^{-c\varrho}$ uniformly in $\tau$, with bounds $(c_W,C_W)$ independent of $\varrho$, then the family $(L_h)$ is Lax--Richtmyer stable, $\|e^{tL_h}\|_V\le C_1e^{t}$, for every sequence of defect configurations whose zone radius satisfies $\varrho_h\ge c^{-1}\log(C_0/h)$, i.e.\ whose defects are separated by at least $(2c^{-1}|\log h|+\sigma_0)h$: a defect density up to $c/(2|\log h|)$ per particle. For a deformed lattice the same choice of $\varrho_h$ gives $\|e^{tL_h}\|_V\le C_1\exp\big(C'(1+\log^2(1/h))\,t\big)$, because the constant $C$ of \cref{thm:defects} grows like $\varrho^2$.
+\item For a fixed zone radius $\varrho$, every configuration with separation $\sigma h$ satisfies \eqref{eq:defectsbound}: the growth rate exceeds the deformation rate $C$ by at most $\res^*(\varrho)/(2\min(c_W,1)g_-h)$.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+(i) Choose $\varrho_h$ with $C_0e^{-c\varrho_h}\le2\min(c_W,1)g_-h$ and apply \cref{thm:defects}. For $\varphi=\mathrm{id}$ the clouds inside the blocks $Z''_A$ coincide with the single-defect clouds, so $R_A=E_{\tau_A}(W_{\tau_A})$ exactly, $R_0=0$ and $C=0$, independently of $\varrho$. For a deformed lattice $C=O(\varrho_h^2)$ by the remark in the proof. (ii) is \eqref{eq:defectsbound}.
+\end{proof}
+
+Whether the hypothesis of (i) holds is a numerical question: the computed residuals decay exponentially for $K=3,4$, and for $K=2$ at insert and merge defects they cannot (\cref{obs:cert,obs:defectbloch}). With the computed residual at $\varrho=12$ for $K=3$, $\res^*=1.1\cdot10^{-6}$ (merge, $g=0.85$), (ii) gives an excess growth rate below $1.3\cdot10^{-5}/h$ with $c_W=0.05$, and below $1.1\cdot10^{-6}/h$ with the actual lower bound $\lambda_{\min}(W_Z)\ge0.59\,g$ of the computed certificates. The certificates are computed at $g=0.85,1,1.15$ only; a certificate at $g_0$ serves every $g$ with $|g-g_0|$ small, with residual $\res_\tau(g_0)+C|g-g_0|$, because $E_\tau$ depends Lipschitz-continuously on $g$ (\cref{lem:fr}). In the superposition test of \cref{obs:super} the certificates are computed at the exact local spacings.
+
+\begin{remark}[Two dimensions]\label{rem:defects2d}
+The only one-dimensional ingredient of \cref{thm:defects} is \cref{lem:fr}. In $D$ dimensions a nonnegative trigonometric polynomial need not be a square, but it may be a \emph{sum of squares} $\sum_s|b_s(\theta)|^2$, equivalently $f(\theta)=\sum_{m,m'}G_{mm'}e^{\ii(m-m')\cdot\theta}$ with a positive semidefinite Gram matrix $G$ over the monomials $m\in[-r,r]^D$; strictly positive polynomials always are, by Dritschel's theorem \cite{Dritschel2004,DritschelRovnyak2010}, but the lattice dissipation vanishes at $\theta=0$. If such a $G$ exists, the local squares are $B_j(u)=\sum_{m,m'}G_{mm'}u_{j+m}u_{j+m'}\ge0$, supported on $j+[-r,r]^2$, and \cref{lem:support}, \cref{def:cert} and the superposition argument of \cref{thm:defects} hold verbatim for lattices with defects ($\varphi=\mathrm{id}$) with the separation $\sigma=2\varrho+4r+12\kappa+2$ in the maximum norm. A Gram matrix has been found numerically for $K=2,3$ (\cref{obs:sos2d}), but no 2-D certificate has been computed, so there is no 2-D result. The extension to deformed lattices in 2-D additionally requires a sum-of-squares decomposition of the frozen symbol of every affine lattice $A(s)\Z^2$ with Lipschitz dependence on $A$, which is not automatic because the decomposition is not strictly feasible.
+\end{remark}
+
+% ===========================================================================
+\section{Limits of the energy method, and the parity of the order}\label{sec:limits}
+% ===========================================================================
+
+The Markov argument of \cref{thm:markov} for $K=1$ is an energy estimate in the norm of the stationary distribution $\pi$. The following results show that for $K\ge2$ no volume norm can play this role on jittered clouds, identify two mechanisms, and explain from the local symbol why even orders are fragile. They are proved; their quantitative consequences are measured in \cref{sec:numrandom}.
+
+\subsection{The conservation-defect obstruction}
+
+\begin{proposition}[Lower bound for the numerical abscissa]\label{prop:obstruction}
+Let $L\mathbf 1=0$, let $H>0$ be a diagonal weight with $|\Omega|_H=\sum_iH_i$, and let $d=L^{*_H}\mathbf 1$, i.e.\ $d_j=H_j^{-1}\sum_iH_iL_{ij}$ (the defect density of $H$: $\frac{\dd}{\dd t}\sum_iH_iU_i=\langle d,U\rangle_H$). Then
+\begin{equation}\label{eq:obstruction}
+\omega_H(L)\ \ge\ \frac{\|d\|_H^2}{9\,|\Omega|_H\,\|L\|_H}.
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Let $e=\mathbf 1/\|\mathbf 1\|_H$, $g=L^{*_H}e=d/\|\mathbf 1\|_H$, and $v=g/\|g\|_H$ (if $g=0$ there is nothing to prove). For $U=e+\eta v$ with $\eta>0$, using $Le=0$ and $\langle e,Lv\rangle_H=\langle g,v\rangle_H=\|g\|_H$,
+\[
+\Re\langle U,LU\rangle_H=\eta\|g\|_H+\eta^2\Re\langle v,Lv\rangle_H\ \ge\ \eta\|g\|_H-\eta^2\|L\|_H,\qquad \|U\|_H^2\le(1+\eta)^2 .
+\]
+With $\eta=\|g\|_H/(2\|L\|_H)$, which is $\le\tfrac12$ because $\|g\|_H=\|L^{*_H}e\|_H\le\|L^{*_H}\|_H=\|L\|_H$ (the $H$-adjoint has the same $H$-norm and $\|e\|_H=1$), the first bound is $\|g\|_H^2/(4\|L\|_H)$ and the second $\le9/4$, and $\|g\|^2_H=\|d\|_H^2/|\Omega|_H$.
+\end{proof}
+
+On a jittered cloud with $H=V$, the defect density is $d_j=V_j^{-1}\sum_iV_iL_{ij}$, i.e.\ the conservation defects of \A{Prop.~4.4} per unit volume; $d_j$ is of size $\varepsilon/h$ for jitter $\varepsilon h$ (zero on lattices, where $L$ has zero column sums), and $\|L\|_V=O(1/h)$ by \A{Lem.~3.5}. Hence, \emph{if} $\|d\|_V^2\ge c\,\varepsilon^2|\Omega|_V/h^2$ (a lower bound that we do not prove but measure, \cref{tab:pi}), $\omega_V(L_h)\ge c\,\varepsilon^2/h$: \emph{the energy method in the volume norm fails for every order}, including $K=1$ with the volume weight, which is why \cref{thm:markov} needs $\pi$. For $K=1$, $\pi$ is the unique weight with $d=0$, and the Markov structure makes the symmetric part negative. For $K\ge2$ the left null vector $\pi$ of $L_h$ still exists and removes this obstruction, but it is not known to be positive or to make the symmetric part negative (measured in \cref{obs:pi}).
+
+\subsection{The fluctuation obstruction: order two with nearest neighbours}
+
+\begin{proposition}[Exact energy identity]\label{prop:nn}
+Let $D=1$, $K=2$ (so $q=1$), $a>0$, and let every particle have exactly one neighbour on each side (true if $\kappa h$ lies between the largest gap and the smallest distance of second neighbours). Order the particles, let $g_i=x_{i+1}-x_i$ be the gaps, $w^{\pm}_i$ the weights of the right and left neighbour of $i$, and $V_i=\tfrac12(g_{i-1}+g_i)$. Then:
+\begin{enumerate}[label=(\roman*)]
+\item The derivative weights are $c_{i,i\pm1}=\pm1/(g_{i-1}+g_i)$, the volume-weighted weights are antisymmetric, and the scheme is the finite volume scheme on the dual cells $[m_{i-1,i},m_{i,i+1}]$ with the upwind reconstructed flux,
+\begin{equation}\label{eq:fv}
+V_i\,\frac{\dd U_i}{\dd t}=-a\big(U_{i,i+1}-U_{i-1,i}\big),\qquad U_{i,i+1}=U_i+\tfrac12g_i\,\gamma_i,\quad \gamma_i=\frac{w^+_ig_i^2\sigma_i+w^-_ig_{i-1}^2\sigma_{i-1}}{w^+_ig_i^2+w^-_ig_{i-1}^2}\,,
+\end{equation}
+where $\sigma_i=(U_{i+1}-U_i)/g_i$ is the slope on gap $i$ and $\gamma_i$ the weighted least-squares slope. In particular $L_h^{*_V}\mathbf 1=0$: the volume norm has no conservation defect.
+\item With $m_i=\dfrac{w^-_ig_{i-1}^2g_i^2}{w^+_ig_i^2+w^-_ig_{i-1}^2}>0$,
+\begin{equation}\label{eq:nnQ}
+\frac{\dd}{\dd t}\|U\|_V^2=-a\,\mathcal Q(\sigma),\qquad \mathcal Q(\sigma)=\sum_im_i\,\sigma_i(\sigma_i-\sigma_{i-1})=\frac12\sum_im_i(\sigma_i-\sigma_{i-1})^2+\frac12\sum_i(m_i-m_{i+1})\,\sigma_i^2 .
+\end{equation}
+\item On a uniform grid $m_i\equiv m$ and $\mathcal Q=\tfrac m2\sum_i(\sigma_i-\sigma_{i-1})^2\ge0$: the scheme is contractive in $\|\cdot\|_V$, with fourth-order dissipation (Fromm's scheme, \cref{thm:k2}(ii)). On a non-uniform grid the quadratic form $\mathcal Q$ on $\R^N$ is indefinite unless $m$ is constant. The slopes of periodic grid functions form the hyperplane $\sum_ig_i\sigma_i=0$, on which $\mathcal Q$ may still be positive definite on coarse grids; for a 2-periodic pattern ($m_i$ alternating between $m_{\mathrm e}\ne m_{\mathrm o}$), $\mathcal Q$ is indefinite on this hyperplane for all sufficiently large $N$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(i) A degree-one fit with constant term through two points is interpolatory, which gives the weights, and $V_ic_{i,i+1}=\tfrac12=-V_{i+1}c_{i+1,i}$. For $j=i+1$ the geometric orientation is $\sigma=+1$ and the Rusanov flux \A{(4.3)} with $s=a$ reduces to $aU_{ij}$, for $j=i-1$ to $aU_{ji}$; inserting into \A{(4.4)} gives \eqref{eq:fv}. The reconstruction fit through $U_i$ with the data $U_{i\pm1}-U_i=\pm g\sigma$ gives $\gamma_i$. Summing \eqref{eq:fv} over $i$ gives $\frac{\dd}{\dd t}\sum_iV_iU_i=0$.
+(ii) Multiply \eqref{eq:fv} by $2U_i$ and sum over the period; summation by parts gives $\frac{\dd}{\dd t}\|U\|_V^2=-2a\sum_iU_i(U_{i,i+1}-U_{i-1,i})=-2a\sum_iU_{i,i+1}(U_i-U_{i+1})=2a\sum_iU_{i,i+1}\,g_i\sigma_i$. With $U_{i,i+1}=U_i+\tfrac12g_i\gamma_i$ and $2\sum_iU_ig_i\sigma_i=2\sum_iU_i(U_{i+1}-U_i)=-\sum_i(U_{i+1}-U_i)^2=-\sum_ig_i^2\sigma_i^2$,
+\[
+\frac{\dd}{\dd t}\|U\|_V^2=-a\sum_i g_i^2\sigma_i^2+a\sum_ig_i^2\gamma_i\sigma_i
+=-a\sum_i\frac{w^-_ig_{i-1}^2g_i^2}{w^+_ig_i^2+w^-_ig_{i-1}^2}\big(\sigma_i^2-\sigma_{i-1}\sigma_i\big),
+\]
+since $g_i^2\sigma_i^2-g_i^2\gamma_i\sigma_i=g_i^2\sigma_i\big[(w^+g_i^2+w^-g_{i-1}^2)\sigma_i-w^+g_i^2\sigma_i-w^-g_{i-1}^2\sigma_{i-1}\big]/(w^+g_i^2+w^-g_{i-1}^2)$. The second form of $\mathcal Q$ follows from $\sigma_i(\sigma_i-\sigma_{i-1})=\tfrac12(\sigma_i-\sigma_{i-1})^2+\tfrac12(\sigma_i^2-\sigma_{i-1}^2)$ and a shift of the index in the telescoping sum.
+(iii) For constant $m$ the second sum vanishes. In general, the symmetric matrix $T$ of $\mathcal Q$ satisfies $(T\mathbf 1)_i=\tfrac12(m_i-m_{i+1})$ and $\langle\mathbf 1,T\mathbf 1\rangle=0$; if $T\mathbf 1\ne0$, then $\mathcal Q(\mathbf 1-tT\mathbf 1)=-2t\|T\mathbf 1\|^2+O(t^2)<0$ for small $t>0$. This test vector is not an admissible slope. For a 2-periodic pattern take Bloch vectors $\sigma_{2k}=xe^{\ii\theta k}$, $\sigma_{2k+1}=ye^{\ii\theta k}$ with $\theta=2\pi j/(N/2)\ne0$; their real and imaginary parts satisfy $\sum_ig_i\sigma_i=0$. Per cell $\mathcal Q$ is the Hermitian form with diagonal $(m_{\mathrm e},m_{\mathrm o})$ and off-diagonal entry of modulus $\frac12|m_{\mathrm e}e^{\ii\theta}+m_{\mathrm o}|$, whose determinant $-\frac14(m_{\mathrm e}-m_{\mathrm o})^2+\frac12m_{\mathrm e}m_{\mathrm o}(1-\cos\theta)$ is negative for $\theta=4\pi/N$ once $N$ is large. For gaps alternating between $0.9h$ and $1.1h$ ($\kappa=1.5$) the smallest eigenvalue of $\mathcal Q$ on admissible slopes is positive for $N\le64$ and negative from $N=128$ (\texttt{ho\_nn\_admissible.py}): such grids are contractive in $\|\cdot\|_V$ up to $N=64$.
+\end{proof}
+
+The telescoping term in \eqref{eq:nnQ} is the second obstruction. It has zero mean over the grid and is of divergence form, so it cancels for slowly varying $\sigma$ to leading order, but not exactly. A scaling argument (not a proof) suggests why it eventually matters: for a smooth mode it is a random sum of $N$ terms of size $O(\varepsilon h^2)\cdot O(h)$, i.e.\ $O(\varepsilon h^{5/2})$ in one dimension, against the fourth-order dissipation $\tfrac12\sum m(\sigma_i-\sigma_{i-1})^2=O(h^3)$ of the same mode, so it would dominate once $h\lesssim\varepsilon^2$. The matrix $T$ of $\mathcal Q$ is a periodic Jacobi matrix $\bar m\,(I-\tfrac12(E+E^{\mathsf T}))$ plus a random perturbation of relative size $\varepsilon$; the unperturbed matrix is positive semidefinite with spectrum reaching down to zero, so the perturbation produces negative eigenvalues of size $O(\varepsilon\bar m)$ with eigenvectors localized near unfavourable configurations of three or four consecutive gaps. This explains how $\omega_V$ can grow like $1/h$ without any eigenvalue leaving the left half-plane: the growth lasts only for a time $O(h)$, after which the rough vector has been damped (measured in \cref{obs:random,obs:lyapunov}).
+
+\subsection{Local symbols and the parity of the order}
+
+For a particle $i$ let the \emph{local symbol} be
+\begin{equation}\label{eq:localsymbol}
+\lambda_i(\theta)=\sum_jL_{ij}\,e^{\ii\theta\cdot x_{ij}/h},\qquad\text{so that}\qquad (L_he_\theta)_i=e^{\ii\theta\cdot x_i/h}\lambda_i(\theta),\quad e_\theta=(e^{\ii\theta\cdot x_l/h})_l .
+\end{equation}
+On a lattice $\lambda_i=\lambda$ is the von Neumann symbol. In general $\lambda_i$ is not an eigenvalue of anything, but $\Re\langle e_\theta,L_he_\theta\rangle_V=\sum_iV_i\Re\lambda_i(\theta)$ is the Rayleigh quotient of the Fourier mode, and $\lambda_i$ carries the local consistency and dissipation properties.
+
+\begin{proposition}[Parity]\label{prop:parity}
+Let the hypotheses of \A{Prop.~4.2} hold at particle $i$ (unisolvent, unregularized fits at $i$ and its neighbours, all orders $K$, no limiter), so that $\sum_jL_{ij}\,p(x_j)=-a\cdot\nabla p(x_i)$ for all $p\in\Pi_{K-1}$. Let $2k$ be the smallest even integer $\ge K$, i.e.\ $2k=K$ for even and $2k=K+1$ for odd $K$. Then
+\begin{equation}\label{eq:parity}
+\Re\lambda_i(\theta)=\frac{(-1)^k}{(2k)!}\sum_jL_{ij}\,(\theta\cdot x_{ij}/h)^{2k}+O\big(|\theta|^{2k+2}/h\big),
+\end{equation}
+with a constant in $O(\cdot)$ depending on $\kappa$ and the bound of \A{Lem.~3.5}. In particular:
+\begin{enumerate}[label=(\roman*)]
+\item For odd $K$, $\Re\lambda_i(\theta)=O(|\theta|^{K+1}/h)$ on every stencil, the same order as the dissipation $-c|\theta|^{K+1}/h$ of the lattice symbol (\cref{sec:lattice}): an irregular stencil changes the coefficient of the leading dissipative term but creates no lower-order term.
+\item For even $K$, $\Re\lambda_i(\theta)=(-1)^{K/2}\sum_jL_{ij}(\theta\cdot x_{ij}/h)^K/K!+O(|\theta|^{K+2}/h)$, a term of order $|\theta|^K/h$ that vanishes on centrally symmetric stencils (where the lattice symbol has $\Re\lambda=O(|\theta|^{K+2}/h)$) but not on irregular ones, with a coefficient of either sign. For $K=2$ in one dimension, $\Re\lambda_i(\theta)=-\theta^2D_i/h+O(\theta^4/h)$ with the local diffusion coefficient $D_i=\tfrac h2\sum_jL_{ij}(x_{ij}/h)^2$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+$\Re\lambda_i(\theta)=\sum_jL_{ij}\cos(\theta\cdot x_{ij}/h)$ because $L$ is real. The Taylor polynomial of $\cos(\theta\cdot y/h)$ of degree $K-1$ in $y$ contains only even powers and is annihilated by $\sum_jL_{ij}(\cdot)(x_j)$ together with the constant: $\sum_jL_{ij}p(x_{ij})=\sum_jL_{ij}\tilde p(x_j)$ with $\tilde p(x)=p(x-x_i)\in\Pi_{K-1}$ and $-a\cdot\nabla\tilde p(x_i)=-a\cdot\nabla p(0)=0$ for an even polynomial $p$. The first surviving term has degree $2k$, and the remainder is bounded by $\sum_j|L_{ij}|\,(2\kappa|\theta|)^{2k+2}/(2k+2)!$ (the row of $L$ reaches two stencil layers, $|x_{ij}|\le2\kappa h$) with $\sum_j|L_{ij}|=O(1/h)$. On a centrally symmetric lattice the terms of degree $2k$ with $2k=K$ (even $K$) vanish by \cref{lem:skew} and \A{Prop.~4.3}, whose proof shows $\Re\lambda=O(|\theta|^{K+2}/h)$.
+\end{proof}
+
+\Cref{prop:parity} is exact, but turning it into a stability statement requires controlling how the fluctuating local coefficients couple Fourier modes. We have only a heuristic for this (\cref{heur:fluct} in Part~II), which is consistent with all measurements: odd orders are stable in every setting tested, and every instability found is at even order.
+
+% ###########################################################################
+\part{Numerical results (not proved)}
+% ###########################################################################
+
+Everything in this part is a computation with the independent implementation of \cref{app:code}: periodic clouds, linear advection, Rusanov dissipation $s_d=|a_d|$, no limiter, no MOOD, dense linear algebra ($N\le1600$ in 1-D, $N\le576$ in 2-D in most studies). Each Observation names its script and data file. Measurements on finitely many clouds decide stability for those clouds and their dilations (\cref{rem:dilation}); they do not prove uniformity in $h$.
+
+% ===========================================================================
+\section{Lattices: orders three to five}\label{sec:numlattice}
+% ===========================================================================
+
+\Cref{tab:lattice} lists $\max_\theta h\Re\lambda(\theta)/\max_d|a_d|$ on a grid of $4001$ (1-D) and $121^2$ (2-D) wave numbers, and the largest CFL number, in the normalization $\Delta t=\CFL/(D\sum_d|a_d|\sum_j|c^{(d)}_{ij}|)$ of the implementation \A{Rem.~6.5(iii)}, for which $\max_\theta|R(\Delta t\lambda(\theta))|\le1$ with the stability polynomial $R$ of RK3 and SSPRK(5,4).
+
+\begin{table}[t]
+\centering
+\caption{Von Neumann analysis on periodic lattices (\texttt{lattice\_symbols.py}, \texttt{data/lattice\_symbols\_*.md}): maximal real part of the scaled symbol for the geometric and the aligned orientation at full order, and the largest stable CFL number of RK3 and SSPRK(5,4) (``--'': unstable for every time step). Bold: positive real part, i.e.\ instability with growth rate proportional to $1/h$.}\label{tab:lattice}
+\small
+\begin{tabular}{ccccccccccc}
+\toprule
+& & & & & \multicolumn{2}{c}{$\max_\theta h\Re\lambda/|a|_\infty$} & \multicolumn{2}{c}{$\CFL_{\max}$, RK3} & \multicolumn{2}{c}{$\CFL_{\max}$, SSPRK(5,4)}\\
+\cmidrule(lr){6-7}\cmidrule(lr){8-9}\cmidrule(lr){10-11}
+$D$ & $\kappa$ & $a$ & $K$ & $q$ & geometric & aligned & geom. & aligned & geom. & aligned\\
+\midrule
+\inputrows{tables/lattice.tex}
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{observation}[Lattices]\label{obs:lattice}
+\begin{enumerate}[label=(\roman*)]
+\item All tested configurations are stable with the aligned orientation, and all are stable with the geometric orientation except $K=4$ ($q=3$) in two dimensions with $\kappa=3.5$, for $a=(1,0.5)$ ($h\Re\lambda=7.7\cdot10^{-5}$) and $a=(1,0)$ ($2.2\cdot10^{-3}$), and, marginally, with $\kappa=5.5$ and $a=(1,0)$ ($2.2\cdot10^{-8}$). The unstable modes vary only in the second coordinate, with wavelengths of about $9h$ ($a=(1,0)$) and $15h$ ($a=(1,0.5)$) for $\kappa=3.5$. In these cases the dissipation of the outer neighbours, whose degree-three weights have the opposite sign of their offsets, is anti-dissipative, and \cref{lem:skew} says that nothing else can compensate. The aligned orientation makes every dissipation coefficient non-negative and is stable in all cases. The instability persists under jitter $0.05h$ and is gone at $0.2h$ (\cref{obs:spectra}(iv)).
+\item RK2 is not stable for $K=4,5$ at any time step: their dissipation is of order $|\theta|^6$ at small $\theta$ (in general of order $|\theta|^{K+1}$ for odd and $|\theta|^{K+2}$ for even $K$, since for even $K$ the leading dissipative term in the proof of \A{Prop.~4.3} vanishes), while $|R(\mathrm{i}y)|^2=1+y^4/4$ for RK2. The implementation uses RK3 or SSPRK(5,4) for $K\ge3$, which are stable for $\CFL$ up to the values in \cref{tab:lattice}; these lie well above the $\CFL=0.2$--$0.8$ of \cite{JungMUSCL2026}.
+\item For $K=2$ beyond the proved range (\cref{rem:k2limits}): a random search over $2\cdot10^4$ positive weight vectors with $m\le6$ found no violation of $\Re\lambda\le0$ in 1-D, and the 2-D rows of \cref{tab:lattice} with $\kappa\ge\sqrt2$ are stable.
+\end{enumerate}
+\end{observation}
+
+% ===========================================================================
+\section{The first-order scheme on perturbed clouds}\label{sec:numfirst}
+% ===========================================================================
+
+\Cref{tab:markov} lists, for the first-order aligned scheme, the spread $\rho_h$ of the stationary distribution of \cref{thm:markov}, the $\pi$-average $\bar\beta$ of the first moments \eqref{eq:beta}, the corrector size of \cref{thm:drift}, and the effective speed fitted from computed solutions.
+
+\begin{table}[t]
+\centering
+\caption{First-order aligned scheme for $u_t+u_x=0$ (and $a=(1,0.5)$ in 2-D) on periodic perturbed lattices: spread $\rho_h$ of the stationary distribution (range over two clouds), $\pi$-average $\bar\beta$ of the first moments of the dissipation weights, corrector size $\max_i|\delta_i|/h$ (\cref{thm:drift}), and the effective speed $a_{\mathrm{eff}}-1$ fitted from the solution at $T=10$ (\texttt{first\_order\_markov.py}, \texttt{first\_order\_corrector.py}, \texttt{first\_order\_phase.py}; \texttt{data/first\_order\_markov.md}).}\label{tab:markov}
+\small
+\begin{tabular}{lcccccc}
+\toprule
+cloud & $N$ & $\rho_h$ & $\bar\beta$ & $\max|\delta|/h$ & $a_{\mathrm{eff}}-1$\\
+\midrule
+1-D, jitter $0.2h$, $\kappa=2.5$ & 400 & 1.31 & $1.0\cdot10^{-3}$ & 0.19--0.24 & $-1.23\cdot10^{-3}$\\
+ & 1600 & 1.32--1.33 & $1.0\cdot10^{-3}$ & 0.25 & $-1.01\cdot10^{-3}$\\
+ & 6400 & -- & $9.6\cdot10^{-4}$ & 0.27 & $-9.6\cdot10^{-4}$\\
+1-D, jitter $0.4h$, $\kappa=2.5$ & 400 & 5.1--6.7 & -- & -- & $-4.9\cdot10^{-3}$\\
+ & 800--3200 & 6.7--16 & $4.5$--$4.8\cdot10^{-3}$ & 0.59--0.90 & --\\
+ & 6400 & -- & -- & -- & $-4.5\cdot10^{-3}$\\
+ & 25600 & -- & -- & -- & $-4.4\cdot10^{-3}$\\
+1-D, jitter $0.4h$, $\kappa=5.5$ & 400 & 1.7--2.0 & $1.7\cdot10^{-3}$ & 0.56 & --\\
+ & 1600 & 1.9--2.1 & $1.6\cdot10^{-3}$ & 0.57 & $-1.62\cdot10^{-3}$\\
+ & 6400 & -- & $1.6\cdot10^{-3}$ & 0.62 & $-1.63\cdot10^{-3}$\\
+2-D, jitter $0.2h$, $\kappa=2.5$ & $16^2$--$128^2$ & 1.6--1.9 & -- & -- & --\\
+lattice, $\kappa=2.5$ & 1600 & 1 & 0 & 0 & $-8\cdot10^{-6}$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{observation}[Spread of $\pi$]\label{obs:rho}
+For jitter $0.2h$, the perturbation of the computations of \cite{JungMUSCL2026}, $\rho_h$ is $1.2$--$1.3$ in one dimension, nearly constant in $h$, and $1.6$--$1.9$ in two dimensions, where it grows slowly and monotonically ($1.61$, $1.62$, $1.73$, $1.78$, $1.89$ for $n=16,32,48,64,128$, one cloud), as the extreme-value picture of \cref{rem:markov}(ii) suggests; for jitter $0.4h$ with $\kappa=5.5$ it is about two. For jitter $0.4h$ with $\kappa=2.5$, where some particles have only three neighbours, it grows to $16$ at $N=3200$. So the $L^2$ constant $\sqrt{\rho_h}$ of \cref{thm:markov}(v) is about $1.1$--$1.4$ in the settings of the paper.
+\end{observation}
+
+\begin{observation}[Drift]\label{obs:drift}
+On perturbed lattices the first moments $\beta^d_i$ fluctuate (in 1-D, $\max_i|\beta_i|\approx0.2$ for jitter $0.2h$ and $0.45$ for $0.4h$). The corrector size of \cref{thm:drift} satisfies $\max|\delta|/h<1$ up to $N=6400$, but it is not $O(h)$: for jitter $0.2h$ and $\kappa=2.5$ (two clouds per $N$; \texttt{first\_order\_corrector\_large.py}, \texttt{data/first\_order\_corrector\_large.md}) $\max|\delta|/h=0.19$, $0.21$--$0.25$, $0.25$--$0.27$, $0.38$--$0.47$, $0.57$--$0.64$ and the $\pi$-r.m.s.\ value $0.08$, $0.08$, $0.09$, $0.11$--$0.14$, $0.20$--$0.26$ for $N=400$, $1600$, $6400$, $25600$, $102400$, i.e.\ $\eta_h\approx h^{1/2}$ asymptotically. $\bar\beta$ does not decrease with $h$ ($0.9\cdot10^{-3}$ at $N=102400$), and the effective speed fitted from the computed solutions agrees with $a_{\mathrm{eff}}=1-\bar\beta$ to two digits. The first-order scheme therefore advects too slowly by $0.1\%$ (jitter $0.2h$, $\kappa=2.5$), $0.16\%$ (jitter $0.4h$, $\kappa=5.5$) and $0.45\%$ (jitter $0.4h$, $\kappa=2.5$), at every resolution. At $T=10$ this phase error dominates: for jitter $0.4h$ and $\kappa=2.5$ the r.m.s.\ error of $\sin(2\pi x)$ stalls at $0.19$ between $N=6400$ and $N=25600$.
+\end{observation}
+
+\begin{observation}[Moment correction]\label{obs:moment}
+In the 1-D test of \texttt{first\_order\_moment\_fix.py} (jitter $0.4h$, $\kappa=2.5$, the correction $\epsilon$ of \cref{prop:moment} placed on the farthest neighbour on the side opposite to $\beta_i$) the effective speed error drops from $-4.4\cdot10^{-3}$ to $-3\cdot10^{-8}$ and the error at $T=10$ converges at first order ($0.148$, $0.040$, $0.0103$ for $N=1600$, $6400$, $25600$, against $0.230$, $0.196$, $0.194$ without the correction).
+\end{observation}
+
+In the MOOD computations of \cite{JungMUSCL2026} the first-order operator acts only on a few particles near discontinuities, where an $O(1)$ local consistency error is of the same size as the error that the fallback is meant to accept; the drift matters for the pure first-order runs (RK2MUSCL1), whose waves move about $0.1\%$ too slowly on the clouds with jitter $0.2h$.
+
+% ===========================================================================
+\section{High order on jittered and periodic clouds}\label{sec:numrandom}
+% ===========================================================================
+
+On irregular clouds neither Fourier analysis nor the Markov argument applies, and a perturbation argument from the lattice fails, because a jitter $\varepsilon h$ changes $L_h$ by $O(\varepsilon/h)$. We therefore measure the spectral abscissa $\alpha$, the numerical abscissa $\omega_V$ and the Kreiss constant $\mathcal K_V$ (\cref{sec:setting}).
+
+\subsection{Spectra and Kreiss constants on random clouds}
+
+\begin{table}[p]
+\centering
+\caption{Spectra of the linear operator on periodic perturbed lattices (\texttt{spectra\_study.py}, \texttt{data/spectra\_*.jsonl}, $a=1$ in 1-D and $a=(1,0.5)$ in 2-D, one to three clouds per resolution; geometric orientation at full order unless stated). $\alpha$: largest real part over the clouds and resolutions; ``$\le10^{-12}$'': zero up to round-off (the constant mode); $\|e^{L}\|_2$: largest over all runs ($\infty$: blow-up).}\label{tab:spectra}
+\footnotesize
+\begin{tabular}{ccccccccc}
+\toprule
+$D$ & $\kappa$ & jitter & $K$ & orientation & $n$ (per dim.) & $\alpha$ & $\alpha h$ & $\|e^{L}\|_2$\\
+\midrule
+\inputrows{tables/spectra.tex}
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{observation}[Spectra]\label{obs:spectra}
+From \cref{tab:spectra}:
+\begin{enumerate}[label=(\roman*)]
+\item In the settings of the computations of \cite{JungMUSCL2026} (2-D with jitter $0.2h$ and $\kappa=2.5$ or $5.5$; 1-D with jitter $0.2h$ and $\kappa=2.5$, or jitter $0.4h$ and $\kappa=5.5$) the spectral abscissa is zero up to round-off, except $\alpha=3.1\cdot10^{-5}$ for $K=2$, $\kappa=5.5$, jitter $0.4h$ (see (ii)), and $\|e^{L}\|_2\le1.1$. For jitter $0.4h$ and $\kappa=3.5$ the transient growth reaches $2.4$ for $K=5$.
+\item For $K=2$ and jitter $0.4h$, a band of smooth modes is weakly anti-diffused. For $\kappa=2.5$ the unstable eigenvalues belong to the Fourier wave numbers $1$--$11$ (for $n\le1600$), and the largest rate grows slowly with the resolution: $\alpha=4\cdot10^{-4}$, $1.1\cdot10^{-3}$, $1.6\cdot10^{-3}$, $1.9\cdot10^{-3}$ for $n=200$, $400$, $800$, $1600$, with $\alpha h$ between $1\cdot10^{-6}$ and $3\cdot10^{-6}$. The same holds with smaller constants for $\kappa=3.5$ ($\alpha h\approx2\cdot10^{-7}$) and $\kappa=5.5$ ($4\cdot10^{-8}$). Over the times of interest the growth is invisible, e.g.\ $e^{\alpha t}<1.002$ for $t=10$ at $N=3163$ and $\kappa=5.5$. The Bloch analysis (\cref{obs:bloch}) shows that this is a genuine $1/h$ instability, not a finite-size effect.
+\item For $K=4$, $\kappa=2.5$ and jitter $0.4h$ in one dimension, the geometric orientation has eigenvalues with $\alpha h\approx1$, localized on two neighbouring particles (inverse participation ratio $0.5$). These particles have four or five neighbours, i.e.\ their degree-three fits are nearly interpolatory on one-sided stencils, and the instability grows like $1/h$. With the aligned orientation the localized blow-up disappears, but a weaker growth with $\alpha h\approx8\cdot10^{-5}$ remains. The safeguards \A{Rem.~3.10} allow these stencils, since they only require $|\nb(i)|\ge B_q+1$. In the settings of the paper this does not occur.
+\item The 2-D lattice instability of \cref{obs:lattice}(i) ($K=4$, $\kappa=3.5$, geometric) is present for jitter $0.05h$ ($\alpha h=7.0\cdot10^{-5}$ at $n=30$, against $7.7\cdot10^{-5}$ on the lattice) and absent for $0.2h$. The aligned orientation is stable in both.
+\end{enumerate}
+\end{observation}
+
+\begin{table}[t]
+\centering
+\caption{Jittered clouds (\texttt{ho\_random.py}, \texttt{data/ho\_random\_*.jsonl}, $\kappa=2.5$, $a=1$ in 1-D and $(1,0.5)$ in 2-D, two clouds per $n$ in 1-D): spectral abscissa, numerical abscissa in the volume norm times $h$, and Kreiss constant (sampled on $40$ log-spaced times in $[h/100,20]$; dual volumes in 1-D, uniform in 2-D), ranges over the clouds and resolutions.}\label{tab:random}
+\small
+\begin{tabular}{cccclcccc}
+\toprule
+$D$ & $\kappa$ & jitter & $K$ & orientation & $n$ & $\alpha h$ & $\omega_Vh$ & $\mathcal K_V$\\
+\midrule
+\inputrows{tables/ho_random.tex}
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{observation}[Kreiss constants]\label{obs:random}
+From \cref{tab:random}:
+\begin{enumerate}[label=(\roman*)]
+\item At jitter $0.2h$ (constant topology), $\alpha=0$ to round-off and $\mathcal K_V$ is constant in $n$: $1.002$ ($K=2$), $1.01$--$1.02$ ($K=3$), $1.23$--$1.33$ ($K=4$) in 1-D, and $1.003$, $1.01$--$1.02$ in 2-D. The numerical abscissa scales exactly like $1/h$, with $\omega_Vh\approx10^{-3}$, $10^{-2}$ and $0.5$ for $K=2,3,4$, as \cref{prop:obstruction} predicts (its lower bound is $1.5\cdot10^{-4}$, $4\cdot10^{-4}$, $10^{-3}$, \cref{tab:pi}). The $1/h$ growth of $\omega_V$ is a transient of duration $O(h)$: the schemes behave stably on these clouds, in a norm that is not a volume norm.
+\item At jitter $0.4h$ (three to five neighbours): $K=2$ has $\alpha h\approx2\cdot10^{-6}$ for both orientations, $K=3$ has $\alpha=0$ with $\mathcal K_V\le1.7$ (geometric) and $\le1.2$ (aligned), $K=4$ blows up with the geometric orientation and has $\alpha h$ up to $8\cdot10^{-5}$ with the aligned one.
+\item For the nearest-neighbour scheme of \cref{prop:nn} (\texttt{ho\_nn\_identity.py}, which also checks the identity \eqref{eq:nnQ} to $10^{-16}$), $\omega_Vh$ is between $1.8\cdot10^{-4}$ and $5.4\cdot10^{-4}$ for jitter $0.2h$ and $N=100$ to $1600$, attained by localized rough vectors rather than smooth modes, so $\omega_V$ grows like $1/h$ for this scheme as well, while $\mathcal K_V$ stays close to one.
+\end{enumerate}
+\end{observation}
+
+\subsection{Bloch analysis of jittered supercells}
+
+\begin{table}[t]
+\centering
+\caption{Bloch analysis of periodic jittered supercells (\texttt{ho\_bloch.py}, \texttt{data/ho\_bloch\_*.jsonl}, $\kappa=2.5$, $a=1$ in 1-D and $(1,0.5)$ in 2-D, two random patterns per $m$, $200$ (1-D) or $9^2$ (2-D) values of $\theta$, $s/h\in[10^{-2},10^3]$). Per $m$: $\max_\theta\alpha(\hat A(\theta))\,h$ / Bloch--Kreiss constant, worst of the two patterns; $\infty$: blow-up; geom./alig.: geometric/aligned orientation.}\label{tab:bloch}
+\footnotesize
+\begin{tabular}{cccccclll}
+\toprule
+$D$ & $\kappa$ & jitter & $K$ & orient. & $m$ & \multicolumn{3}{l}{$\max_\theta\alpha h$ / $\mathcal K_Y$ for the listed $m$ (per direction)}\\
+\midrule
+\inputrows{tables/ho_bloch.tex}
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{observation}[Bloch symbols]\label{obs:bloch}
+\Cref{tab:bloch} evaluates the quantities of \cref{thm:bloch} for supercells with $m$ jittered particles per direction.
+\begin{enumerate}[label=(\roman*)]
+\item \emph{Jitter $0.2h$} (constant stencil topology, four neighbours in 1-D, $17$--$21$ in 2-D): $\alpha=0$ to round-off for $K=3,4$ and all $m$, and for $K=2$ except one of the two patterns, which has $\alpha h=8.6\cdot10^{-10}$ ($m=16$) and $1.0\cdot10^{-11}$ ($m=32$). These are genuine: the eigenvector condition number is $1.001$, a 40-digit recomputation agrees, and $\alpha>0$ on a band of $84$ of $2001$ sampled $\theta$ near $\theta=-0.09$ (\texttt{ho\_bloch\_mpcheck.py}, \texttt{data/ho\_bloch\_mpcheck.md}); by \cref{cor:blochunstable} that refinement family grows like $e^{ct/h}$ with $c\approx10^{-9}$, invisible in practice. The Bloch--Kreiss constants are $1.001$--$1.006$ ($K=2$), $1.01$--$1.05$ ($K=3$) and $1.15$--$1.17$ ($K=4$, worst pattern; $1.06$ for the other at $m=8$), with no visible growth from $m=8$ to $m=32$. In 2-D ($m=4,6$, $K=2,3$) the constants are below $1.01$. Up to the sampling in $\theta$ and $s$, the $K=3,4$ patterns thus generate stable refinement families by \cref{thm:bloch}.
+\item \emph{Jitter $0.4h$} (three to five neighbours): for $K=2$, $\alpha h$ between $10^{-7}$ and $2\cdot10^{-6}$ at interior $\theta$ for most patterns, which by \cref{cor:blochunstable} means an $e^{ct/h}$ instability of the refinement family with $c\approx2\cdot10^{-6}$. For $K=3$, $\alpha\le0$ in all cases with constants $1.06$--$1.32$. For $K=4$ the geometric orientation fails catastrophically on one pattern ($\alpha h=0.014$, constant $2\cdot10^6$, the near-interpolatory stencil of \cref{obs:spectra}(iii)) and weakly on another ($\alpha h=5\cdot10^{-4}$); the aligned orientation removes the catastrophe but keeps weak instabilities ($\alpha h$ up to $1.5\cdot10^{-4}$).
+\end{enumerate}
+\end{observation}
+
+\subsection{Local symbols and the fluctuation heuristic}
+
+\begin{table}[t]
+\centering
+\caption{Local symbols on jittered clouds (\texttt{ho\_local\_symbol.py}, \texttt{data/ho\_local\_symbol\_*.md}, 1-D, geometric orientation): volume-weighted mean and standard deviation of the local diffusion coefficient $D_i$ (the $\theta^2$ term, \cref{prop:parity}) and of the fourth-order coefficient $D^{(4)}_i=-\frac h{24}\sum_jL_{ij}(x_{ij}/h)^4$, and the measured spectral abscissa.}\label{tab:local}
+\small
+\begin{tabular}{ccccccccccc}
+\toprule
+$\kappa$ & jitter & $n$ & cloud & $K$ & $|\nb(i)|$ & $\overline{D}$ & $\mathrm{std}\,D$ & $\overline{D^{(4)}}$ & $\mathrm{std}\,D^{(4)}$ & $\alpha h$\\
+\midrule
+\inputrows{tables/ho_local.tex}
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{observation}[Local symbols]\label{obs:local}
+For $K=3$ the local diffusion coefficient $D_i$ is zero to round-off, as \cref{prop:parity}(i) predicts. For $K=2$, $\bar D>0$ on all clouds tested ($10^{-3}$ at jitter $0.2h$, $3$--$5\cdot10^{-3}$ at jitter $0.4h$) with $\overline{D^{(4)}}\approx0.70$, and the fluctuations $\tilde D_i=D_i-\bar D$ have standard deviation $0.10$ (jitter $0.2h$) and $0.18$ (jitter $0.4h$). For $K=3$ the fluctuating coefficient is that of $\theta^{4}$, with relative standard deviation $8\%$ at jitter $0.2h$ and $22\%$ at $0.4h$.
+\end{observation}
+
+\begin{heuristic}[Smooth modes on jittered clouds]\label{heur:fluct}
+Consider $K=2$ in one dimension and a smooth mode $e_\theta$, $|\theta|\ll1$. Its Rayleigh quotient is $-\theta^2\bar D/h-\theta^4\overline{D^{(4)}}/h+\dots$: on average the irregularity adds a small first-order dissipation, and the Fourier modes themselves are damped. The fluctuations $\tilde D_i$ couple $e_\theta$ to the other modes with matrix elements $\langle e_{\theta'},L_he_\theta\rangle_V\approx-(\theta^2/h)\,N^{-1}\sum_i\tilde D_ie^{\ii(\theta-\theta')x_i/h}$ of size $\theta^2\,\mathrm{std}(D)/(h\sqrt N)$. Second-order perturbation theory for the eigenvalue near $\lambda_\theta$ gives the real shift $\sum_{\theta'}|c_{\theta\theta'}|^2\,\Re\big(\lambda_\theta-\lambda_{\theta'}\big)^{-1}$, and $\Re(\lambda_\theta-\lambda_{\theta'})^{-1}>0$ when $\theta'$ is more damped than $\theta$: coupling to damped modes pushes the smooth eigenvalue to the \emph{right}. Summing over the $N$ modes $\theta'$ with $|\Im(\lambda_\theta-\lambda_{\theta'})|\sim|\theta-\theta'|/h$ and $-\Re\lambda_{\theta'}\sim\theta'^4/h$ gives a shift of order $\theta^4\,\mathrm{std}(D)^2\,c'/h$, the same order as the lattice dissipation. The eigenvalue of the smooth mode therefore behaves like
+\begin{equation}\label{eq:heur}
+\Re\lambda\approx-\frac{\bar D\,\theta^2}{h}+\frac{\big(c'\,\mathrm{std}(D)^2-\overline{D^{(4)}}\big)\theta^4}{h},
+\end{equation}
+which is negative for all $\theta$ if the variance of the local diffusion coefficients is small enough, and otherwise has the positive maximum $\alpha h=\bar D^2/\big(4(c'\mathrm{std}(D)^2-\overline{D^{(4)}})\big)$ at $\theta_*^2=\bar D/(2(c'\mathrm{std}(D)^2-\overline{D^{(4)}}))$. With $\bar D\approx3\cdot10^{-3}$ at jitter $0.4h$, the observed $\alpha h\approx2\cdot10^{-6}$ corresponds to $c'\mathrm{std}(D)^2-\overline{D^{(4)}}\approx1$ and $\theta_*\approx0.04$, i.e.\ wavelengths of about $150h$, consistent with the unstable wave numbers of \cref{obs:spectra}(ii) ($\theta\le0.043$). At jitter $0.2h$ the variance is three times smaller and the dissipation wins on most patterns, though not on all: one periodic pattern still shows the same mechanism with $\alpha h\approx10^{-9}$ (\cref{obs:bloch}). For odd $K$ there is no $\theta^K$ term; the fluctuating coefficient is that of $\theta^{K+1}$ itself, and its second-order effect is of order $\theta^{2K+2}/h$, which cannot compete with the dissipation $\theta^{K+1}/h$ at small $\theta$. This is why $K=3$ is stable in every setting tested while $K=2$ and $K=4$ are not.
+\end{heuristic}
+
+The heuristic is not a proof: the perturbation series is not controlled, and the mode coupling is a random-matrix problem. It identifies the quantity a proof would have to bound, the variance of the local even-order coefficient relative to the dissipation. A natural regularity assumption for a rigorous version is Kadec's $1/4$ condition \cite{Kadec1964}: for $x_n=h(n+\delta_n)$ with $|\delta_n|\le\varepsilon<\frac14$ the exponentials form a Riesz basis with constants depending on $\varepsilon$ only, so the mode-coupling picture is meaningful for jitter $0.2h$ and not for $0.4h$. This is a coincidence of thresholds rather than an explanation, since the mechanism is the stencil topology.
+
+\subsection{The weight \texorpdfstring{$\pi$}{pi} and diagonal Lyapunov weights}\label{sec:numpi}
+
+\begin{table}[p]
+\centering
+\caption{The left null vector $\pi$ of $L_h$ as a weight (\texttt{ho\_pi.py}, \texttt{data/ho\_pi\_*.md}): positivity, spread $\rho$ relative to the volumes, numerical abscissa in the volume and the $\pi$ norm (times $h$), and the lower bound \eqref{eq:obstruction} for $\omega_Vh$. ``not positive'': $\pi$ has entries of both signs. One cloud (seed 0) per resolution; the second cloud behaves alike.}\label{tab:pi}
+\scriptsize
+\begin{tabular}{cccccccccccc}
+\toprule
+$D$ & $\kappa$ & jitter & $n$ & cloud & $K$ & orientation & $\min\pi/\max\pi$ & $\rho$ & $\omega_Vh$ & $\omega_\pi h$ & bound\\
+\midrule
+\inputrows{tables/ho_pi.tex}
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{observation}[The weight $\pi$]\label{obs:pi}
+\begin{enumerate}[label=(\roman*)]
+\item At jitter $0.2h$, $\pi$ is positive for $K=1,2,3$ in 1-D and 2-D, with $\rho\le1.4$ for $K\le2$ and $\le2.7$ for $K=3$; for $K=4$ in 1-D it is positive with $\rho\approx2$, but it does not help: $\omega_\pi h=0.65$ against $\omega_Vh=0.55$.
+\item For $K=2$, $\omega_\pi h$ is zero to round-off for $n\le100$ (1-D) and $n\le16$ (2-D, where also $K=3$ gives zero), and $6\cdot10^{-7}$ to $1.1\cdot10^{-6}$ for $n=200$ to $1600$ in 1-D, i.e.\ $\omega_\pi$ between $2\cdot10^{-4}$ and $2\cdot10^{-3}$, growing under refinement. The eigenvector of the positive eigenvalue of the $\pi$-symmetric part is smooth (Fourier wave numbers $1$--$5$, inverse participation ratio $\approx1/N$), and the Rayleigh quotients of the pure Fourier modes are negative: this is the fluctuation mechanism of \cref{prop:nn} and \cref{heur:fluct}. The weight $\pi$ thus removes the first obstruction entirely and leaves a second one that is tiny but nonzero. For $K=3$, $\omega_\pi h\approx2\cdot10^{-3}$ is constant in $h$, a quarter of $\omega_Vh$.
+\item At jitter $0.4h$ in 1-D, $\pi$ is not positive for $K=3$ (geometric orientation, all clouds; aligned, most clouds), and for $K=2$ $\omega_\pi h\approx2$--$6\cdot10^{-3}$, consistent with the positive spectral abscissa.
+\end{enumerate}
+\end{observation}
+
+\begin{table}[t]
+\centering
+\caption{Diagonal Lyapunov weights by semi-definite programming (\texttt{ho\_lyapunov.py}, \texttt{data/ho\_lyapunov\_1d.jsonl}, 1-D, jitter $0.2h$, $\omega=0$): feasibility of $HL_h+L_h^{\mathsf T}H\preceq0$ with $H$ diagonal, and the minimal spread $\rho=\max H_i/\min H_i$.}\label{tab:lyapunov}
+\small
+\begin{tabular}{cccccccc}
+\toprule
+$D$ & $\kappa$ & jitter & $n$ & $K$ & orientation & status & $\rho$\\
+\midrule
+\inputrows{tables/ho_lyapunov.tex}
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{observation}[Diagonal Lyapunov weights]\label{obs:lyapunov}
+The semidefinite programme ``minimise $\rho$ subject to $1\le H_i\le\rho$ and $HL_h+L_h^{\mathsf T}H\preceq0$'' (SCS solver \cite{BoydVandenberghe2004}) finds, for $K=1$ and $K=2$ with $\kappa=2.5$, weights with $\rho\approx1.2$ up to the solver tolerance ($10^{-5}$ in the units of $hL_h$, which cannot resolve $\omega_\pi h\sim10^{-6}$); for $K=3$ the programme is infeasible, and for the nearest-neighbour scheme of \cref{prop:nn} ($\kappa=1.5$, $K=2$, $N=50,100$) it is infeasible as well. For $K\ge3$ a Lyapunov weight, if it exists, is apparently not diagonal: the energy method with a point-wise weight seems unavailable in principle, not only with the volumes.
+\end{observation}
+
+% ===========================================================================
+\section{High order on deformed lattices and lattices with defects}\label{sec:numdefects}
+% ===========================================================================
+
+\subsection{Smoothly deformed lattices}
+
+\begin{table}[t]
+\centering
+\caption{Smoothly deformed lattices $x=\varphi(s)$, $\varphi(s)=s+\frac{A}{2\pi}\sin(2\pi s)$ per coordinate (\texttt{ho\_deformed.py}, \texttt{data/ho\_deformed\_*.jsonl}, $\kappa=2.5$, geometric orientation): spectral abscissa, numerical abscissa $\omega_V$ in the Jacobian-volume norm (which \cref{thm:deformed} bounds independently of $h$; compare $\omega_V\propto1/h$ in \cref{tab:random}), and the Kreiss constant minus one, for the listed $n$.}\label{tab:deformed}
+\footnotesize
+\begin{tabular}{ccccllll}
+\toprule
+$D$ & $\kappa$ & $A$ & $K$ & $n$ & $\alpha h$ & $\omega_V$ & $\mathcal K_V-1$\\
+\midrule
+\inputrows{tables/ho_deformed.tex}
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{observation}[Deformed lattices]\label{obs:deformed}
+\begin{enumerate}[label=(\roman*)]
+\item \emph{Hypothesis (D4).} The frozen symbols are $\le0$ to round-off for $K=3,4$ in 1-D with $\varphi'\in[0.85,1.15]$, and in 2-D for $K=2,3$ on rectangular lattices with aspect ratios in $[0.9,1.1]^2$ (\texttt{ho\_frozen.py}, \texttt{data/ho\_frozen\_2d.md}). Rectangular frozen lattices are those of separable deformations $\varphi(s)=(\varphi_1(s_1),\varphi_2(s_2))$, as in \cref{tab:deformed}; general deformations need (D4) on sheared lattices $A(s)\Z^2$, which is not checked. Together with \cref{thm:deformed} this makes stability on these deformed lattices a theorem up to this numerical check.
+\item \emph{Size of $\omega$.} With $A=0.15$ in 1-D ($\varphi'\in[0.85,1.15]$, four neighbours) and $A=0.1$ in 2-D ($20$ neighbours), $\omega_V$ is not of order $1/h$: it is $4\cdot10^{-4}$ to $2\cdot10^{-4}$ in 1-D and decreasing under refinement, and $\mathcal K_V-1<10^{-4}$ (\cref{tab:deformed}). The constant $\omega$ of \cref{thm:deformed} is very small in practice.
+\item \emph{Local squares.} The remainder matrix $R$ of \cref{lem:deformedsquares} satisfies $\lambda_{\max}(R/h)\approx2.3$--$2.5$ for $K=2$ and stays bounded for $K=3,4$, for $n=50$ to $400$ (\texttt{ho\_deformed\_squares.py}, $A=0.15$). The Fej\'er--Riesz factors of \cref{lem:fr} reproduce \eqref{eq:squares} to $10^{-15}$ for $K=2,3,4$ and $g\in[0.85,1.2]$, and (D5) holds for $\kappa=2.5$ with $m=2$ ($K=2,3$) and $m=3$ ($K=4$) on $g\in[0.85,1.2]$ (\texttt{ho\_fr.py}).
+\item \emph{Varying topology.} With $A=0.3$ ($2$ to $6$ neighbours, (D1) violated), $\omega_V$ is $1.1$--$1.8$ for $N=100$ instead of $10^{-4}$, while the Kreiss constants stay at $1.02$.
+\end{enumerate}
+\end{observation}
+
+\subsection{Local certificates for single defects}
+
+\begin{table}[t]
+\centering
+\caption{Local certificates in 1-D (\texttt{ho\_defect\_cert.py}, \texttt{data/ho\_defect\_cert\_1d.jsonl}, cvxpy/Clarabel, $\kappa=2.5$, $c_W=0.05$, $C_W=20$): a~posteriori residual $\res$ of the optimal block $W_Z$, its eigenvalue range in units of $g$, and the resulting numerical abscissa $\omega_Wh$ of the single-defect cloud of $64$ sites, for zone radii $\varrho=3,5,8,12,16$ (listed in this order in each cell).}\label{tab:defectcert}
+\scriptsize
+\begin{tabular}{cccl>{\raggedright}p{4.4cm}>{\raggedright}p{1.9cm}>{\raggedright\arraybackslash}p{4.0cm}}
+\toprule
+type & $K$ & orient. & $g$ & $\res(\varrho)$, $\varrho=3,5,8,12,16$ & $\lambda(W_Z)/g$ (range) & $\omega_Wh$, $\varrho=3,\dots,16$\\
+\midrule
+\inputrows{tables/ho_defect_cert.tex}
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{observation}[Certificates]\label{obs:cert}
+\begin{enumerate}[label=(\roman*)]
+\item The residual decreases exponentially in $\varrho$ for $K=3,4$, from about $10^{-2}$ at $\varrho=3$ to about $10^{-9}$ (the solver accuracy) at $\varrho=16$; for $K=3$ and all three types it is below $1.1\cdot10^{-6}$ at $\varrho=12$. For $K=2$ it decays much more slowly at insert defects ($3.8\cdot10^{-7}$ at $\varrho=16$) and, beyond $\varrho=12$, at merge defects, consistent with \cref{obs:defectbloch}; at shift defects it decays exponentially ($1.2\cdot10^{-11}$ at $\varrho=16$).
+\item The left null vector of a single-defect cloud is positive for all three types and $K=2,3,4$, and it is not constant outside any zone, as \cref{prop:residual} requires for a positive residual: $|\pi_i-1|$ at distance $i$ from a merge defect is $0.5$, $0.1$, $0.025$, $0.006$, $0.0013$ for $i=2,4,6,8,10$ at $K=2$, similar at $K=3$ and faster at $K=4$ (\texttt{ho\_defect\_pi.py}, \texttt{data/ho\_defect\_pi.md}).
+\end{enumerate}
+The certificates are floating-point solutions verified by floating-point eigenvalues of $E_\tau(W)|_{Z'\times Z'}$; they are the inputs of \cref{thm:defects}.
+\end{observation}
+
+\subsection{Periodic defect arrays}
+
+\begin{table}[t]
+\centering
+\caption{Periodic defect arrays, one defect per $m$ sites (\texttt{ho\_defect\_bloch.py}, \texttt{data/ho\_defect\_bloch\_*.jsonl}, Bloch analysis of \cref{thm:bloch}, $\kappa=2.5$, $64$ values of $\theta$): spectral abscissa times $h$ and Bloch--Kreiss constant for $m=8,16,32,64,128$ (1-D) and $m=4,6,8$ per direction (2-D, $a=(1,0.5)$, $8^2$ values of $\theta$).}\label{tab:defectbloch}
+\scriptsize
+\begin{tabular}{ccccl>{\raggedright}p{5.4cm}>{\raggedright\arraybackslash}p{4.2cm}}
+\toprule
+$D$ & type & $K$ & orient. & $m$ & $\alpha h$ & Bloch--Kreiss constant\\
+\midrule
+\inputrows{tables/ho_defect_bloch.tex}
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{observation}[Defect arrays and even order]\label{obs:defectbloch}
+The periodic array of one defect every $m$ sites is a periodic cloud, so \cref{thm:bloch} decides its stability.
+\begin{enumerate}[label=(\roman*)]
+\item For the merge and insert defects with $K=2$ the Bloch spectral abscissa is positive and decays algebraically in the spacing, $\alpha h=2.8\cdot10^{-6},1.1\cdot10^{-7},2.1\cdot10^{-8},4.9\cdot10^{-9}$ for $m=8,16,32,64$ (merge; roughly $m^{-2.5}$): the periodic defect array is weakly unstable at every spacing, with a rate that vanishes as the spacing grows. Since \cref{thm:defects} applies to this array with $\varrho\approx m/2-(d+6\kappa+1)$ and gives $\alpha h\le\res^*(\varrho)/(2c_W)$, the residual of any certificate must satisfy $\res_\tau(\varrho)\gtrsim c\,\varrho^{-2.5}$ for $K=2$: it cannot decay exponentially, and \cref{cor:defects}(i) is not available. The instability is harmless at fixed physical defect spacing $\ell=mh$: $\alpha=\alpha h/h\approx c\,(h/\ell)^{2.5}/h\to0$.
+\item For $K=3$ (all types) and $K=4$ (merge, insert) $\alpha=0$ to round-off and the Bloch--Kreiss constants converge as $m\to\infty$ ($1.30$, $1.09$, $1.03$ for merge, insert, shift at $K=3$), consistent with the exponential decay of the residual.
+\item The shift defect with $K=4$ and the aligned orientation is weakly unstable, $\alpha h\approx 3\cdot10^{-4}m^{-3}$ ($6.6\cdot10^{-7}$ at $m=8$, $1.3\cdot10^{-9}$ at $m=64$): the even orders are again the fragile ones, and the parity mechanism of \cref{prop:parity} is at work at a single defect.
+\end{enumerate}
+\end{observation}
+
+\subsection{Superposition and random defects}
+
+\begin{table}[t]
+\centering
+\caption{Superposition on clouds with $n/50$ random defects (\texttt{ho\_defect\_cert.py super}, \texttt{data/ho\_defect\_super\_1d.jsonl}, $\kappa=2.5$, geometric orientation): zone radius $\varrho$, largest residual $\res^*$ of the certificates used, numerical abscissa in the assembled weight $W_h$ and in the volume norm (times $h$), spectral abscissa, eigenvalue range of $W_h/h$ and Kreiss constant in the volume norm.}\label{tab:defectsuper}
+\scriptsize\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{cccccclllll}
+\toprule
+$K$ & $A$ & $\varrho$ & $n$ & defects & m/i/s & $\res^*$ & $\omega_Wh$ & $\omega_Vh$ & $\alpha h$ & $\lambda(W_h/h)$, $\mathcal K_V$\\
+\midrule
+\inputrows{tables/ho_defect_super.tex}
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{observation}[Superposition]\label{obs:super}
+\Cref{tab:defectsuper} assembles the weight $W_h$ of \cref{thm:defects} on clouds of $n=200$ to $800$ sites with $n/50$ defects of random types (m/i/s = numbers of merge/insert/shift defects) and positions (separation $\ge2\varrho+20$, somewhat less than the $\sigma=2\varrho+40$ of \eqref{eq:separation} for $\kappa=2.5$, $d=4$, which the support of the actual blocks permits), on the lattice ($A=0$) and on the deformed lattice ($A=0.15$, certificates computed at the local spacing $g(z_A)$). On the lattice the measured $\omega_Wh$ is about a tenth of the residual $\res^*$ (at $K=3$, $\res^*=3.8\cdot10^{-5}$ and $\omega_Wh=4$--$5\cdot10^{-6}$ for $\varrho=8$; $\res^*=4\cdot10^{-7}$ and $\omega_Wh=4$--$9\cdot10^{-8}$ for $\varrho=12$), within the bound of \eqref{eq:defects}, while the volume norm gives $\omega_Vh=0.08$ (i.e.\ $\omega_V\propto1/h$, the obstruction of \cref{prop:obstruction}). On the deformed lattice $\omega_Wh$ is dominated by the $O(h)$ deformation term: $\omega_W$ itself is $O(1)$, as \eqref{eq:defects} says. The Kreiss constants in the volume norm are those of the worst single defect ($1.30$ for a merge at $K=3$), independent of $n$.
+\end{observation}
+
+\begin{table}[t]
+\centering
+\caption{Random defects of density $p$ on lattices ($A=0$) and deformed lattices (\texttt{ho\_defect\_random.py}, \texttt{data/ho\_defect\_random\_*.jsonl}, $\kappa=2.5$, geometric orientation, two seeds): ranges over $n$ and seeds of $\alpha h$, $\omega_Vh$ and $\mathcal K_V$.}\label{tab:defectrandom}
+\footnotesize
+\begin{tabular}{ccccclll}
+\toprule
+$D$ & $A$ & $p$ & $K$ & $n$ & $\alpha h$ & $\omega_Vh$ & $\mathcal K_V$\\
+\midrule
+\inputrows{tables/ho_defect_random.tex}
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{observation}[Random defects]\label{obs:defectrandom}
+For lattices and deformed lattices in which a fraction $p=0.02$ to $0.1$ of the sites carries a random, non-overlapping defect (the model of a cloud after particle management; these clouds do not satisfy the separation \eqref{eq:separation}): $K=3$ has $\alpha=0$ and Kreiss constants $\le1.44$ at every density and resolution, on the lattice and on the deformed lattice; $K=2$ shows the weak instability of \cref{obs:defectbloch} ($\alpha h$ from $10^{-8}$ at $p=0.02$ to $7\cdot10^{-7}$ at $p=0.1$); $K=4$ is stable up to $p=0.05$ but blows up at $p=0.1$ on the lattice ($\alpha h=0.5$: two merge defects three sites apart leave a particle with two neighbours on one side, which the degree-three fit does not tolerate) and has Kreiss constants up to $8$ on the deformed lattice. In two dimensions (merge and insert defects, $K=2,3$, $p\le0.05$) $\alpha=0$ and the Kreiss constants are $1.00$--$1.05$.
+\end{observation}
+
+\begin{observation}[Two dimensions]\label{obs:sos2d}
+For the 2-D lattice ($\kappa=2.5$, $a=(1,0.5)$) the semidefinite programme \texttt{ho\_sos2d.py} (\texttt{data/ho\_sos2d.md}) finds a Gram matrix $G$ as in \cref{rem:defects2d} with $r=4$ for $K=2$ and $K=3$: the coefficients match to $10^{-15}$ and the smallest eigenvalue of $G$ is $-6\cdot10^{-12}$ (zero, as it must be, since $f(0)=0$). The certificate programme for a 2-D defect (\texttt{ho\_defect\_cert2d.py}) has a zone block of $|Z|\approx(2\varrho+1)^2$ unknowns and a matrix inequality of size $|Z'|\approx(2\varrho+21)^2$; with the generic dense formulation it exceeded the memory of the machine used already at $\varrho=2$, and no 2-D certificates have been computed. A sparse formulation (the inequality is affine in $W_Z$ through a block of size $(2\varrho+11)^2$ only) is the next step.
+\end{observation}
+
+% ###########################################################################
+\part{Consequences and open questions}
+% ###########################################################################
+
+% ===========================================================================
+\section{Consequences for the scheme and the paper}\label{sec:consequences}
+% ===========================================================================
+
+\begin{enumerate}[label=(\arabic*)]
+\item \emph{What can be claimed as proved.} On arbitrary clouds: admissibility \A{Thm.~6.3}; a maximum principle for scalar laws under stage-wise MOOD with the strict DMP (\cref{thm:maxprinciple}); $\ell^1$ bounds for the Euler equations up to the conservation defect (\cref{prop:euler}); for linear advection, $\ell^p(\pi)$ contractivity of the first-order scheme (\cref{thm:markov}). For the linear high-order schemes: von Neumann stability of order two on lattices (\cref{thm:k2}); stability of periodic refinements of any pattern whose Bloch semigroups are uniformly bounded (\cref{thm:bloch}); stability on smoothly deformed lattices with constant stencil topology, unconditionally for $K=2$ in 1-D and, for other cases, given the frozen symbol check (\cref{thm:deformed}); in 1-D, stability on deformed lattices with separated insertion/merging defects up to a residual, given the computed certificates (\cref{thm:defects}), and without residual on lattices with defects separated by $O(|\log h|)$ spacings (\cref{cor:defects}(i)).
+\item \emph{What can be claimed as measured.} On jittered clouds with jitter $0.2h$ the high-order schemes show no visible growth, with Kreiss constants $1.002$--$1.33$ (\cref{obs:random}), and the only instability found is a Bloch instability of one $K=2$ pattern with $\alpha h\le10^{-9}$ (\cref{obs:bloch}); orders three to five are von Neumann stable on lattices except order four with the geometric orientation in 2-D (\cref{obs:lattice}). A stability proof for the high-order schemes on random clouds is open, and so is a convergence proof for any order on irregular clouds.
+\item \emph{Odd orders are safer.} \Cref{prop:parity} and all measurements single out even $K$ as the orders that can lose stability on irregular stencils. For the paper this suggests $K=3$ with RK3 as the robust high-order configuration, and a remark that the order-reduction mechanism of \A{Prop.~4.3} has a stability counterpart only for even $K$.
+\item \emph{Topology, not jitter.} Every instability found arises when the number of neighbours varies from particle to particle (jitter $0.4h$ with $\kappa=2.5$, or the $A=0.3$ deformation). A neighbour selection that fixes the count (e.g.\ $k$ nearest neighbours per half-space), or a stricter safeguard such as $|\nb(i)|\ge B_q+2$ or a bound on the condition number of the scaled moment matrix, would exclude the near-interpolatory stencils of \cref{obs:spectra}(iii) and is the natural hypothesis for a theorem on random clouds. These stencils pass the present safeguard and are not regularized (their Cholesky factorization succeeds), so the analysis applies to them as implemented; the change would be local to the safeguard of \A{Rem.~3.10}.
+\item \emph{Aligned orientation at all orders.} With the aligned orientation on every edge, the lattice instability of the geometric orientation disappears (\cref{obs:lattice}), and so does the local blow-up of \cref{obs:spectra}(iii); consistency on lattices is unaffected, since the proof of \A{Prop.~4.3} uses only that the orientation is odd. The price is the symmetry of \A{Lem.~4.1} on pairs with $c_{ij}c_{ji}\ge0$, which affects conservation at the level of \A{Prop.~4.4(ii)}. This seems worth a numerical test in HyperCloudCore.jl. In the settings of the paper the geometric orientation matters only for $K=4$ in 2-D with $\kappa=5.5$ and $a$ along an axis ($h\Re\lambda=2.2\cdot10^{-8}$ on the lattice, absent at jitter $0.2h$), which should be mentioned if $K=4$ runs are reported.
+\item \emph{Moment-corrected first-order dissipation} (\cref{prop:moment}) restores the consistency of the first-order scheme on irregular clouds and keeps all positivity results (\cref{obs:moment}).
+\item \emph{Clouds from particle management.} Keep the stencil topology constant except at insertion/merging sites, keep those sites apart ($\sigma=2\varrho+40$ spacings at $\kappa=2.5$, i.e.\ $56$--$64$ spacings for $\varrho=8$--$12$, for a negligible residual), and prefer odd $K$; then \cref{thm:defects} applies with a residual that is invisible over any practical number of time steps.
+\item \emph{Antisymmetric weights} would make \cref{prop:euler} exact and \cref{cor:entropy} a global entropy (and, for linear symmetric systems, $L^2$) stability result on arbitrary clouds, in addition to local conservation \A{Prop.~4.4}.
+\end{enumerate}
+
+% ===========================================================================
+\section{Open questions and other routes}\label{sec:open}
+% ===========================================================================
+
+\paragraph{Open questions.}
+\begin{enumerate}[label=(\alph*)]
+\item \emph{High order on random clouds.} A proof of $\sup_h\mathcal K_V(L_h)<\infty$ for jittered clouds with constant topology and odd $K$. The missing tool is a bound on the second-order mode coupling of \cref{heur:fluct} in terms of the variance of the leading local coefficient, a random-matrix question. A non-diagonal Lyapunov weight would be needed for $K=3$ (\cref{obs:lyapunov}).
+\item \emph{The weight $\pi$ for $K=2$.} Whether $\omega_\pi(L_h)$ stays bounded at jitter $0.2h$ (it grows from $2\cdot10^{-4}$ to $2\cdot10^{-3}$ between $n=400$ and $1600$, \cref{obs:pi}); if it does, $\pi$ gives a Lax--Richtmyer proof for $K=2$.
+\item \emph{Uniformity of $\rho_h$ and the size of the corrector} for the first-order scheme (\cref{obs:rho,obs:drift}): a proof of $\eta_h=O(h^{1/2}\log^{1/2}(1/h))$ for independent jitter; for random clouds these are questions about Markov chains in random environments.
+\item \emph{Bloch constants in the pattern size.} Uniformity of the Bloch--Kreiss constants in $m$ for random patterns (bounded for $m\le32$ in \cref{obs:bloch}); a statement in probability over the pattern would bridge the periodic and the random case.
+\item \emph{Defects.} A residual-free statement: the single-defect problem on the infinite lattice is a Godunov--Ryabenkii/Kreiss normal-mode problem for an interface, and the semigroup results of Kreiss and Wu \cite{KreissWu1993} for dissipative schemes may give it for finitely many defects. Also: rigorous (interval) verification of the certificates; 2-D certificates via a sparse formulation; a sum-of-squares decomposition of the frozen symbols of affine lattices in 2-D with Lipschitz dependence on the lattice, which would extend \cref{thm:defects} to deformed lattices in 2-D.
+\item \emph{Supraconvergence.} The high-order schemes converge at the design order on perturbed clouds in \cite{JungMUSCL2026}, although their truncation error loses one order \A{Prop.~4.3}. A corrector argument as in \cref{thm:drift}, in the spirit of supraconvergence on irregular grids \cite{KreissEtAl1986}, would explain this if a stable norm for the high-order operator were available. Entropy-stable high-order constructions \cite{Tadmor2003,FjordholmMishraTadmor2012} combine antisymmetric weights with an analysis of the reconstruction jumps, on meshes.
+\item \emph{MOOD and linear stability.} \Cref{thm:maxprinciple} bounds the solution but not perturbations; an $L^1$ contraction for the MOOD scheme is open even on lattices.
+\end{enumerate}
+
+\paragraph{Other routes considered.}
+\begin{enumerate}[label=(\arabic*)]
+\item \emph{MOOD as a switched linear system.} The MOOD scheme at a fixed order pattern is a row-wise mixture of the high-order and the first-order operator, not a convex combination of operators. A common Lyapunov weight for all patterns would give stability of the switched system \cite{Liberzon1999}, but row-wise mixtures do not inherit $HL+L^{\mathsf T}H\preceq0$ from the two extremes unless the dissipation inequality holds locally, as a sum of nonpositive pair terms. It does for $K=1$ (\eqref{eq:energy}) but not for $K\ge2$ (the pair terms in \eqref{eq:nnQ} have both signs). For scalar laws with the strict DMP, \cref{thm:maxprinciple} is the nonlinear stability statement, and the linear analysis describes the scheme where MOOD is inactive.
+\item \emph{GKS theory} concerns boundaries; the periodic problem has none. A GKS-type analysis of boundary stencils on a lattice interior would be a natural continuation of \cref{sec:lattice}, but is outside the question of irregular interiors.
+\item \emph{Perturbation of the lattice operator.} A jitter $\varepsilon h$ changes $L_h$ by $O(\varepsilon/h)$ in norm, and no perturbation theorem absorbs this unless the dissipation is strict on all modes; it is not on smooth modes. \Cref{thm:deformed} is the version of the perturbation argument that works: the perturbation is $O(\varepsilon/h)$ pointwise there as well, but its symmetric part is $O(1)$ because the coefficients vary on the scale $1$, not $h$.
+\end{enumerate}
+
+\appendix
+% ===========================================================================
+\section{Numerical method and scripts}\label{app:code}
+% ===========================================================================
+
+{\sloppy All numbers come from an independent NumPy/SciPy implementation in \texttt{stability/scripts/} (not HyperCloud code). \texttt{linop.py} assembles the matrix of the linear scheme for $u_t+a\cdot\nabla u=0$ on periodic jittered lattices of the unit torus (jitter uniform in $[-\varepsilon h,\varepsilon h]$ per coordinate, seeds $0,1$; Bloch supercells use seeds $1000,1001$), with the weight $w(r)=1/(1+y+y^2/2+y^3/6+y^4/24)$, $y=r^2/R^2$, of \texttt{scripts/stencil\_diagnostics.py}, reconstruction fits of degree $K-1$ through $U_i$, derivative fits of degree $q$ with constant term and the safeguards of \A{Rem.~3.10}, the Rusanov flux with $s_d=|a_d|$, no limiter and no MOOD. Fits are unregularized (plain solves). The first-order operator is assembled separately in sparse form. \texttt{ho\_common.py} provides dual volumes, the numerical abscissa $\omega_H$ (generalized symmetric eigenvalue problem), Kreiss constants (eigen-decomposition or \texttt{expm} on $40$ log-spaced times in $[h/100,20]$), Bloch symbols (the operator on three copies of the supercell per direction, read off the middle block with the phases $e^{\ii\theta\cdot(k-k_{\mathrm{mid}})}$) and deformed lattices. Dense linear algebra limits the sizes to $N\le1600$ in 1-D and $N\le576$ in 2-D for the high-order studies.\par}
+
+\begin{center}
+\small
+\begin{tabular}{>{\raggedright}p{6.2cm}>{\raggedright\arraybackslash}p{8.2cm}}
+\toprule
+Script & Used for\\
+\midrule
+\texttt{certify\_K2\_1d.py} & exact certificate in the proof of \cref{thm:k2}\\
+\texttt{lattice\_symbols.py} & \cref{tab:lattice}, \cref{obs:lattice}\\
+\texttt{first\_order\_markov.py}, \texttt{\_corrector.py}, \texttt{\_corrector\_large.py}, \texttt{\_phase.py}, \texttt{\_moment\_fix.py} & \cref{tab:markov}, \cref{obs:rho,obs:drift,obs:moment}\\
+\texttt{spectra\_study.py}, \texttt{summarize\_spectra.py} & \cref{tab:spectra}, \cref{obs:spectra}\\
+\texttt{ho\_random.py}, \texttt{ho\_nn\_identity.py}, \texttt{ho\_nn\_admissible.py} & \cref{tab:random}, \cref{obs:random}, \cref{prop:nn}(iii)\\
+\texttt{ho\_bloch.py}, \texttt{ho\_bloch\_mpcheck.py} & \cref{tab:bloch}, \cref{obs:bloch}\\
+\texttt{ho\_local\_symbol.py} & \cref{tab:local}, \cref{obs:local}\\
+\texttt{ho\_pi.py}, \texttt{ho\_lyapunov.py} (cvxpy, SCS, $\epsilon=10^{-7}$) & \cref{tab:pi,tab:lyapunov}, \cref{obs:pi,obs:lyapunov}\\
+\texttt{ho\_deformed.py}, \texttt{ho\_frozen.py}, \texttt{ho\_fr.py}, \texttt{ho\_deformed\_squares.py} & \cref{tab:deformed}, \cref{obs:deformed}\\
+\texttt{ho\_defect\_cert.py} (cvxpy, Clarabel), \texttt{ho\_defect\_pi.py} & \cref{tab:defectcert,tab:defectsuper}, \cref{obs:cert,obs:super}\\
+\texttt{ho\_defect\_bloch.py}, \texttt{ho\_defect\_random.py} & \cref{tab:defectbloch,tab:defectrandom}, \cref{obs:defectbloch,obs:defectrandom}\\
+\texttt{ho\_sos2d.py}, \texttt{ho\_defect\_cert2d.py} & \cref{obs:sos2d}\\
+\texttt{make\_tables.py}, \texttt{ho\_make\_tables.py} & the \LaTeX{} tables in \texttt{tables/} from \texttt{data/}\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The checks differ from HyperCloudCore.jl~0.7.8 in the boundary treatment (periodic only), in the absence of MOOD and limiters, in the dissipation speed ($|a_d|$ instead of the Euler wave speeds), and possibly in details of the basis ordering and scaling of the fits; they test the scheme as defined in [A], not the implementation.
+
+\bibliographystyle{plainnat}
+\bibliography{stability_combined_refs}
+
+\end{document}

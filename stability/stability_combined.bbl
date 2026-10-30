@@ -1,0 +1,175 @@
+\begin{thebibliography}{25}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Boyd and Vandenberghe(2004)]{BoydVandenberghe2004}
+Stephen Boyd and Lieven Vandenberghe.
+\newblock \emph{Convex Optimization}.
+\newblock Cambridge University Press, Cambridge, 2004.
+
+\bibitem[Dritschel(2004)]{Dritschel2004}
+Michael~A. Dritschel.
+\newblock On factorization of trigonometric polynomials.
+\newblock \emph{Integral Equations and Operator Theory}, 49:\penalty0 11--42,
+  2004.
+
+\bibitem[Dritschel and Rovnyak(2010)]{DritschelRovnyak2010}
+Michael~A. Dritschel and James Rovnyak.
+\newblock The operator {F}ej\'er--{R}iesz theorem.
+\newblock In \emph{A Glimpse at Hilbert Space Operators}, volume 207 of
+  \emph{Operator Theory: Advances and Applications}, pages 223--254.
+  Birkh\"auser, 2010.
+
+\bibitem[Fjordholm et~al.(2012)Fjordholm, Mishra, and
+  Tadmor]{FjordholmMishraTadmor2012}
+Ulrik~S. Fjordholm, Siddhartha Mishra, and Eitan Tadmor.
+\newblock Arbitrarily high-order accurate entropy stable essentially
+  nonoscillatory schemes for systems of conservation laws.
+\newblock \emph{SIAM J. Numer. Anal.}, 50\penalty0 (2):\penalty0 544--573,
+  2012.
+\newblock \doi{10.1137/110836961}.
+
+\bibitem[Grenander and Szeg{\H o}(1958)]{GrenanderSzego1958}
+Ulf Grenander and Gabor Szeg{\H o}.
+\newblock \emph{Toeplitz Forms and Their Applications}.
+\newblock University of California Press, Berkeley, 1958.
+
+\bibitem[Guermond and Popov(2016{\natexlab{a}})]{GuermondPopov2016}
+Jean-Luc Guermond and Bojan Popov.
+\newblock Invariant domains and first-order continuous finite element
+  approximation for hyperbolic systems.
+\newblock \emph{SIAM J. Numer. Anal.}, 54\penalty0 (4):\penalty0 2466--2489,
+  2016{\natexlab{a}}.
+\newblock \doi{10.1137/16M1074291}.
+
+\bibitem[Guermond and Popov(2016{\natexlab{b}})]{GuermondPopov2016JCP}
+Jean-Luc Guermond and Bojan Popov.
+\newblock Fast estimation from above of the maximum wave speed in the {R}iemann
+  problem for the {E}uler equations.
+\newblock \emph{J. Comput. Phys.}, 321:\penalty0 908--926, 2016{\natexlab{b}}.
+\newblock \doi{10.1016/j.jcp.2016.05.054}.
+
+\bibitem[Gustafsson et~al.(2013)Gustafsson, Kreiss, and Oliger]{GKO2013}
+Bertil Gustafsson, Heinz-Otto Kreiss, and Joseph Oliger.
+\newblock \emph{Time-Dependent Problems and Difference Methods}.
+\newblock Wiley, Hoboken, NJ, 2 edition, 2013.
+\newblock \doi{10.1002/9781118548448}.
+
+\bibitem[Harten et~al.(1983)Harten, Lax, and van Leer]{HLL1983}
+Amiram Harten, Peter~D. Lax, and Bram van Leer.
+\newblock On upstream differencing and {G}odunov-type schemes for hyperbolic
+  conservation laws.
+\newblock \emph{SIAM Rev.}, 25\penalty0 (1):\penalty0 35--61, 1983.
+\newblock \doi{10.1137/1025002}.
+
+\bibitem[Jung(2026{\natexlab{a}})]{Addendum}
+Pascal Jung.
+\newblock Meshfree {MUSCL} schemes with a~posteriori order detection:
+  exactness, conservation and admissibility, 2026{\natexlab{a}}.
+\newblock Mathematical companion (\texttt{math\_addendum.tex}), draft of 28
+  October 2026.
+
+\bibitem[Jung(2026{\natexlab{b}})]{JungMUSCL2026}
+Pascal Jung.
+\newblock High-order meshfree {MUSCL} schemes with a~posteriori order detection
+  for hyperbolic systems on scattered point clouds, 2026{\natexlab{b}}.
+\newblock Draft of 27 October 2026.
+
+\bibitem[Kadec(1964)]{Kadec1964}
+M.~I. Kadec.
+\newblock The exact value of the {P}aley--{W}iener constant.
+\newblock \emph{Dokl. Akad. Nauk SSSR}, 155:\penalty0 1253--1254, 1964.
+
+\bibitem[Kato(1995)]{Kato1995}
+Tosio Kato.
+\newblock \emph{Perturbation Theory for Linear Operators}.
+\newblock Springer, Berlin, 1995.
+\newblock Reprint of the 1980 edition.
+
+\bibitem[Kreiss et~al.(1986)Kreiss, Manteuffel, Swartz, Wendroff, and
+  White]{KreissEtAl1986}
+H.-O. Kreiss, T.~A. Manteuffel, B.~Swartz, B.~Wendroff, and A.~B. White.
+\newblock Supra-convergent schemes on irregular grids.
+\newblock \emph{Math. Comp.}, 47\penalty0 (176):\penalty0 537--554, 1986.
+\newblock \doi{10.1090/S0025-5718-1986-0856701-5}.
+
+\bibitem[Kreiss(1964)]{Kreiss1964}
+Heinz-Otto Kreiss.
+\newblock On difference approximations of the dissipative type for hyperbolic
+  differential equations.
+\newblock \emph{Comm. Pure Appl. Math.}, 17\penalty0 (3):\penalty0 335--353,
+  1964.
+\newblock \doi{10.1002/cpa.3160170306}.
+
+\bibitem[Kreiss and Wu(1993)]{KreissWu1993}
+Heinz-Otto Kreiss and Lixin Wu.
+\newblock On the stability definition of difference approximations for the
+  initial boundary value problem.
+\newblock \emph{Applied Numerical Mathematics}, 12:\penalty0 213--227, 1993.
+
+\bibitem[Kuchment(1993)]{Kuchment1993}
+Peter Kuchment.
+\newblock \emph{Floquet Theory for Partial Differential Equations}.
+\newblock Birkh{\"a}user, Basel, 1993.
+\newblock \doi{10.1007/978-3-0348-8573-7}.
+
+\bibitem[Lax and Nirenberg(1966)]{LaxNirenberg1966}
+Peter~D. Lax and Louis Nirenberg.
+\newblock On stability for difference schemes; a sharp form of {G}{\aa}rding's
+  inequality.
+\newblock \emph{Comm. Pure Appl. Math.}, 19\penalty0 (4):\penalty0 473--492,
+  1966.
+\newblock \doi{10.1002/cpa.3160190409}.
+
+\bibitem[Levy and Tadmor(1998)]{LevyTadmor1998}
+Doron Levy and Eitan Tadmor.
+\newblock From semidiscrete to fully discrete: stability of {R}unge--{K}utta
+  schemes by the energy method.
+\newblock \emph{SIAM Rev.}, 40\penalty0 (1):\penalty0 40--73, 1998.
+\newblock \doi{10.1137/S0036144597316255}.
+
+\bibitem[Liberzon and Morse(1999)]{Liberzon1999}
+Daniel Liberzon and A.~Stephen Morse.
+\newblock Basic problems in stability and design of switched systems.
+\newblock \emph{IEEE Control Syst. Mag.}, 19\penalty0 (5):\penalty0 59--70,
+  1999.
+\newblock \doi{10.1109/37.793443}.
+
+\bibitem[Norris(1997)]{Norris1997}
+J.~R. Norris.
+\newblock \emph{Markov Chains}.
+\newblock Cambridge University Press, Cambridge, 1997.
+\newblock \doi{10.1017/CBO9780511810633}.
+
+\bibitem[Tadmor(2002)]{Tadmor2002}
+Eitan Tadmor.
+\newblock From semidiscrete to fully discrete: stability of {R}unge--{K}utta
+  schemes by the energy method. {II}.
+\newblock \emph{Collected Lectures on the Preservation of Stability under
+  Discretization (D.~Estep and S.~Tavener, eds.), Proc. Appl. Math. 109, SIAM},
+  pages 25--49, 2002.
+
+\bibitem[Tadmor(2003)]{Tadmor2003}
+Eitan Tadmor.
+\newblock Entropy stability theory for difference approximations of nonlinear
+  conservation laws and related time-dependent problems.
+\newblock \emph{Acta Numer.}, 12:\penalty0 451--512, 2003.
+\newblock \doi{10.1017/S0962492902000156}.
+
+\bibitem[Trefethen and Embree(2005)]{TrefethenEmbree2005}
+Lloyd~N. Trefethen and Mark Embree.
+\newblock \emph{Spectra and Pseudospectra: The Behavior of Nonnormal Matrices
+  and Operators}.
+\newblock Princeton University Press, Princeton, NJ, 2005.
+
+\bibitem[Vaillancourt(1970)]{Vaillancourt1970}
+R{\'e}mi Vaillancourt.
+\newblock A simple proof of {L}ax--{N}irenberg theorems.
+\newblock \emph{Comm. Pure Appl. Math.}, 23\penalty0 (2):\penalty0 151--163,
+  1970.
+\newblock \doi{10.1002/cpa.3160230203}.
+
+\end{thebibliography}

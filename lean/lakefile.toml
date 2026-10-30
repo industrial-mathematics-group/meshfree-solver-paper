@@ -1,0 +1,16 @@
+name = "MeshfreeAddendum"
+defaultTargets = ["MeshfreeAddendum", "MeshfreeStability"]
+
+[leanOptions]
+autoImplicit = false
+
+[[require]]
+name = "mathlib"
+git = "https://github.com/leanprover-community/mathlib4"
+rev = "v4.35.0"
+
+[[lean_lib]]
+name = "MeshfreeAddendum"
+
+[[lean_lib]]
+name = "MeshfreeStability"
