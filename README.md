@@ -1,6 +1,6 @@
 # Supplementary material: meshfree MUSCL schemes with a posteriori order detection
 
-Contents of this archive, by folder. Everything apart from the configs is AI generated and tested/reviewed. AI only tested parts are marked.
+Contents of this archive, by folder. Everything apart from the configs is AI generated (Claude Opus 5.5 and Fable 5.1) and tested/reviewed. Tested parts by AI only are marked.
 
 | Folder | Contents |
 |---|---|
