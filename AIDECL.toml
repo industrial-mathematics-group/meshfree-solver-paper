@@ -10,7 +10,7 @@ Human-Review = "H1"
 Reviewed-by = "blhackslash <dev@blackslash.win>"
 Assisted-by = "Claude (Anthropic), claude-opus-5-5"
 AI-Review = "A0"
-AI-Reviewed-by = ""
+AI-Reviewed-by = "Claude (Anthropic), claude-opus-5-5"
 
 [[annotations]]
 path = ["addendum/**","fv_reference/**","lean/**","scripts/**","stability/**"]
@@ -19,7 +19,7 @@ Assisted-by = "Claude (Anthropic), claude-fable-5-1"
 Human-Review = "H0"
 Reviewed-by = "blhackslash <dev@blackslash.win>"
 AI-Review = "A0"
-AI-Reviewed-by = ""
+AI-Reviewed-by = "Claude (Anthropic), claude-opus-5-5"
 
 [[annotations]]
 path = ["paper/**","results/**"]
@@ -28,4 +28,4 @@ Assisted-by = "Claude (Anthropic), claude-opus-5-5"
 Human-Review = "H2"
 Reviewed-by = "blhackslash <dev@blackslash.win>"
 AI-Review = "A0"
-AI-Reviewed-by = ""
+AI-Reviewed-by = "Claude (Anthropic), claude-opus-5-5"
