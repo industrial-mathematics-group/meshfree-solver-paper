@@ -1,5 +1,9 @@
 # Supplementary material: meshfree MUSCL schemes with a posteriori order detection
 
+![AI generation](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/industrial-mathematics-group/meshfree-solver-paper/badges/aidecl-generation.json)
+![Human review](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/industrial-mathematics-group/meshfree-solver-paper/badges/aidecl-human-review.json)
+![AI review](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/industrial-mathematics-group/meshfree-solver-paper/badges/aidecl-ai-review.json)
+
 Contents of this archive, by folder:
 
 | Folder | Contents |
