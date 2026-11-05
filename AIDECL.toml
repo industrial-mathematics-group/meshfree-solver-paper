@@ -1,38 +1,331 @@
-# AI declarations (migrated from version 1 by 'aidecl migrate').
+# AI declarations of the files in this repository (aidecl version 3).
 # Scheme: https://github.com/industrial-mathematics-group/.github/blob/main/.github/CONTRIBUTING.md#ai-assisted-contributions
+# The last matching annotation wins. Human-Review levels are the ones Pascal declared on 3 Nov 2026.
 version = 3
+exclude = ["reviews/**"]   # committed AI reviews (CONTRIBUTING.md) need no declaration
 
-# TODO after migration: add Human-Review, Reviewed-by
+# Default: README.md. The folder table was written by an AI session together with the
+# supplementary archive; Pascal edited it and added the badges.
 [[annotations]]
 path = "**"
-AI-Generation = "G3"
+AI-Generation = "G2"
 Human-Review = "H1"
-Reviewed-by = "blhackslash <dev@blackslash.win>"
-Assisted-by = "Claude (Anthropic), claude-opus-5-5"
 AI-Review = "A1"
-AI-Reviewed-by = "Claude (Anthropic), claude-opus-5-5"
+Assisted-by = ["Claude Opus 5.5 (Anthropic)"]
+Reviewed-by = ["blhackslash <dev@blackslash.win>"]
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), self-check by the generating session"]
 
+# Supplementary material generated with Claude Fable 5.1 in Claude Code
+# (AI statements in paper/main_light.tex, addendum/math_addendum.tex, stability/stability_combined.tex).
+# The Opus 5.5 review of 3 Nov 2026 is not committed under reviews/ and the files were changed
+# afterwards, so it does not count as A2 here.
 [[annotations]]
-path = ["addendum/**","fv_reference/**","lean/**","scripts/**","stability/**"]
+path = ["addendum/**", "fv_reference/**", "lean/**", "scripts/**", "stability/**", "paper/figures/epd_rules_light.tex"]
 AI-Generation = "G3"
-Assisted-by = "Claude (Anthropic), claude-fable-5-1"
 Human-Review = "H0"
-Reviewed-by = "blhackslash <dev@blackslash.win>"
 AI-Review = "A1"
-AI-Reviewed-by = "Claude (Anthropic), claude-opus-5-5"
+Assisted-by = ["Claude Fable 5.1 (Anthropic)"]
+Reviewed-by = ["blhackslash <dev@blackslash.win>"]
+AI-Reviewed-by = ["Claude Fable 5.1 (Anthropic), self-check by the generating session"]
 
+# Files of the Fable material that were changed or added with the fixes of the 3 Nov 2026 review
+# (commit 824d923, made by a Claude Opus 5.5 session).
 [[annotations]]
-path = ["paper/**","results/**"]
+path = [
+  "addendum/math_addendum.pdf", "addendum/math_addendum.tex", "addendum/math_addendum_refs.bib", "addendum/refs.bib",
+  "fv_reference/analyze.py", "fv_reference/reference_solutions.md",
+  "lean/MeshfreeAddendum/AxiomCheck.lean", "lean/MeshfreeAddendum/Positivity.lean", "lean/MeshfreeAddendum/Time.lean",
+  "lean/MeshfreeStability/Defects.lean", "lean/MeshfreeStability/Energy.lean", "lean/MeshfreeStability/Lattice.lean",
+  "lean/MeshfreeStability/Limits.lean", "lean/MeshfreeStability/Markov.lean", "lean/README.md", "lean/STABILITY.md",
+  "stability/data/d5_check.txt", "stability/data/exact_cert_results.txt",
+  "stability/data/ho_defect_bloch_1d_insert_shift.jsonl", "stability/data/ho_defect_super_1d.jsonl",
+  "stability/data/ho_frozen_1d.md", "stability/data/ho_lyapunov_exact_1d.jsonl", "stability/data/ho_pi_1d_j02.md",
+  "stability/data/ho_pi_1d_j02_large.md", "stability/data/ho_pi_1d_j04.md", "stability/data/ho_pi_2d_j02.md",
+  "stability/data/k2_random_search.txt", "stability/data/spectra_1d_n1600_j04.jsonl", "stability/data/spectra_2d_j005.jsonl",
+  "stability/scripts/d5_check.py", "stability/scripts/exact_cert.py", "stability/scripts/ho_defect_cert.py",
+  "stability/scripts/ho_defect_random.py", "stability/scripts/ho_fr.py", "stability/scripts/ho_frozen.py",
+  "stability/scripts/ho_lyapunov_exact.py", "stability/scripts/ho_make_tables.py", "stability/scripts/ho_pi.py",
+  "stability/scripts/k2_random_search.py", "stability/scripts/make_tables.py",
+  "stability/stability_combined.bbl", "stability/stability_combined.pdf", "stability/stability_combined.tex",
+  "stability/stability_combined_refs.bib",
+  "stability/tables/ho_bloch.tex", "stability/tables/ho_defect_super.tex", "stability/tables/ho_lyapunov.tex",
+  "stability/tables/ho_pi.tex",
+]
 AI-Generation = "G3"
-Assisted-by = "Claude (Anthropic), claude-opus-5-5"
-Human-Review = "H2"
-Reviewed-by = "blhackslash <dev@blackslash.win>"
+Human-Review = "H0"
 AI-Review = "A1"
-AI-Reviewed-by = "Claude (Anthropic), claude-opus-5-5"
+Assisted-by = ["Claude Fable 5.1 (Anthropic)", "Claude Opus 5.5 (Anthropic)"]
+Reviewed-by = ["blhackslash <dev@blackslash.win>"]
+AI-Reviewed-by = [
+  "Claude Fable 5.1 (Anthropic), self-check by the generating session",
+  "Claude Opus 5.5 (Anthropic), self-check by the session that made the 4 Nov 2026 fixes",
+]
 
+# Paper text, bibliography and build output: drafted in substantial parts with Claude Opus 5.5,
+# revised by the authors (AI statement in paper/main_light.tex).
 [[annotations]]
-path = ["LICENSE"]
+path = ["paper/main_light.tex", "paper/main_light.pdf", "paper/main_light.bbl", "paper/refs.bib"]
+AI-Generation = "G2"
+Human-Review = "H2"
+AI-Review = "A1"
+Assisted-by = ["Claude Opus 5.5 (Anthropic)"]
+Reviewed-by = ["blhackslash <dev@blackslash.win>"]
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), self-check by the generating session"]
+
+# Result tables of the HyperCloudCore 0.7.8 runs, compiled by a Claude Opus 5.5 session.
+[[annotations]]
+path = "results/reports/**"
+AI-Generation = "G3"
+Human-Review = "H2"
+AI-Review = "A1"
+Assisted-by = ["Claude Opus 5.5 (Anthropic)"]
+Reviewed-by = ["blhackslash <dev@blackslash.win>"]
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), self-check by the generating session"]
+
+# HyperCloud run configurations and the PDEStudio exports made from them (plot metadata and the
+# plots in the paper): written and exported by Pascal, not by AI.
+[[annotations]]
+path = [
+  "results/configs/**",
+  "paper/figures/*.jpg",
+  "paper/figures/advection_conv_radius.pdf", "paper/figures/burgers_conv_radius.pdf",
+  "paper/figures/euler_sod_components.pdf",
+  "paper/figures/shock_mass_defect_epd1.pdf", "paper/figures/shock_mass_defect_epd2.pdf",
+]
 AI-Generation = "G0"
 Human-Review = "H2"
-Reviewed-by = "blhackslash <dev@blackslash.win>"
+AI-Review = "A0"
+Reviewed-by = ["blhackslash <dev@blackslash.win>"]
+
+# CI workflow from the organisation's starter template, added by Pascal.
+[[annotations]]
+path = ".github/**"
+AI-Generation = "G0"
+Human-Review = "H1"
+AI-Review = "A0"
+Reviewed-by = ["blhackslash <dev@blackslash.win>"]
+
+# ---- A2: two independent reviews of paper/ and addendum/ at a6edcc9
+# (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper.md, reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper-pass2.md).
+# Only the first one compiled the PDFs, so the .pdf/.bbl files name only that one.
+# Files changed after a6edcc9 fall back to A1 until reviewed again.
+
+[[annotations]]
+path = ["addendum/figures/**", "paper/figures/epd_rules_light.tex"]
+AI-Generation = "G3"
+Human-Review = "H0"
+AI-Review = "A2"
+Assisted-by = ["Claude Fable 5.1 (Anthropic)"]
+Reviewed-by = ["blhackslash <dev@blackslash.win>"]
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper-pass2.md)"]
+
+[[annotations]]
+path = ["addendum/math_addendum.tex", "addendum/math_addendum_refs.bib", "addendum/refs.bib"]
+AI-Generation = "G3"
+Human-Review = "H0"
+AI-Review = "A2"
+Assisted-by = ["Claude Fable 5.1 (Anthropic)", "Claude Opus 5.5 (Anthropic)"]
+Reviewed-by = ["blhackslash <dev@blackslash.win>"]
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper-pass2.md)"]
+
+[[annotations]]
+path = ["paper/main_light.tex", "paper/refs.bib"]
+AI-Generation = "G2"
+Human-Review = "H2"
+AI-Review = "A2"
+Assisted-by = ["Claude Opus 5.5 (Anthropic)"]
+Reviewed-by = ["blhackslash <dev@blackslash.win>"]
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper-pass2.md)"]
+
+[[annotations]]
+path = [
+  "paper/figures/*.jpg",
+  "paper/figures/advection_conv_radius.pdf", "paper/figures/burgers_conv_radius.pdf",
+  "paper/figures/euler_sod_components.pdf",
+  "paper/figures/shock_mass_defect_epd1.pdf", "paper/figures/shock_mass_defect_epd2.pdf",
+]
+AI-Generation = "G0"
+Human-Review = "H2"
+AI-Review = "A2"
+Reviewed-by = ["blhackslash <dev@blackslash.win>"]
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper-pass2.md)"]
+
+[[annotations]]
+path = ["addendum/math_addendum.pdf"]
+AI-Generation = "G3"
+Human-Review = "H0"
+AI-Review = "A2"
+Assisted-by = ["Claude Fable 5.1 (Anthropic)", "Claude Opus 5.5 (Anthropic)"]
+Reviewed-by = ["blhackslash <dev@blackslash.win>"]
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper.md)"]
+
+[[annotations]]
+path = ["paper/main_light.pdf", "paper/main_light.bbl"]
+AI-Generation = "G2"
+Human-Review = "H2"
+AI-Review = "A2"
+Assisted-by = ["Claude Opus 5.5 (Anthropic)"]
+Reviewed-by = ["blhackslash <dev@blackslash.win>"]
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper.md)"]
+
+# ---- A2: two independent reviews of the code at a6edcc9 (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md, reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md).
+# scripts/figure_measurements/ could not be run (stays A1). results/configs needs HyperCloud (unchanged);
+# results/reports was checked against the run log and the paper by the first review only.
+
+[[annotations]]
+path = ["scripts/*.py", "fv_reference/**", "stability/scripts/**", "stability/data/**", "stability/tables/**"]
+AI-Generation = "G3"
+Human-Review = "H0"
+AI-Review = "A2"
+Assisted-by = ["Claude Fable 5.1 (Anthropic)"]
+Reviewed-by = ["blhackslash <dev@blackslash.win>"]
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[annotations]]
+path = [
+  "fv_reference/analyze.py",
+  "fv_reference/reference_solutions.md",
+  "stability/data/d5_check.txt",
+  "stability/data/exact_cert_results.txt",
+  "stability/data/ho_defect_bloch_1d_insert_shift.jsonl",
+  "stability/data/ho_defect_super_1d.jsonl",
+  "stability/data/ho_frozen_1d.md",
+  "stability/data/ho_lyapunov_exact_1d.jsonl",
+  "stability/data/ho_pi_1d_j02.md",
+  "stability/data/ho_pi_1d_j02_large.md",
+  "stability/data/ho_pi_1d_j04.md",
+  "stability/data/ho_pi_2d_j02.md",
+  "stability/data/k2_random_search.txt",
+  "stability/data/spectra_1d_n1600_j04.jsonl",
+  "stability/data/spectra_2d_j005.jsonl",
+  "stability/scripts/d5_check.py",
+  "stability/scripts/exact_cert.py",
+  "stability/scripts/ho_defect_cert.py",
+  "stability/scripts/ho_defect_random.py",
+  "stability/scripts/ho_fr.py",
+  "stability/scripts/ho_frozen.py",
+  "stability/scripts/ho_lyapunov_exact.py",
+  "stability/scripts/ho_make_tables.py",
+  "stability/scripts/ho_pi.py",
+  "stability/scripts/k2_random_search.py",
+  "stability/scripts/make_tables.py",
+  "stability/tables/ho_bloch.tex",
+  "stability/tables/ho_defect_super.tex",
+  "stability/tables/ho_lyapunov.tex",
+  "stability/tables/ho_pi.tex",
+]
+AI-Generation = "G3"
+Human-Review = "H0"
+AI-Review = "A2"
+Assisted-by = ["Claude Fable 5.1 (Anthropic)", "Claude Opus 5.5 (Anthropic)"]
+Reviewed-by = ["blhackslash <dev@blackslash.win>"]
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[annotations]]
+path = "results/reports/**"
+AI-Generation = "G3"
+Human-Review = "H2"
+AI-Review = "A2"
+Assisted-by = ["Claude Opus 5.5 (Anthropic)"]
+Reviewed-by = ["blhackslash <dev@blackslash.win>"]
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)"]
+
+# ---- A2: two independent reviews of lean/ at a6edcc9 (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06.md, reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-pass2.md):
+# lake build passes, no sorry, standard axioms only. Opus 5.5 is listed only on the Lean files that
+# commit 824d923 changed.
+
+[[annotations]]
+path = "lean/**"
+AI-Generation = "G3"
+Human-Review = "H0"
+AI-Review = "A2"
+Assisted-by = ["Claude Fable 5.1 (Anthropic)"]
+Reviewed-by = ["blhackslash <dev@blackslash.win>"]
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-pass2.md)"]
+
+[[annotations]]
+path = [
+  "lean/MeshfreeAddendum/AxiomCheck.lean",
+  "lean/MeshfreeAddendum/Positivity.lean",
+  "lean/MeshfreeAddendum/Time.lean",
+  "lean/MeshfreeStability/Defects.lean",
+  "lean/MeshfreeStability/Energy.lean",
+  "lean/MeshfreeStability/Lattice.lean",
+  "lean/MeshfreeStability/Limits.lean",
+  "lean/MeshfreeStability/Markov.lean",
+  "lean/README.md",
+  "lean/STABILITY.md",
+]
+AI-Generation = "G3"
+Human-Review = "H0"
+AI-Review = "A2"
+Assisted-by = ["Claude Fable 5.1 (Anthropic)", "Claude Opus 5.5 (Anthropic)"]
+Reviewed-by = ["blhackslash <dev@blackslash.win>"]
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-pass2.md)"]
+
+# ---- Changed after the reviews of a6edcc9 by the fixes for their findings (PR #9, Claude Opus 5.5):
+# back to A1 (self-check by the session that made the fixes) until reviewed again.
+
+[[annotations]]
+path = [
+  "addendum/math_addendum.pdf",
+  "addendum/math_addendum.tex",
+  "fv_reference/fv.py",
+  "fv_reference/reference_solutions.md",
+  "fv_reference/tst2.py",
+  "lean/MeshfreeAddendum/AxiomCheck.lean",
+  "lean/STABILITY.md",
+  "scripts/aligned_flux_diagnostics.py",
+  "scripts/fallback_positivity.py",
+  "scripts/fallback_positivity_lib.py",
+  "scripts/make_epd_figure.py",
+  "scripts/make_epd_figure_addendum.py",
+  "scripts/make_epd_figure_light.py",
+  "scripts/stencil_diagnostics.py",
+  "scripts/figure_measurements/clainpos2.py",
+  "scripts/figure_measurements/dmrpos.py",
+  "scripts/figure_measurements/steppos.py",
+  "stability/data/ho_defect_bloch_1d.jsonl",
+  "stability/data/ho_defect_bloch_1d_insert_shift.jsonl",
+  "stability/scripts/certify_K2_1d.py",
+  "stability/scripts/ho_common.py",
+  "stability/scripts/ho_defect_bloch.py",
+  "stability/scripts/ho_defect_cert.py",
+  "stability/scripts/ho_make_tables.py",
+  "stability/stability_combined.pdf",
+  "stability/stability_combined.tex",
+  "stability/tables/ho_defect_bloch.tex",
+  "stability/tables/ho_random.tex",
+]
+AI-Generation = "G3"
+Human-Review = "H0"
+AI-Review = "A1"
+Assisted-by = ["Claude Fable 5.1 (Anthropic)", "Claude Opus 5.5 (Anthropic)"]
+Reviewed-by = ["blhackslash <dev@blackslash.win>"]
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), self-check by the session that fixed the 5 Nov 2026 review findings (PR #9)"]
+
+[[annotations]]
+path = ["paper/main_light.tex", "paper/main_light.pdf"]
+AI-Generation = "G2"
+Human-Review = "H2"
+AI-Review = "A1"
+Assisted-by = ["Claude Opus 5.5 (Anthropic)"]
+Reviewed-by = ["blhackslash <dev@blackslash.win>"]
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), self-check by the session that fixed the 5 Nov 2026 review findings (PR #9)"]
+
+[[annotations]]
+path = "results/reports/2026-10-29-sod1d.md"
+AI-Generation = "G3"
+Human-Review = "H2"
+AI-Review = "A1"
+Assisted-by = ["Claude Opus 5.5 (Anthropic)"]
+Reviewed-by = ["blhackslash <dev@blackslash.win>"]
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), self-check by the session that fixed the 5 Nov 2026 review findings (PR #9)"]
+
+# Standard MIT licence text, declared by Pascal on 5 Nov 2026 (unchanged).
+[[annotations]]
+path = "LICENSE"
+AI-Generation = "G0"
+Human-Review = "H2"
+Reviewed-by = ["blhackslash <dev@blackslash.win>"]
 AI-Review = "A0"
