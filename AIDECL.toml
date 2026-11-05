@@ -230,7 +230,9 @@ Assisted-by = ["Claude Opus 5.5 (Anthropic)"]
 Reviewed-by = ["blhackslash <dev@blackslash.win>"]
 AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)"]
 
-# ---- A2: independent review of lean/ at a6edcc9 (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06.md): lake build, no sorry, standard axioms only.
+# ---- A2: two independent reviews of lean/ at a6edcc9 (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06.md, reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-pass2.md):
+# lake build passes, no sorry, standard axioms only. Opus 5.5 is listed only on the Lean files that
+# commit 824d923 changed.
 
 [[annotations]]
 path = "lean/**"
@@ -239,7 +241,7 @@ Human-Review = "H0"
 AI-Review = "A2"
 Assisted-by = ["Claude Fable 5.1 (Anthropic)"]
 Reviewed-by = ["blhackslash <dev@blackslash.win>"]
-AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06.md)"]
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-pass2.md)"]
 
 [[annotations]]
 path = [
@@ -259,7 +261,7 @@ Human-Review = "H0"
 AI-Review = "A2"
 Assisted-by = ["Claude Fable 5.1 (Anthropic)", "Claude Opus 5.5 (Anthropic)"]
 Reviewed-by = ["blhackslash <dev@blackslash.win>"]
-AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06.md)"]
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-pass2.md)"]
 
 # Standard MIT licence text, declared by Pascal on 5 Nov 2026 (unchanged).
 [[annotations]]
