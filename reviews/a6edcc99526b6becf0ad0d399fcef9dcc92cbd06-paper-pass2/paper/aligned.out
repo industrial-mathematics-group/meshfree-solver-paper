@@ -1,0 +1,8 @@
+jitter 0.0, degree 1: pairs x directions with sign(c_ij)=sign(c_ji): 0.00% (weight share 0.00%)
+jitter 0.0, degree 3: pairs x directions with sign(c_ij)=sign(c_ji): 0.00% (weight share 0.00%)
+jitter 0.2, degree 1: pairs x directions with sign(c_ij)=sign(c_ji): 5.04% (weight share 0.40%)
+   geometric: 0 of 20000 first-order updates inadmissible (min of rho, p: 0.283)
+   aligned  : 0 of 20000 first-order updates inadmissible (min of rho, p: 0.283)
+jitter 0.2, degree 3: pairs x directions with sign(c_ij)=sign(c_ji): 18.69% (weight share 4.75%)
+   geometric: 1797 of 20000 first-order updates inadmissible (min of rho, p: -65)
+   aligned  : 0 of 20000 first-order updates inadmissible (min of rho, p: 0.182)
