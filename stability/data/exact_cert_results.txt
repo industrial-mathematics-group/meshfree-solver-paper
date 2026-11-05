@@ -1,0 +1,57 @@
+=== merge 3 0.85 12
+float certificate: {'t': 1.0748978686199457e-06, 'wmin': 0.7001638778630438, 'wmax': 7.549375807544321, 'status': 'optimal', 'nz': 24, 'nzp': 32}
+max |L_exact - L_float| = 3.3306690738754696e-15  max|L| = 1.281203476212919
+|Z| = 24  |Z'| = 32  max |E_exact| outside Z'xZ' = 2.6249840904599355e-15
+lambda_max(E_exact|Z') (50 digits) = 1.07489786883e-6   float a posteriori t = 1.0748978686199457e-06
+exact LDL^T: t I - E > 0 for t = lambda_max*(1+1e-06) = 1.074899e-06: True
+exact LDL^T: t I - E > 0 for t = lambda_max*(1+1e-03) = 1.075973e-06: True
+exact: W_Z - 0.05 g I > 0: True
+exact: W_Z - 0.59 g I > 0: True
+=== insert 3 0.85 12
+float certificate: {'t': 1.6226908750751076e-07, 'wmin': 0.6206067921938488, 'wmax': 5.9860664170261, 'status': 'optimal', 'nz': 25, 'nzp': 33}
+max |L_exact - L_float| = 3.219646771412954e-15  max|L| = 1.1974683949456866
+|Z| = 25  |Z'| = 33  max |E_exact| outside Z'xZ' = 2.6249840904599355e-15
+lambda_max(E_exact|Z') (50 digits) = 1.62269086687e-7   float a posteriori t = 1.6226908750751076e-07
+exact LDL^T: t I - E > 0 for t = lambda_max*(1+1e-06) = 1.622692e-07: True
+exact LDL^T: t I - E > 0 for t = lambda_max*(1+1e-03) = 1.624314e-07: True
+exact: W_Z - 0.05 g I > 0: True
+exact: W_Z - 0.59 g I > 0: True
+=== shift 3 1.15 12
+float certificate: {'t': 1.035883298469951e-07, 'wmin': 0.685047696423372, 'wmax': 6.225300025115726, 'status': 'optimal', 'nz': 25, 'nzp': 33}
+max |L_exact - L_float| = 3.2751579226442118e-15  max|L| = 0.9067432401102474
+|Z| = 25  |Z'| = 33  max |E_exact| outside Z'xZ' = 3.9582034878792804e-15
+lambda_max(E_exact|Z') (50 digits) = 1.03588330575e-7   float a posteriori t = 1.035883298469951e-07
+exact LDL^T: t I - E > 0 for t = lambda_max*(1+1e-06) = 1.035884e-07: True
+exact LDL^T: t I - E > 0 for t = lambda_max*(1+1e-03) = 1.036919e-07: True
+exact: W_Z - 0.05 g I > 0: True
+exact: W_Z - 0.59 g I > 0: True
+=== shift 2 1.0 16
+float certificate: {'t': 1.1580542326105387e-11, 'wmin': 0.5825805391911665, 'wmax': 7.680338266630352, 'status': 'optimal', 'nz': 33, 'nzp': 41}
+max |L_exact - L_float| = 2.220446049250313e-16  max|L| = 0.5988315937893476
+|Z| = 33  |Z'| = 41  max |E_exact| outside Z'xZ' = 8.907321596455163e-16
+lambda_max(E_exact|Z') (50 digits) = 1.15808314659e-11   float a posteriori t = 1.1580542326105387e-11
+exact LDL^T: t I - E > 0 for t = lambda_max*(1+1e-06) = 1.158084e-11: True
+exact LDL^T: t I - E > 0 for t = lambda_max*(1+1e-03) = 1.159241e-11: True
+exact: W_Z - 0.05 g I > 0: True
+exact: W_Z - 0.59 g I > 0: False
+=== merge 4 1.0 16
+  prob.solve(solver=cp.CLARABEL)
+float certificate: {'t': 3.790374084620827e-09, 'wmin': 0.5755996713205539, 'wmax': 11.034246779102533, 'status': 'optimal_inaccurate', 'nz': 32, 'nzp': 40}
+max |L_exact - L_float| = 1.7763568394002505e-15  max|L| = 1.4617938492690987
+|Z| = 32  |Z'| = 40  max |E_exact| outside Z'xZ' = 5.217114378120516e-16
+lambda_max(E_exact|Z') (50 digits) = 3.7903737918e-9   float a posteriori t = 3.790374084620827e-09
+exact LDL^T: t I - E > 0 for t = lambda_max*(1+1e-06) = 3.790378e-09: True
+exact LDL^T: t I - E > 0 for t = lambda_max*(1+1e-03) = 3.794164e-09: True
+exact: W_Z - 0.05 g I > 0: True
+exact: W_Z - 0.59 g I > 0: False
+=== insert 2 1.0 16
+float certificate: {'t': 3.8433835430755313e-07, 'wmin': 0.5653759372441279, 'wmax': 7.39094906157898, 'status': 'optimal', 'nz': 33, 'nzp': 41}
+max |L_exact - L_float| = 2.220446049250313e-16  max|L| = 0.6603367350041454
+|Z| = 33  |Z'| = 41  max |E_exact| outside Z'xZ' = 8.907321596455163e-16
+lambda_max(E_exact|Z') (50 digits) = 3.84338356875e-7   float a posteriori t = 3.8433835430755313e-07
+exact LDL^T: t I - E > 0 for t = lambda_max*(1+1e-06) = 3.843387e-07: True
+exact LDL^T: t I - E > 0 for t = lambda_max*(1+1e-03) = 3.847227e-07: True
+exact: W_Z - 0.05 g I > 0: True
+exact: W_Z - 0.59 g I > 0: False
+=== merge 2 1.15 16
+(merge 2 1.15 16 was still running when the report was written; not used in the report.)

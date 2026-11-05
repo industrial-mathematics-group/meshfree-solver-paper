@@ -64,7 +64,10 @@ with open(out, "a") as f:
                     L = build_operator(P, h, kappa, K, a, orient)
                     alpha = np.linalg.eigvals(L).real.max()
                     om = sym_abscissa(L, V)
-                    kr = kreiss(L, V, default_times(h))
+                    try:
+                        kr = kreiss(L, V, default_times(h))
+                    except np.linalg.LinAlgError:          # overflow on blow-up clouds (numpy >= 2.5: "SVD did not converge")
+                        kr = float("inf")
                     rec = dict(D=D, A=A, p=p, n=n, N=len(P), h=h, seed=seed, ndef=ndef, K=K, orient=orient,
                                alpha_h=float(alpha * h), omega_V_h=float(om * h), kreiss_V=float(kr))
                     f.write(json.dumps(rec) + "\n")

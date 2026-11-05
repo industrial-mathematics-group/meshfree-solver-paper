@@ -148,7 +148,7 @@ theorem nsd_kernel (E : Matrix ι ι ℝ) (hE : Eᵀ = E) (hnsd : ∀ u, qf E u 
         rw [lt_div_iff₀ hpos]; rw [abs_of_nonpos hq]; linarith
       linarith
     have : a ^ 2 / (|q| + 1) ≤ 0 := by
-      by_contra hc; push_neg at hc; nlinarith
+      by_contra hc; push Not at hc; nlinarith
     have : a ^ 2 ≤ 0 := by
       have := mul_le_mul_of_nonneg_right this hpos.le
       rwa [div_mul_cancel₀ _ hpos.ne', zero_mul] at this

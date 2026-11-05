@@ -1,0 +1,5 @@
+Output of `python3 scripts/d5_check.py scripts` (4 Nov 2026).
+K=2 geometric: half-bandwidth d=[4], FR order m found [2] (parity rule m=2), min_g min_x q_g = 2.6122e-01, max FR rel. error 4.9e-15
+K=3 geometric: half-bandwidth d=[4], FR order m found [2] (parity rule m=2), min_g min_x q_g = 2.5062e-01, max FR rel. error 3.9e-15
+K=4 geometric: half-bandwidth d=[4], FR order m found [3] (parity rule m=3), min_g min_x q_g = 2.7073e-02, max FR rel. error 1.5e-15
+K=4 aligned: half-bandwidth d=[4], FR order m found [3] (parity rule m=3), min_g min_x q_g = 6.2978e-01, max FR rel. error 1.2e-15

@@ -24,7 +24,7 @@ the paper. The exact plane- and oblique-shock relations used as checks are in `r
 ## 1. Double Mach reflection (Woodward-Colella setup, t = 0.2)
 
 **Incident shock at the top boundary (exact).** x_s(y, t) = 1/6 + (y + 20t)/sqrt(3). At y = 1, t = 0.2:
-x_s = 3.0534; at the centre of the top particle row, y = 1 - h/2 with h = 1/450: 3.0517.
+x_s = 3.0534; at the centre of the top particle row, y = 1 - h/2 with h = 1/450: 3.0528.
 
 **Three-shock theory** (`tst.py`, `tst2.py`). Incident Mach number 10, wedge angle 30 degrees; the triple point
 moves on a straight line through (1/6, 0) at angle chi to the wall.

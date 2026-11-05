@@ -41,7 +41,7 @@ def genMat (q : ι → ι → ℝ) : Matrix ι ι ℝ :=
 theorem genMat_mulVec (q : ι → ι → ℝ) (U : ι → ℝ) (i : ι) :
     (genMat q *ᵥ U) i = ∑ j, q i j * (U j - U i) := by
   simp only [genMat, mulVec, dotProduct, sub_mul, Finset.sum_sub_distrib, ite_mul, zero_mul,
-    Finset.sum_ite_eq, Finset.mem_univ, if_true, mul_sub, Finset.sum_mul]
+    Finset.sum_ite_eq, Finset.mem_univ, ite_true, mul_sub, Finset.sum_mul]
 
 /-- `Q 1 = 0`. -/
 theorem genMat_one (q : ι → ι → ℝ) : genMat q *ᵥ (fun _ => 1) = 0 := by

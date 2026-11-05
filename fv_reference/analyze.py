@@ -65,8 +65,6 @@ def step(fn):
         xx, a, b = crossing(x, f, k - 3, k + 4)
         print(f'  strongest jump on y={y[j]:.4f} in [0.95,1.8]: x={xx:.4f} plateaus {a:.3f} {b:.3f}')
     np.savetxt(fn.replace('.npz', '_front.txt'), np.c_[y, xf], fmt='%.5f', header='y x_leadingfront')
-if __name__ == '__main__':
-    {'dmr': dmr, 'step': step}[sys.argv[1]](sys.argv[2])
 
 def dmr2(fn):
     d = np.load(fn); r = d['rho']; x = d['x']; y = d['y']; t = float(d['t']); h = float(d['h'])
@@ -128,3 +126,7 @@ def rp3(fn):
     k = np.argmax(np.where(np.isnan(dg), -1, dg)); print('  max density %.4f at x=y=%.4f; global max %.4f' % (dg[k], s[k], r.max()))
     # density along diagonal coarse print for jet features
     np.savetxt(fn.replace('.npz', '_diag.txt'), np.c_[s, dg], fmt='%.5f', header='s rho(s,s)')
+
+
+if __name__ == '__main__':
+    {'dmr': dmr, 'step': step, 'dmr2': dmr2, 'rp3': rp3}[sys.argv[1]](sys.argv[2])

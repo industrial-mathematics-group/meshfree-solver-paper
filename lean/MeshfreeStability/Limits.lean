@@ -344,7 +344,7 @@ theorem nn_Q_indefinite (m : Gr → ℝ) (hm : ∃ i, m i ≠ m (i + 1)) :
 
 /-- **Proposition 9.2(iii), the 2-periodic determinant.** For `m_e ≠ m_o`, the determinant
 `-¼(m_e - m_o)² + ½ m_e m_o (1 - cos θ)` of the Bloch form is negative at `θ = 4π/N` for all
-large `N`. -/
+large `N`. (Stated with `4π/(n+1)`, i.e. `N = n + 1`.) -/
 theorem two_periodic_det_neg {me mo : ℝ} (hme : 0 < me) (hmo : 0 < mo) (hne : me ≠ mo) :
     ∃ N0 : ℕ, ∀ n : ℕ, N0 ≤ n →
       -(1 / 4) * (me - mo) ^ 2 + (1 / 2) * me * mo * (1 - cos (4 * π / (n + 1))) < 0 := by
@@ -459,7 +459,7 @@ theorem integrate_bound {f f' : ℝ → ℝ} (hf : ∀ x, HasDerivAt f (f' x) x)
   intro x hx
   have a1 := m1 (Set.mem_Ici.2 le_rfl) (Set.mem_Ici.2 hx) hx
   have a2 := m2 (Set.mem_Ici.2 le_rfl) (Set.mem_Ici.2 hx) hx
-  simp only [h0, ne_eq, Nat.add_eq_zero, one_ne_zero, and_false, not_false_eq_true, zero_pow,
+  simp only [h0, ne_eq, Nat.add_eq_zero_iff, one_ne_zero, and_false, not_false_eq_true, zero_pow,
     zero_div, sub_zero, add_zero] at a1 a2
   rw [abs_le]; constructor <;> linarith
 

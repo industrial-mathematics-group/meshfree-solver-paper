@@ -1,4 +1,4 @@
-\begin{thebibliography}{72}
+\begin{thebibliography}{73}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -74,6 +74,12 @@ A.~Chan, G.~Gallice, R.~Loub{\`e}re, and P.-H. Maire.
 \newblock \emph{Comput. Fluids}, 229:\penalty0 105056, 2021.
 \newblock \doi{10.1016/j.compfluid.2021.105056}.
 
+\bibitem[Chandrashekar(2004)]{Chandrashekar2004}
+Praveen Chandrashekar.
+\newblock A positive meshless method for hyperbolic equations.
+\newblock Fluid Mechanics Report 2004-FM-16, Department of Aerospace
+  Engineering, Indian Institute of Science, Bangalore, 2004.
+
 \bibitem[Chang et~al.(1995)Chang, Chen, and Yang]{ChangChenYang1995}
 T.~Chang, G.-Q. Chen, and S.~Yang.
 \newblock On the 2-{D} {R}iemann problem for the compressible {E}uler
@@ -86,7 +92,8 @@ T.~Chang, G.-Q. Chen, and S.~Yang.
 T.~Chang, G.-Q. Chen, and S.~Yang.
 \newblock On the 2-{D} {R}iemann problem for the compressible {E}uler
   equations. {II}. {I}nteraction of contact discontinuities.
-\newblock \emph{Discrete Contin. Dyn. Syst.}, 6:\penalty0 419--430, 2000.
+\newblock \emph{Discrete Contin. Dyn. Syst.}, 6\penalty0 (2):\penalty0
+  419--430, 2000.
 \newblock \doi{10.3934/dcds.2000.6.419}.
 
 \bibitem[Chiu et~al.(2011)Chiu, Wang, and Jameson]{Chiu2011}
@@ -241,22 +248,34 @@ Pascal Jung.
 Pascal Jung.
 \newblock {HyperCloud.jl}: A comprehensive meshfree simulation framework for
   solving {N}-dimensional hyperbolic {PDEs} with high-order numerical accuracy.
-\newblock \url{https://github.com/blhackslash/HyperCloud.jl},
+\newblock \url{https://github.com/industrial-mathematics-group/HyperCloud.jl},
   2026{\natexlab{b}}.
+\newblock Version 0.5.1.
 
 \bibitem[Jung(2026{\natexlab{c}})]{jung_hypercloudcore}
 Pascal Jung.
 \newblock {HyperCloudCore.jl}: High-performance, physics-agnostic meshless
   solver backend for hyperbolic {PDEs}.
-\newblock \url{https://github.com/blhackslash/HyperCloudCore.jl},
+\newblock
+  \url{https://github.com/industrial-mathematics-group/HyperCloudCore.jl},
   2026{\natexlab{c}}.
+\newblock Version 0.7.8.
 
-\bibitem[Jung(2026{\natexlab{d}})]{jung_pdestudio}
+\bibitem[Jung(2026{\natexlab{d}})]{jung_meshfree_simulations}
+Pascal Jung.
+\newblock meshfree-simulations: run configurations and driver scripts for the
+  meshfree {MUSCL} experiments.
+\newblock
+  \url{https://github.com/industrial-mathematics-group/meshfree-simulations},
+  2026{\natexlab{d}}.
+
+\bibitem[Jung(2026{\natexlab{e}})]{jung_pdestudio}
 Pascal Jung.
 \newblock {PDEStudio.jl}: Interactive visualization and exploration for {PDE}
   simulations.
-\newblock \url{https://github.com/blhackslash/PDEStudio.jl},
-  2026{\natexlab{d}}.
+\newblock \url{https://github.com/industrial-mathematics-group/PDEStudio.jl},
+  2026{\natexlab{e}}.
+\newblock Version 0.4.5.
 
 \bibitem[Katz and Jameson(2009)]{Katz2009}
 A.~Katz and A.~Jameson.
@@ -351,12 +370,6 @@ B.~Perthame and C.-W. Shu.
 \newblock \emph{Numer. Math.}, 73\penalty0 (1):\penalty0 119--130, 1996.
 \newblock \doi{10.1007/s002110050187}.
 
-\bibitem[Praveen(2004)]{Chandrashekar2004}
-C.~Praveen.
-\newblock A positive meshless method for hyperbolic equations.
-\newblock Fluid Mechanics Report 2004-FM-16, Department of Aerospace
-  Engineering, Indian Institute of Science, Bangalore, 2004.
-
 \bibitem[Quinlan et~al.(2006)Quinlan, Basa, and Lastiwka]{Quinlan2006}
 N.~J. Quinlan, M.~Basa, and M.~Lastiwka.
 \newblock Truncation error in mesh-free particle methods.
@@ -438,12 +451,13 @@ Raymond~J. Spiteri and Steven~J. Ruuth.
   469--491, 2002.
 \newblock \doi{10.1137/S0036142901389025}.
 
-\bibitem[Suchde(2018)]{SuchdeThesis2018}
+\bibitem[Suchde(2017)]{SuchdeThesis2018}
 P.~Suchde.
 \newblock \emph{Conservation and Accuracy in Meshfree Generalized Finite
   Difference Methods}.
-\newblock PhD thesis, Technische Universit{\"a}t Kaiserslautern, 2018.
-\newblock Published by Fraunhofer Verlag, Stuttgart, ISBN 978-3-8396-1325-2.
+\newblock PhD thesis, Technische Universit{\"a}t Kaiserslautern, 2017.
+\newblock Published by Fraunhofer Verlag, Stuttgart, 2018, ISBN
+  978-3-8396-1325-2.
 
 \bibitem[Suchde et~al.(2017)Suchde, Kuhnert, Schr{\"o}der, and
   Klar]{Suchde2017}

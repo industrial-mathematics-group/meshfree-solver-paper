@@ -68,8 +68,9 @@ with open(os.path.join(root, "tables", "spectra.tex"), "w") as out:
             out.write(r"\midrule" + "\n")
         lab = r"%d & %.1f & %.1f" % (D, kappa, jit) if (D, kappa, jit) != last else "&&"
         last = (D, kappa, jit)
-        a_s = r"$\le 10^{-12}$" if al < 1e-12 else "$%s$" % sci(al)
-        ah_s = "" if al < 1e-12 else "$%s$" % sci(ah)
+        tiny = ah < 1e-12                 # round-off threshold on alpha*h (fixed 2026-11-04: was applied to alpha)
+        a_s = r"$\le 10^{-12}$" if tiny else "$%s$" % sci(al)
+        ah_s = "" if tiny else "$%s$" % sci(ah)
         out.write(r"%s & %d & %s & %s--%s & %s & %s & %s\\" % (
             lab, K, o, ns[0], ns[-1], a_s, ah_s, ("%.2f" % max(gr)) if len(gr) == len(rs) else r"$\infty$") + "\n")
 for fn in ("lattice.tex", "spectra.tex"):

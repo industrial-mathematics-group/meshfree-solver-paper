@@ -1,7 +1,7 @@
 \documentclass[11pt,a4paper]{article}
 
 % ---------------------------------------------------------------------------
-% Standalone mathematical companion to main.tex (exploratory split, 28 Oct 2026)
+% Standalone mathematical companion to main_light.tex (exploratory split, 28 Oct 2026)
 % ---------------------------------------------------------------------------
 \usepackage[margin=2.5cm]{geometry}
 \usepackage[utf8]{inputenc}
@@ -68,7 +68,7 @@ exactness, conservation and admissibility}
 \maketitle
 
 \begin{abstract}
-We collect the mathematical framework of a class of meshfree MUSCL schemes for hyperbolic systems of conservation laws on scattered point clouds, whose implementation and numerical study are reported in a companion paper \cite{JungMUSCL2026}. Midpoint Riemann problems between moving least-squares (MLS) reconstructions are differentiated by an MLS derivative operator with zero row sums. We prove exactness for polynomial solutions of linear problems, consistency of the design order on Cartesian lattices for an odd derivative degree selected by a parity argument, and an exact balance law that identifies the conservation error with the lack of antisymmetry of the volume-weighted derivative weights. Orienting the Rusanov dissipation by the signs of the derivative weights (the aligned orientation) makes the first-order scheme positivity-preserving for the Euler equations, for derivative weights of any degree. For the per-particle MOOD procedure with four interface rules we characterize the rules under which a particle at the lowest order is advanced by the first-order scheme. Finally we show that stage-wise MOOD inside an arbitrary explicit strong-stability-preserving Runge--Kutta method yields admissible stages and updates for every distribution of the orders, provided that the detection checks the forward Euler substeps of the canonical Shu--Osher form rather than the stage values; checking the stage values suffices for the two- and three-stage methods but not for SSPRK(5,4).
+We collect the mathematical framework of a class of meshfree MUSCL schemes for hyperbolic systems of conservation laws on scattered point clouds, whose implementation and numerical study are reported in a companion paper \cite{JungMUSCL2026}. Midpoint Riemann problems between moving least-squares (MLS) reconstructions are differentiated by an MLS derivative operator with zero row sums. We prove exactness for polynomial solutions of linear problems, consistency of the design order on Cartesian lattices for an odd derivative degree selected by a parity argument, and an exact balance law that identifies the conservation error with the lack of antisymmetry of the volume-weighted derivative weights. Orienting the Rusanov dissipation by the signs of the derivative weights (the aligned orientation) makes the first-order scheme positivity-preserving for the Euler equations, for derivative weights of any degree. For the per-particle MOOD procedure with four interface rules we characterize the rules under which a particle at the lowest order is advanced by the first-order scheme. Finally we show that stage-wise MOOD inside an arbitrary explicit strong-stability-preserving Runge--Kutta method yields admissible stages and updates for every distribution of the orders, provided that the detection checks the forward Euler substeps of the canonical Shu--Osher form rather than the stage values; checking the stage values suffices for the SSP methods of Heun (RK2) and Shu--Osher (RK3) but not for SSPRK(5,4).
 \end{abstract}
 
 \noindent\textbf{Keywords:} meshfree methods; moving least squares; MUSCL; MOOD; positivity preservation; strong-stability-preserving Runge--Kutta methods; local conservation
@@ -93,14 +93,14 @@ Stability and convergence of the high-order schemes are not addressed. The state
 The purpose of this note is to justify the implementation, and where the two differ, the implementation is the reference. The scheme analysed here is the one of HyperCloudCore.jl~0.7.8 with the aligned Rusanov flux. Three deviations remain, and the corresponding statements then hold as approximate equalities rather than exactly:
 \begin{enumerate}[label=(\roman*)]
 \item \emph{Regularized fits.} Numerically degenerate stencils are fitted with a Tikhonov term (\cref{rem:regularization}). For such a particle, reproduction and the zero row sums of \cref{lem:divfit}(i),(ii) hold only approximately, $\sum_jc_{ij}\approx0$, and so do condition (a) of \cref{prop:positivity} and all results that use it.
-\item \emph{Pairs with $x_{ij,d}=0$.} On geometric edges the implementation orients such pairs by $\sigma_{ij,d}=\sigma_{ji,d}=-1$, which breaks the symmetry of \cref{lem:symmetry} and the bound of \cref{prop:conservation}(i) on these pairs (\cref{prop:conservation}(iii)). Such pairs are rare on perturbed clouds (in single precision about $5\cdot10^{-5}$ of the pairs on the clouds of \cite{JungMUSCL2026}), and on lattices their weights vanish.
+\item \emph{Pairs with $x_{ij,d}=0$.} On geometric edges the implementation orients such pairs by $\sigma_{ij,d}=\sigma_{ji,d}=-1$, which breaks the symmetry of \cref{lem:symmetry} and the bound of \cref{prop:conservation}(i) on these pairs (\cref{prop:conservation}(iii)). Such pairs are rare on perturbed clouds (in single precision about $5\cdot10^{-5}$ of the pairs on the clouds of \cite{JungMUSCL2026}), and on Cartesian lattices their weights vanish by the reflection symmetry of the stencil (proof of \cref{prop:lattice}).
 \item \emph{Time step.} The time step of the implementation enforces the conditions \eqref{eq:cflpos} and (H4) of \cref{thm:mood} only approximately, up to the difference between the weights with and without constant term and the change of the wave speeds within a step (\cref{rem:mood}(iii)).
 \end{enumerate}
 Besides these, all identities hold up to round-off.
 \end{remark}
 
 \begin{remark}[Machine-checked proofs]\label{rem:lean}
-The definitions and results of \cref{sec:mls,sec:muscl,sec:positivity,sec:time} have been formalized in Lean~4 with Mathlib; the sources are in the folder \texttt{lean/} accompanying this note, whose \texttt{README.md} maps every statement to its Lean counterpart. All fits are modelled as unregularized, so the approximate statements of \cref{rem:code} are not covered. The following are checked in full: \cref{lem:divfit,lem:weightbound,lem:parity} (including the counterexample of \cref{lem:parity}(iii)), \cref{def:qk}, \cref{lem:symmetry}, \cref{prop:conservation} with (i)--(iii), the convexity of $\Ad$ for the Euler equations, \cref{lem:lfstates,prop:positivity,cor:aligned,prop:fallback,prop:local,lem:canonical}, as well as the canonical forms of forward Euler, RK2 and RK3. The following are checked with one ingredient taken as a hypothesis: \cref{cor:derr} (the Taylor remainder bound), \cref{prop:exact} (the interface states $U_{ij}=U_{ji}=u(m_{ij})$, which follow from the reproduction property of \cref{sec:recfit}, also checked), \cref{thm:mood,cor:ssp} (\cref{prop:local} at every checkpoint and the exact locality of \cref{alg:mood}; termination is checked), and \cref{rem:stagevalues} (the negative coefficient, for all coefficients within the rounding of \cref{tab:ssprk54}). Of \cref{prop:lattice} only the parity and cancellation steps are formalized, not the $O(h)$ expansions; the maximality of the SSP coefficients is not formalized.
+The definitions and results of \cref{sec:mls,sec:muscl,sec:positivity,sec:time} have been formalized in Lean~4 with Mathlib; the sources are in the folder \texttt{lean/} accompanying this note, whose \texttt{README.md} maps every statement to its Lean counterpart. All fits are modelled as unregularized, so the approximate statements of \cref{rem:code} are not covered. The following are checked in full: \cref{lem:divfit,lem:weightbound,lem:parity} (including the counterexample of \cref{lem:parity}(iii)), \cref{def:qk}, \cref{lem:symmetry}, \cref{prop:conservation} with (i)--(iii), the convexity of $\Ad$ for the Euler equations, \cref{lem:lfstates,prop:positivity,cor:aligned,prop:fallback,prop:local,lem:canonical}, as well as the canonical forms of forward Euler, RK2 and RK3. The following are checked with one ingredient taken as a hypothesis: \cref{cor:derr} (the Taylor remainder bound), \cref{prop:exact} (the interface states $U_{ij}=U_{ji}=u(m_{ij})$, which follow from the reproduction property of \cref{sec:recfit}, also checked, together with the translation invariance of $\Pi_q$, which is not formalized), \cref{thm:mood,cor:ssp} (\cref{prop:local} at every checkpoint and the exact locality of \cref{alg:mood}; termination is checked), and \cref{rem:stagevalues} (the negative coefficient, for all coefficients within the rounding of \cref{tab:ssprk54}). Of \cref{prop:lattice} only the parity and cancellation steps are formalized, not the $O(h)$ expansions; the maximality of the SSP coefficients is not formalized.
 \end{remark}
 
 % ===========================================================================
@@ -241,7 +241,7 @@ because $Pe_{1+d}=-e_{1+d}$ ($y_d$ has odd degree).
 \end{proof}
 
 \begin{corollary}[Derivative error]\label{cor:derr}
-Let \cref{ass:cloud} hold, let the neighbourhoods be $\Pi_q$-unisolvent with unregularized derivative fits, and let $g$ be a fixed smooth function. Then
+Let \cref{ass:cloud} hold, let the neighbourhoods be $\Pi_q$-unisolvent with unregularized derivative fits, and let $g$ be a smooth function. Then
 \begin{equation}\label{eq:derr}
 \Big|\sum_j c^{(d)}_{ij}\big(g(x_{ij})-g(0)\big)-\partial_d g(0)\Big| =
 \begin{cases} O(h^{q+1}) & \text{$q$ odd, centrally symmetric stencil},\\ O(h^{q}) & \text{otherwise.}\end{cases}
@@ -249,7 +249,7 @@ Let \cref{ass:cloud} hold, let the neighbourhoods be $\Pi_q$-unisolvent with unr
 \end{corollary}
 
 \begin{proof}
-Split $g(y)-g(0)=T_q(y)+T_{q+1}(y)+\rho(y)$ into the Taylor terms of degrees $1,\dots,q$, the terms of degree $q+1$, and a remainder $|\rho(y)|\le C|y|^{q+2}$. By \cref{lem:divfit}(i) the first part gives $\partial_dg(0)$ exactly. On a centrally symmetric stencil with odd $q$ the second part contributes zero by \cref{lem:parity}(ii); otherwise it contributes at most $\sum_j|c^{(d)}_{ij}|\,C(\kappa h)^{q+1}=O(h^q)$ by \cref{lem:weightbound}. The remainder contributes $O(h^{-1})\,O(h^{q+2})$.
+Split $g(y)-g(0)=T_q(y)+T_{q+1}(y)+\rho(y)$ into the Taylor terms of degrees $1,\dots,q$, the terms of degree $q+1$, and a remainder $|\rho(y)|\le C|y|^{q+2}$. By \cref{lem:divfit}(i) the first part gives $\partial_dg(0)$ exactly. On a centrally symmetric stencil with odd $q$ the second part contributes zero by \cref{lem:parity}(ii); otherwise it contributes at most $\sum_j|c^{(d)}_{ij}|\,C(\kappa h)^{q+1}=O(h^q)$ by \cref{lem:weightbound}. The remainder contributes $O(h^{-1})\,O(h^{q+2})$. The constants depend on $g$ only through bounds of its derivatives of orders $q+1$ and $q+2$ near $0$, so the estimate holds uniformly for a family $g_i$ whose derivatives are bounded uniformly in $i$.
 \end{proof}
 
 \begin{definition}[Divergence degree]\label{def:qk}
@@ -346,7 +346,7 @@ In particular $\tau_i=O(h^k)$ for $q=\qdiv(k)$.
 \[
 U_{ij}=u(m_{ij})+E(x_{ij})+O(h^{k+1}),\qquad U_{ji}=u(m_{ij})+(-1)^kE(x_{ij})+O(h^{k+1}).
 \]
-\emph{Orientation.} By translation invariance $c^{(d)}_{ij}=\gamma_d(x_{ij})$ for a function $\gamma_d$ on the set of offsets, which is odd by \cref{lem:parity}(i). On geometric edges $\sigma_{ij,d}=\sgn(x_{ij,d})$, and on aligned edges (all edges if $k<K$ or $K=1$) $\sigma_{ij,d}=\sgn\gamma_d(x_{ij})$. In both cases $\sigma_{ij,d}=\varsigma_d(x_{ij})$ with a function $\varsigma_d$ that is odd on all offsets with $\gamma_d\ne0$. Offsets with $\gamma_d(x_{ij})=0$ do not enter the update of $i$ in direction $d$, so the value of $\varsigma_d$ there, including the convention for $x_{ij,d}=0$, does not matter.
+\emph{Orientation.} By translation invariance $c^{(d)}_{ij}=\gamma_d(x_{ij})$ for a function $\gamma_d$ on the set of offsets, which is odd by \cref{lem:parity}(i). On geometric edges $\sigma_{ij,d}=\sgn(x_{ij,d})$, and on aligned edges (all edges if $k<K$ or $K=1$) $\sigma_{ij,d}=\sgn\gamma_d(x_{ij})$. In both cases $\sigma_{ij,d}=\varsigma_d(x_{ij})$ with a function $\varsigma_d$ that is odd on all offsets with $\gamma_d\ne0$. For the aligned orientation this is the oddness of $\gamma_d$. For the geometric orientation $\sgn(y_d)$ is odd except on offsets with $y_d=0$, where the convention $\sigma_{ij,d}=\sigma_{ji,d}=-1$ is even; on these offsets $\gamma_d$ vanishes by the reflection symmetry of the Cartesian stencil. Indeed, the set of offsets and the radial weights are invariant under the reflection $R_d\colon y_d\mapsto-y_d$, and with $P_d=\mathrm{diag}\big((-1)^{\alpha_d}\big)_{0\le|\alpha|\le q}$ one has $\ptil_q(R_dy)=P_d\,\ptil_q(y)$; the argument of the proof of \cref{lem:parity}(i) with $P_d$ in place of $P$ gives $\gamma_d(R_dy)=-\gamma_d(y)$, since $P_de_{1+d}=-e_{1+d}$, and hence $\gamma_d(y)=0$ whenever $y_d=0$. Offsets with $\gamma_d(x_{ij})=0$ do not enter the update of $i$ in direction $d$, so the value of $\varsigma_d$ there, including the convention for $x_{ij,d}=0$, does not matter.
 
 \emph{Fluxes.} Expanding \eqref{eq:rusanov} about $u(m_{ij})$, with $s_{ij,d}=\lambda_d(u(m_{ij}))+O(h^k)$, $F_d'(u(m_{ij}))=F_d'(u(x_i))+O(h)$ and the same for $\lambda_d$, gives $\Fs_{ij,d}=F_d(u(m_{ij}))+G_d(x_{ij})+O(h^{k+1})$ with
 \[
@@ -354,7 +354,7 @@ G_d(y)=\tfrac12\big(1+(-1)^k\big)F_d'(u(x_i))\,E(y)+\tfrac12\big(1-(-1)^k\big)\l
 \]
 For even $k$ the first term is even in $y$ and the second vanishes; for odd $k$ the first vanishes and the second is the product of two odd functions. Thus $G_d(-y)=G_d(y)$ on all offsets with $\gamma_d(y)\ne0$.
 
-\emph{Summation.} By \cref{cor:derr}, applied to $g(y)=F_d(u(x_i+\tfrac12y))-F_d(u(x_i))$, the exact midpoint fluxes give $-2\sum_jc_{ij}\cdot\big(F(u(m_{ij}))-F(u(x_i))\big)=-\sum_d\partial_dF_d(u)(x_i)+O(h^{q+1})$. The terms $G_d$ drop out, $\sum_jc^{(d)}_{ij}G_d(x_{ij})=0$, because $c^{(d)}_{ij'}=-c^{(d)}_{ij}$ while $G_d(x_{ij'})=G_d(x_{ij})$ wherever $c^{(d)}_{ij}\ne0$. The remainders contribute $2\sum_j|c_{ij}|\,O(h^{k+1})=O(h^k)$ by \cref{lem:weightbound}.
+\emph{Summation.} By \cref{cor:derr}, applied to the family $g_i(y)=F_d(u(x_i+\tfrac12y))-F_d(u(x_i))$, whose derivatives are bounded uniformly in $i$ because $u$ is smooth on the periodic domain, the exact midpoint fluxes give $-2\sum_jc_{ij}\cdot\big(F(u(m_{ij}))-F(u(x_i))\big)=-\sum_d\partial_dF_d(u)(x_i)+O(h^{q+1})$. The terms $G_d$ drop out, $\sum_jc^{(d)}_{ij}G_d(x_{ij})=0$, because $c^{(d)}_{ij'}=-c^{(d)}_{ij}$ while $G_d(x_{ij'})=G_d(x_{ij})$ wherever $c^{(d)}_{ij}\ne0$. The remainders contribute $2\sum_j|c_{ij}|\,O(h^{k+1})=O(h^k)$ by \cref{lem:weightbound}.
 \end{proof}
 
 With the even degree $q=k-1$ for odd $k$, the derivative error would limit the scheme to order $k-1$, which is a second reason for \cref{def:qk}. The frozen mode with $\qdiv(k_{\mathrm{div}})<k-1$ is formally of order $\qdiv(k_{\mathrm{div}})+1$ only. On irregular clouds neither the parity of $\psi_\alpha$ nor the antisymmetry of the weights holds, and the bound loses one order.
@@ -408,7 +408,7 @@ Let $\Ad$ be convex and assume that $U-\sigma F_d(U)/s\in\Ad$ for all $U\in\Ad$,
 \item $\sum_{j\in\nb(i)}c_{ij}=0$,
 \item $\sigma_{ij,d}\,c^{(d)}_{ij}=|c^{(d)}_{ij}|$ for all $j\in\nb(i)$ and $d=1,\dots,D$, i.e.\ $\sigma_{ij,d}\,c^{(d)}_{ij}\ge0$, and $\sigma_{ij,d}\ne0$ wherever $c^{(d)}_{ij}\ne0$,
 \end{enumerate}
-let $U_l\in\Ad$ for all $l\in\cnb(i)$, and let $\tau>0$ satisfy
+let $U_l\in\Ad$ for all $l\in\cnb(i)$, let $s_{ij,d}>0$ wherever $c^{(d)}_{ij}\ne0$ (automatic for the Euler equations, where $\lambda_d$ is at least the sound speed), and let $\tau>0$ satisfy
 \begin{equation}\label{eq:cflpos}
 \tau\sum_{j\in\nb(i)}\sum_{d=1}^Ds_{ij,d}\,|c^{(d)}_{ij}|\le1 .
 \end{equation}
@@ -467,14 +467,14 @@ EPD1 is the minimum rule of FV MOOD \cite{Clain2011,Diot2012}. \Cref{fig:epd} il
 \end{figure}
 
 \begin{proposition}[Fallback property]\label{prop:fallback}
-Let $i\in I$ have order $k_i=1$. Under EPD1 and EPD2, $\Lop_i$ coincides with a first-order operator, i.e.\ \eqref{eq:scheme} with piecewise constant interface states on all edges of $i$: with derivative weights of degree one in the coupled mode and of degree $\qdiv(k_{\mathrm{div}})$ in the frozen mode. If $K=1$, this holds under every rule. Under EPD0 with $K\ge2$ it does not hold in general.
+Let $i\in I$ have order $k_i=1$. Under EPD1 and EPD2, $\Lop_i$ coincides with a first-order operator, i.e.\ \eqref{eq:scheme} with piecewise constant interface states on all edges of $i$: with the derivative weights of degree $q_i$ (\cref{rem:safeguards}), i.e.\ degree one in the coupled mode and $\qdiv(k_{\mathrm{div}})$ in the frozen mode unless a safeguard lowers it. If $K=1$, this holds under every rule. Under EPD0 with $K\ge2$ it does not hold in general.
 \end{proposition}
 
 \begin{proof}
 Under EPD1, $\ord ij=\ord ji=\min\{1,k_j\}=1$ for all $j\in\nb(i)$; under EPD2 the minimum runs over a set that contains $i$. For $K=1$ all orders are one. In all cases \eqref{eq:states} gives piecewise constant states, and the coupled mode gives $q_i=\qdiv(1)=1$, the frozen mode $q_i=\qdiv(k_{\mathrm{div}})$. Under EPD0, $\ord ji=k_j$ may exceed one, so that $U_{ji}\ne U_j$.
 \end{proof}
 
-The failure of EPD0 is consistent with FV MOOD \cite{Clain2011}, where the polynomial degree used at a face is the minimum of the degrees of the two adjacent cells, so that a cell decremented to the lowest degree is advanced by the first-order (parachute) scheme; EPD1 is this rule on the edges of the neighbour graph.
+The failure of EPD0 is consistent with FV MOOD \cite{Clain2011}, where the polynomial degree used at a face is the minimum of the degrees of the two adjacent cells, so that a cell decremented to the lowest degree is advanced by the first-order scheme (called the parachute scheme in later MOOD papers); EPD1 is this rule on the edges of the neighbour graph.
 
 Combining \cref{prop:fallback} with \cref{cor:aligned} gives the local statement that the time integration needs.
 
@@ -613,7 +613,7 @@ If all orders are one, all interface orders are one under every rule of \eqref{e
 \begin{enumerate}[label=(\roman*)]
 \item \emph{EPD0} is not covered: a particle at order one may still receive high-order reconstructions of its neighbours (\cref{prop:fallback}).
 \item \emph{Coupled mode.} The theorem covers the coupled mode as far as admissibility is concerned; its pairs of particles with different derivative degrees affect conservation only (\cref{sec:conservation}).
-\item \emph{Time step.} (H4) is an assumption on the stage states. The time step of the implementation is $\Delta t=\CFL\cdot\min_i\big(D\sum_d\lambda_d(U^n_i)\sum_j|\hat c^{(d)}_{ij}|\big)^{-1}$, with weights $\hat c$ of a fit without constant term. If the wave speeds at the stages and at the neighbours do not exceed those at $U^n_i$, and $\hat c$ are the weights of the first-order operator, then $\CFL\le D\,\Csp$ implies (H4) up to the difference between the weights with and without constant term (at most $3.5\%$ per particle on the clouds of \cite{JungMUSCL2026}). For SSPRK(5,4) this permits $\CFL\le1.508\,D$; for RK2 and RK3, $\CFL\le D$.
+\item \emph{Time step.} (H4) is an assumption on the stage states. The time step of the implementation is $\Delta t=\CFL\cdot\min_i\big(D\sum_d\lambda_d(U^n_i)\sum_j|\hat c^{(d)}_{ij}|\big)^{-1}$, with weights $\hat c$ of a fit without constant term. If the wave speeds at the stages and at the neighbours do not exceed those at $U^n_i$, and $\hat c$ are the weights of the first-order operator, then $\CFL\le D\,\Csp$ implies (H4) up to the difference between the weights with and without constant term (at most $3.5\%$ per particle for degree one and $10.6\%$ for degree three on the clouds of \cite{JungMUSCL2026}; the frozen mode with $k_{\mathrm{div}}=K\ge3$ uses degree-three weights). For SSPRK(5,4) this permits $\CFL\le1.508\,D$; for RK2 and RK3, $\CFL\le D$.
 \item \emph{DMP.} Checking the substep against $Y_{k-1}$ is also the natural form of the DMP: if every $W_{j,i}$ satisfies \eqref{eq:dmp} with $\delta=0$ with respect to $Y_j$, then $Y_{k,i}$ lies componentwise between the minimum and the maximum of $U^n_i$ and of the local extrema of $Y_1,\dots,Y_{k-1}$ over $\cnb(i)$. With the stage-value check, the DMP test of a combination containing $U^n$ against the bounds of $Y_{k-1}$ is a heuristic.
 \item \emph{Implementation.} HyperCloudCore.jl (since version~0.7.7) computes $\Csp$ of an explicit tableau by bisection on \eqref{eq:canonical} and, for $\Csp>0$, checks $W_{k-1}$ as in \cref{alg:mood}; ghost particles keep $Y_{k-1}$ in $W_{k-1}$ and are not checked. The stage-value check remains available as an option and is used for $\Csp=0$ and for implicit--explicit methods.
 \end{enumerate}
@@ -635,7 +635,7 @@ If all orders are one, all interface orders are one under every rule of \eqref{e
 \section{Changes with respect to the draft of 27 October 2026}\label{app:changes}
 % ===========================================================================
 
-The numbers in parentheses refer to the draft of \cite{JungMUSCL2026}.
+The numbers in parentheses refer to the draft \cite{JungMUSCL2026draft}.
 \begin{enumerate}
 \item \emph{Stage-wise MOOD} (Section~6.2, Corollary~6.1). MOOD now checks the forward Euler substeps $W_{k-1}$ of the canonical Shu--Osher form instead of the stage values, as in HyperCloudCore.jl~0.7.7 (\cref{alg:mood}). \Cref{rem:stagevalues} shows why the stage-value check is insufficient for SSPRK(5,4). The local result is \cref{prop:local}, the mixed-order result \cref{thm:mood}; the former Corollary~6.1 is \cref{cor:ssp} and is stated as the all-order-one special case.
 \item \emph{Aligned orientation at $K=1$} (Section~4.3, Corollary~5.3). The aligned orientation now applies on every edge with a particle below $K$ \emph{or} with $K=1$, as in HyperCloudCore.jl~0.7.7, so that \cref{prop:positivity} covers the first-order scheme with degree-one weights on perturbed clouds. The ``Hence'' statement of \cref{cor:aligned} is restricted to particles with $k_i<K$ or $K=1$, and the order-$K$ neighbours of lowered particles under EPD2 are discussed after it.
@@ -647,9 +647,12 @@ The numbers in parentheses refer to the draft of \cite{JungMUSCL2026}.
 \item \emph{Proposition~4.4.} The bound $|e|\le|d|$ excludes geometric edges with $x_{ij,d}=0$ (\cref{prop:conservation}(iii)); the local-conservation statement is an ``if'', with the additional condition on these edges.
 \item \emph{Lemma~3.6(i).} The step $\Ntil_i^{-1}P=P\Ntil_i^{-1}$ is written out (\cref{lem:parity}).
 \item \emph{StrictEPD0} is removed; it is a deprecated rule of earlier versions of the code.
-\item \emph{Condition (b) of \cref{prop:positivity}} (new with respect to both drafts). The condition $\sigma_{ij,d}c^{(d)}_{ij}\ge0$ allowed $\sigma_{ij,d}=0$ with $c^{(d)}_{ij}\ne0$, for which the step $c^{(d)}_{ij}=\sigma_{ij,d}|c^{(d)}_{ij}|$ of the proof fails; it now reads $\sigma_{ij,d}c^{(d)}_{ij}=|c^{(d)}_{ij}|$. Both orientations of \cref{sec:fluxes} satisfy it (found during the Lean formalization, \cref{rem:lean}).
+\item \emph{Condition (b) of \cref{prop:positivity}} (new with respect to both drafts). The condition $\sigma_{ij,d}c^{(d)}_{ij}\ge0$ allowed $\sigma_{ij,d}=0$ with $c^{(d)}_{ij}\ne0$, for which the step $c^{(d)}_{ij}=\sigma_{ij,d}|c^{(d)}_{ij}|$ of the proof fails; it now reads $\sigma_{ij,d}c^{(d)}_{ij}=|c^{(d)}_{ij}|$. Both orientations of \cref{sec:fluxes} satisfy the added requirement $\sigma_{ij,d}\ne0$; the aligned orientation satisfies the whole condition, the geometric one not in general (\cref{rem:positivity}(i)) (found during the Lean formalization, \cref{rem:lean}).
 \item \emph{New.} \Cref{rem:lean} summarizes the Lean formalization. \Cref{rem:code} lists the remaining deviations between theory and implementation, under which the statements hold as approximate equalities.
 \end{enumerate}
+
+\section*{Declaration of generative AI use}
+This note, its proofs and the Lean formalization described in \cref{rem:lean} were generated with Claude Fable 5.1 (Anthropic) in Claude Code, starting from the companion paper \cite{JungMUSCL2026}. The note and the Lean code were reviewed by an independent Claude Opus 5.5 session without access to the generating conversation, which re-derived every proof by hand and rebuilt the Lean formalization. The author reviewed the results and takes full responsibility for the content.
 
 \bibliographystyle{plainnat}
 \bibliography{refs,math_addendum_refs}
