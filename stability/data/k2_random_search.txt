@@ -1,0 +1,7 @@
+Output of `python3 scripts/k2_random_search.py` (4 Nov 2026). Values ~1e-45 are round-off: no violation.
+m=6: max over trials of max_t (-quadratic form) = 3.503e-46
+m=9: max over trials of max_t (-quadratic form) = 3.503e-46
+m=10: max over trials of max_t (-quadratic form) = 3.503e-46
+m=12: max over trials of max_t (-quadratic form) = 2.699e-45
+m=14: max over trials of max_t (-quadratic form) = 1.395e-45
+mu supported on {1, 10}: max violation = -0.000e+00

@@ -1,5 +1,6 @@
 """LaTeX table rows of the high-order stability note from data/ho_*.{jsonl,md} (writes tables/ho_*.tex)."""
 import json
+import math
 import os
 import re
 from collections import defaultdict
@@ -93,7 +94,8 @@ with open(os.path.join(root, "tables", "ho_bloch.tex"), "w") as out:
         for m in ms:
             sub = [r for r in rs if r["m"] == m]
             per_m.append("%s / %s" % (sci(max(r["alpha_h"] for r in sub)), "%.3f" % max(r["kreiss"] for r in sub)
-                                       if max(r["kreiss"] for r in sub) < 1e3 else "$\\infty$"))
+                                       if max(r["kreiss"] for r in sub) < 1e3 else
+                                       (sci(max(r["kreiss"] for r in sub)) if math.isfinite(max(r["kreiss"] for r in sub)) else "$\\infty$")))
         per_m += [""] * (3 - len(per_m))
         out.write("%s & %d & %s & %s & %s\\\\\n" % (pre, K, orient[:4] + ".", ", ".join(str(m) for m in ms), " & ".join(per_m)))
 
@@ -140,14 +142,17 @@ with open(os.path.join(root, "tables", "ho_local.tex"), "w") as out:
             out.write("%s & %s & %s & %s & %s & %s & %s & %s & %s & %s\\\\\n" % (
                 pre, n, seed, K, nbr.replace("[", "").replace("]", ""), sci(float(m2)), sci(float(s2)), "%.3f" % float(m4), "%.3f" % float(s4), sci(float(alpha))))
 
-# ---- Lyapunov SDP --------------------------------------------------------------------------------
+# ---- diagonal Lyapunov weights (exact criterion of ho_lyapunov_exact.py; the SDP of ho_lyapunov.py is degenerate) ----
 with open(os.path.join(root, "tables", "ho_lyapunov.tex"), "w") as out:
-    for r in load("ho_lyapunov_1d.jsonl"):
-        st = r["status"]
-        feas = "infeasible" if "infeasible" in st else ("feasible" if r.get("resid", 1) < 1e-3 else "not feasible (residual %.2f)" % r["resid"])
-        out.write("%d & %g & %g & %d & %d & %s & %s & %s\\\\\n" % (
-            r["D"], r["kappa"], r["jitter"], r["n"], r["K"], r["orient"], feas,
-            ("%.2f" % r["rho"]) if "rho" in r and feas == "feasible" else "--"))
+    for r in load("ho_lyapunov_exact_1d.jsonl"):
+        if not r["pi_positive"]:
+            st, rho, om = r"infeasible ($\pi\not>0$)", "--", "--"
+        else:
+            st = "feasible" if r["feasible"] else "infeasible"
+            rho = ("%.3f" % r["rho"]) if r["feasible"] else "--"
+            om = r"$\le10^{-12}$" if abs(r["omega_pi_h"]) <= 1e-12 else sci(r["omega_pi_h"])
+        out.write("%d & %g & %g & %d & %d & %s & %s & %s & %s\\\\\n" % (
+            r["D"], r["kappa"], r["jitter"], r["n"], r["K"], r["orient"], om, st, rho))
 print("tables written")
 
 # ---- defects: certificates (1-D) ---------------------------------------------------------------

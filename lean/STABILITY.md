@@ -1,7 +1,7 @@
 # Lean formalization of the stability note (Part I)
 
 Lean 4 (v4.35.0) + Mathlib (tag `v4.35.0`) formalization of the proved results of Part I
-(Sections 3 to 9) of `paper/stability/stability_combined.tex`, the revised version of
+(Sections 3 to 9) of `stability/stability_combined.tex`, the revised version of
 29 Oct 2026. Part II is not covered. The library is `MeshfreeStability`. It sits next to
 `MeshfreeAddendum` in this Lake project and reuses its definitions (`Checkpoint`,
 `scalar_led`, `ssp_stages`, `rusanov`, `LFHyp`, `Euler.State`, ...).
@@ -9,14 +9,16 @@ Lean 4 (v4.35.0) + Mathlib (tag `v4.35.0`) formalization of the proved results o
 ## Status
 
 `lake build` succeeds with **no `sorry`, no `admit` and no extra axioms** (2,975 lines in
-9 files). `MeshfreeStability/AxiomCheck.lean` prints the axioms of 77 main results. Each one
+10 files). `MeshfreeStability/AxiomCheck.lean` prints the axioms of 77 main results. Each one
 depends only on `propext`, `Classical.choice` and `Quot.sound`, Lean's standard axioms.
 
 Priority, as agreed: the formalization checks that the **analysis** behind the implementation
 is right. Results that the paper obtains by computer (SDP certificates, the `P_nm` polynomial
 inequalities, `N ≤ 64` checks) or cites from the literature (Lax–Nirenberg, Fejér–Riesz,
 Perron–Frobenius, Riemann-problem facts) enter as **explicit hypotheses** of the Lean
-theorems. Every such hypothesis is a named argument, so it is visible in the statement.
+theorems. In several rows (Thms 3.1, 4.4, 6.1, 7.3, 8.7, Prop 3.3) proof steps that the paper
+proves itself also enter as hypotheses; the table lists them. Every such hypothesis is a named
+argument, so it is visible in the statement.
 
 Legend for the table:
 
@@ -32,7 +34,7 @@ lake build                                   # builds both libraries
 lake env lean MeshfreeStability/AxiomCheck.lean
 ```
 `cache.mathlib.org` was blocked in this environment, so Mathlib was compiled from source
-(about 2,900 files). The toolchain came from the GitHub release of Lean v4.35.0.
+(about 2,570 Mathlib modules; Lake runs about 2,900 jobs in total). The toolchain came from the GitHub release of Lean v4.35.0.
 
 ## Modelling choices
 
@@ -51,42 +53,47 @@ lake env lean MeshfreeStability/AxiomCheck.lean
 
 | Statement | Lean names | Status |
 |---|---|---|
-| **Thm 3.1** max. principle of stage-wise MOOD | `dmp_checkpoint`, `scalar_led_local_range`, `stagewise_mood_max_principle` | Checked |
-| **Prop 3.3** ℓ¹ bounds for Euler | `euler_l1_bounds`, `euler_l1_bounds_defect` (with defect `Δⁿ`) | Checked |
+| **Thm 3.1** max. principle of stage-wise MOOD | `dmp_checkpoint`, `scalar_led_local_range`, `stagewise_mood_max_principle` | Checked, hyp.: Prop 5.7 of the addendum at every checkpoint (range form, `hone`), exact locality of the checkpoint (`hloc`) and the Shu–Osher form of the stages (`hSO`); nothing links `Checkpoint.W` to `schemeOp`. Same label as the analogous addendum Thm 6.3 |
+| **Prop 3.3** ℓ¹ bounds for Euler | `euler_l1_bounds`, `euler_l1_bounds_defect` (with defect `Δⁿ`) | Checked, hyp.: the relation `Mⁿ = M⁰ + Δⁿ`, which the paper derives from the discrete balance (addendum Prop 4.4) over the RK stages; that step is not formalized |
 | **Prop 3.5** local entropy inequality | `riemannAvg_identity`, `local_entropy_inequality` | Checked, hyp.: the Riemann-problem facts (Riemann average in `G`, entropy inequality for the exact solution) |
-| **Cor 3.7** global entropy balance | `global_entropy_balance`, `global_entropy_nonincreasing`, `ssp_convex_functional` | Checked |
+| **Cor 3.7** global entropy balance | `global_entropy_balance`, `global_entropy_nonincreasing`, `ssp_convex_functional` | Checked, hyp.: inherits the Riemann-problem hypotheses of Prop 3.5; the clause for linear symmetric systems is not formalized separately |
 | **Thm 4.1(i)** `q ≥ 0`, generator, max. principle | `qcoef_nonneg`, `genMat_mulVec`, `genMat_one`, `markov_max_principle` | Checked |
 | **Thm 4.1(ii)** stationary `π`, conservation | `stationary_iff`, `stationary_conserved` | Partial: conservation checked; existence/uniqueness of `π > 0` (Perron–Frobenius) is a hypothesis |
 | **Thm 4.1(iii)** energy identity, `π`-norm contraction | `markov_energy_identity`, `markov_L2_contraction` | Partial: identity and `p = 2` checked; continuous-time `p ≠ 2` not done |
 | **Thm 4.1(iv)** forward Euler / SSP-RK, all `1 ≤ p ≤ ∞` | `euler_step_max`, `euler_step_contraction_p`, `rk_contraction_p` | Checked |
-| **Thm 4.1(v)** volume-norm bound | `markov_volume_bound` | Checked |
+| **Thm 4.1(v)** volume-norm bound | `markov_volume_bound` | Partial: the continuous-time bound is checked; the same bound for the discrete steps of (iv), which the statement also claims, is not formalized (it would follow from `rk_contraction_p` with `p = 2`) |
 | **Prop 4.3** truncation error | `truncation_identity`, `remainder_le`, `beta_zero_of_symmetric` | Checked |
-| **Thm 4.4** drift | `corrector_identity`, `drift_error_bound` | Checked, hyp.: existence of the corrector `δ` (Poisson equation for `Q`) |
-| **Prop 4.5** moment-corrected dissipation | `moment_corrected_admissible`, `moment_corrected_first_moment` | Checked, (i) and (iii) (time step `τ∑γ ≤ 1`; see gap 3 for (ii)) |
+| **Thm 4.4** drift | `corrector_identity`, `drift_error_bound` | Checked, hyp.: existence of the corrector `δ` (Poisson equation for `Q`), and the analytic estimates of the proof: the split `τ_tr = Qψ + r′` (`hsplit`) and the bounds on `r′`, `ψ′`, `ψ` (`hr`, `hψ'b`, `hψb`). Lean proves the modified-error energy argument |
+| **Prop 4.5** moment-corrected dissipation | `moment_corrected_admissible`, `moment_corrected_first_moment` | Partial: (i) and (iii) for a given correction `ε` (time step `τ∑γ ≤ 1`); the existence of `ε` under the cone condition and part (ii) (see gap 3) are not formalized |
 | **Lemma 5.1** skew central part | `conv_transpose_odd/even`, `odd_of_anticommute`, `even_of_commute`, `skew_qf_zero`, `lattice_contraction_iff` | Partial: the energy argument and the "iff" are checked; the reflection identity of the scheme (that the fits are reflection-equivariant) is a hypothesis |
-| **Thm 5.2(ii)** nearest neighbour, any `D` | `k2_nearest_neighbour`, `k2_nearest_neighbour_D` | Checked |
-| **Thm 5.2(i)** `K = 2`, 1-D lattice | `k2_symbol_mu_form`, `k2_mu_form_eq`, `E_eq_cheb`, `k2_lattice_1d`, `k2_lattice_1d_symbol`, `E12_closed_form`, `P11_P21_nonneg` | Checked, hyp.: `P_nm ≥ 0` on `[-1,1]` for `1 ≤ m ≤ n ≤ 9` (computer-assisted); `P_11`, `P_21` proved. Deriving `eq:rek2` from the scheme is not done |
-| **Thm 6.1** Bloch reduction, `𝒦_Y` criterion | `bloch_bound_iff`, `bloch_stable_iff` | Checked, hyp.: the DFT norm identity `eq:blochnorm` |
+| **Thm 5.2(ii)** nearest neighbour, any `D` | `k2_nearest_neighbour`, `k2_nearest_neighbour_D` | Partial: the trigonometric identity `cos θ − 1 + ½ sin²θ = −½(1 − cos θ)²` and its sum over `d` are checked; the step from the `K = 2` scheme to its symbol `eq:rek2`, the main step of the proof, is not formalized |
+| **Thm 5.2(i)** `K = 2`, 1-D lattice | `k2_symbol_mu_form`, `k2_mu_form_eq`, `E_eq_cheb`, `k2_lattice_1d`, `k2_lattice_1d_symbol`, `E12_closed_form`, `P11_P21_nonneg` | Partial: from the symbol `eq:rek2` on, checked with `P_nm ≥ 0` on `[-1,1]` for `1 ≤ m ≤ n ≤ 9` as computer-assisted hypothesis (`P_11`, `P_21` proved); deriving `eq:rek2` from the scheme is not formalized |
+| **Thm 6.1** Bloch reduction, `𝒦_Y` criterion | `bloch_bound_iff`, `bloch_stable_iff` | Checked, hyp.: the DFT norm identity `eq:blochnorm`, `‖e^{tL_ℓ}‖ = max_θ ‖e^{tℓÂ(θ)}‖` (`hnorm`), which is the block diagonalisation that the paper proves; Lean proves the passage from it to the `𝒦_Y` criterion through the sampling sets |
 | **Prop 6.3** sufficient condition | none | Not done (needs Kato perturbation theory) |
 | **Cor 6.4** instability | `bloch_unstable` | Checked, hyp.: `‖e^{sM}‖ ≥ e^{sα(M)}` and continuity of the spectral abscissa |
-| **Thm 7.3** smoothly deformed lattices | `dop_V_symmetrize`, `dop_weighted_bound`, `gaarding_transfer`, `deformed_energy`, `deformed_stability` | Checked, hyp.: Lax–Nirenberg (Thm 7.2, cited) and the `O(h)` coefficient bounds of Step 1 |
+| **Thm 7.3** smoothly deformed lattices | `dop_V_symmetrize`, `dop_weighted_bound`, `gaarding_transfer`, `deformed_energy`, `deformed_stability` | Checked, hyp.: Lax–Nirenberg (Thm 7.2, cited) and the `O(h)` bounds of Steps 1 and 2 of the proof (`hc`, `hratio`, `hP₁`), which the paper proves and Lean takes as given |
 | **Cor 7.4** order two in 1-D | none separate | Partial: composition of `k2_lattice_1d_symbol` and `deformed_stability`; the aligned-orientation sign argument is not done |
 | **Lemma 8.1** local squares | `squares_expand`, `local_squares`, `localSq_const` | Checked, hyp.: Fejér–Riesz factor `b_g` and its Lipschitz dependence on `g` |
-| **Lemma 8.2** deformed lattices, local form | `deformed_squares` | Checked, hyp.: entrywise `O(h)` estimates |
+| **Lemma 8.2** deformed lattices, local form | `deformed_squares` | Partial: the banded-matrix estimate (`banded_qf_le`) is checked; the entrywise `O(h)` bound `hR`, which is the content of the lemma, is a hypothesis |
 | **Lemma 8.4** support | `support_distances` | Checked (the assumption `d ≤ 4κ` is not needed) |
-| **Prop 8.6** residual cannot be zero | `nsd_kernel`, `residual_zero_left_null` | Checked |
-| **Thm 8.7** lattices with defects | `separation_disjoint`, `superposition_qf`, `defects_energy`, `defects_stability`, `defects_norm_equiv` | Checked, hyp.: the SDP certificates `W_{τ,g}` with residuals. Constant in `eq:defectsbound`: see gap 1 |
-| **Cor 8.8(i)** zone radius, bounded rate | `zone_radius_choice`, `defects_rate_bounded` | Checked, hyp.: exponential decay `res(ϱ) ≤ C₀e^{-cϱ}` (numerical) |
+| **Prop 8.6** residual cannot be zero | `nsd_kernel`, `residual_zero_left_null` | Partial: a zero residual forces a left null vector; the attainment of the SDP optimum (compactness), used to conclude `res > 0`, is not formalized |
+| **Thm 8.7** lattices with defects | `separation_disjoint`, `superposition_qf`, `defects_energy`, `defects_stability`, `defects_norm_equiv` | Checked, hyp.: the SDP certificates `W_{τ,g}` with residuals, and the analytic steps of the proof: the decomposition `R = Σ_A R_A + R_0` with disjoint blocks, `R_A = E_{τ_A}(W_{τ_A,g(z_A)}) + O(h)` and `R_0 = O(h)` (`hR`, `hB`, `hWc` of `defects_energy`, `hR₀` of `superposition_qf`). Lean proves `separation_disjoint` and the energy/Grönwall step. Constant in `eq:defectsbound`: see gap 1 |
+| **Cor 8.8(i)** zone radius, bounded rate | `zone_radius_choice`, `defects_rate_bounded` | Partial: the choice of `ϱ_h` and the bounded rate under the exponential-decay hypothesis `res(ϱ) ≤ C₀e^{-cϱ}` (numerical, not verifiable by computation) are checked; the step `R_A = E_τ(W_τ)`, `R_0 = 0`, `C = 0` for `φ = id` and the `log²(1/h)` bound for deformed lattices are not formalized |
 | **Prop 9.1** numerical abscissa lower bound | `defect_inner`, `numerical_abscissa_lower_bound` | Checked (with a simpler test vector, see gap 4) |
-| **Prop 9.2(i), (ii)** nearest-neighbour `K = 2` | `nn_interp_slope`, `nn_rusanov_upwind`, `nn_slope_normal_eq`, `nn_conservation`, `nn_energy_identity`, `nn_Q_second_form` | Checked |
+| **Prop 9.2(i), (ii)** nearest-neighbour `K = 2` | `nn_interp_slope`, `nn_rusanov_upwind`, `nn_slope_normal_eq`, `nn_conservation`, `nn_energy_identity`, `nn_Q_second_form` | Checked. For (i) the pieces are separate lemmas; `nnRhs` is defined directly in the final form `eq:fv` rather than composed from them (a modelling choice) |
 | **Prop 9.2(iii)** sign of `𝒬` | `nn_uniform_nonneg`, `nn_Q_indefinite`, `two_periodic_det_neg` | Partial: uniform case, indefiniteness on `ℝ^N`, and the 2-periodic determinant are checked; the Bloch reduction to the `2×2` form and the `N ≤ 64` computations are not done |
-| **Prop 9.3** parity | `cos_sin_taylor`, `cos_taylor_bound`, `parity_expansion`, `local_symbol_re`, `parity_remainder` | Checked |
+| **Prop 9.3** parity | `cos_sin_taylor`, `cos_taylor_bound`, `parity_expansion`, `local_symbol_re`, `parity_remainder` | Partial: the expansion is checked under the proposition's working hypothesis `hann` (annihilation of even monomials); the consequences (i) and (ii), including the `K = 2` diffusion coefficient `D_i`, are not stated in Lean |
 
 Generic tools (Energy.lean): `energy_bound`, `energy_bound_sqrt`, `energy_forced`,
 `linear_ode_exists`, `banded_qf_le`.
 
-Summary: of the 30 rows, **14 are checked**, **10 are checked under explicit hypotheses**
-(all computer-assisted or cited inputs), **5 are partial**, and **1 is not done** (Prop 6.3).
+Summary: of the 30 rows, **6 are checked**, **10 are checked under explicit hypotheses**,
+**13 are partial**, and **1 is not done** (Prop 6.3). The hypotheses of the "Checked, hyp."
+rows are computer-assisted or cited inputs, and for Thms 3.1, 4.4, 6.1, 7.3 and 8.7 and
+Prop 3.3 also the proof steps of the paper listed in the row.
+
+(Labels corrected on 4 Nov 2026 after an independent review; the earlier count was
+14 / 10 / 5 / 1. No Lean statement changed; the review found no false or vacuous statement.)
 
 ## Gaps found in the paper (fixed in `stability_combined.tex`, 29 Oct 2026)
 

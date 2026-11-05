@@ -5,11 +5,6 @@
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
 
-\bibitem[Boyd and Vandenberghe(2004)]{BoydVandenberghe2004}
-Stephen Boyd and Lieven Vandenberghe.
-\newblock \emph{Convex Optimization}.
-\newblock Cambridge University Press, Cambridge, 2004.
-
 \bibitem[Dritschel(2004)]{Dritschel2004}
 Michael~A. Dritschel.
 \newblock On factorization of trigonometric polynomials.
@@ -65,18 +60,18 @@ Amiram Harten, Peter~D. Lax, and Bram van Leer.
 \newblock \emph{SIAM Rev.}, 25\penalty0 (1):\penalty0 35--61, 1983.
 \newblock \doi{10.1137/1025002}.
 
-\bibitem[Jung(2026{\natexlab{a}})]{Addendum}
+\bibitem[Jung(2026)]{Addendum}
 Pascal Jung.
 \newblock Meshfree {MUSCL} schemes with a~posteriori order detection:
-  exactness, conservation and admissibility, 2026{\natexlab{a}}.
+  exactness, conservation and admissibility, 2026.
 \newblock Mathematical companion (\texttt{math\_addendum.tex}), draft of 28
   October 2026.
 
-\bibitem[Jung(2026{\natexlab{b}})]{JungMUSCL2026}
-Pascal Jung.
+\bibitem[Jung et~al.(2026)Jung, Willems, and Klar]{JungMUSCL2026}
+Pascal Jung, Klaas Willems, and Axel Klar.
 \newblock High-order meshfree {MUSCL} schemes with a~posteriori order detection
-  for hyperbolic systems on scattered point clouds, 2026{\natexlab{b}}.
-\newblock Draft of 27 October 2026.
+  for hyperbolic systems on scattered point clouds, 2026.
+\newblock Companion paper, in preparation.
 
 \bibitem[Kadec(1964)]{Kadec1964}
 M.~I. Kadec.
@@ -143,6 +138,15 @@ J.~R. Norris.
 \newblock \emph{Markov Chains}.
 \newblock Cambridge University Press, Cambridge, 1997.
 \newblock \doi{10.1017/CBO9780511810633}.
+
+\bibitem[O'Donoghue et~al.(2016)O'Donoghue, Chu, Parikh, and
+  Boyd]{ODonoghue2016}
+Brendan O'Donoghue, Eric Chu, Neal Parikh, and Stephen Boyd.
+\newblock Conic optimization via operator splitting and homogeneous self-dual
+  embedding.
+\newblock \emph{Journal of Optimization Theory and Applications}, 169\penalty0
+  (3):\penalty0 1042--1068, 2016.
+\newblock \doi{10.1007/s10957-016-0892-3}.
 
 \bibitem[Tadmor(2002)]{Tadmor2002}
 Eitan Tadmor.

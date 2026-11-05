@@ -11,7 +11,8 @@ import Mathlib.Algebra.BigOperators.Field
   of any degree) and the scalar local-extremum-diminishing statement `scalar_led`.
 * EPD rules and **Proposition 5.6** (fallback): `epdOrder`, `fallback_orders`,
   `fallback_all_order_one`, `epd0_not_fallback`, `truncRecon_one`.
-* **Proposition 5.7** `local_admissibility_order_one`.
+* **Proposition 5.7** `local_admissibility_order_one` (interface orders as a hypothesis) and
+  `local_admissibility_order_one_epd` (orders given by the EPD rule on the neighbour graph).
 -/
 
 open Finset Matrix
@@ -111,7 +112,7 @@ theorem sum_sq_sub_single (m : Fin D → ℝ) (θ a : ℝ) (d : Fin D) :
     by_cases h : i = d
     · subst h; simp; ring
     · simp [h]; ring
-  simp only [this, Finset.sum_add_distrib, Finset.sum_ite_eq', mem_univ, if_true,
+  simp only [this, Finset.sum_add_distrib, Finset.sum_ite_eq', mem_univ, ite_true,
     ← Finset.mul_sum]
   ring
 
@@ -152,8 +153,8 @@ theorem lf_state_admissible {γ : ℝ} (hγ : 1 < γ) {U : State D} (hU : U ∈ 
       = θ * mom U i - (if i = d then σ / s * p else 0)
     rw [hmd]
     by_cases h : i = d
-    · simp only [h, if_true]; simp only [θ]; field_simp; ring
-    · simp only [h, if_false]; simp only [θ]; field_simp; ring
+    · simp only [h, ite_true]; simp only [θ]; field_simp; ring
+    · simp only [h, ite_false]; simp only [θ]; field_simp; ring
   have hEW : ener (U - (σ / s) • flux γ d U) = θ * ener U - σ * ud * p / s := by
     show ener U - σ / s * (mom U d / ρ * (ener U + p)) = θ * ener U - σ * ud * p / s
     simp only [θ]
@@ -471,7 +472,7 @@ theorem epd0_state_not_constant :
       have : α 0 = 1 := by omega
       simp [unit, this]
     · rintro rfl; simp [unit]
-  simp only [truncRecon, Nat.add_one_sub_one, hmis, Finset.sum_singleton, if_true, mono_unit]
+  simp only [truncRecon, Nat.add_one_sub_one, hmis, Finset.sum_singleton, ite_true, mono_unit]
   norm_num
 
 end Fallback
@@ -538,6 +539,38 @@ theorem local_admissibility_order_one {G : Set E} (hG : Convex ℝ G) {F : Fin D
     (fun d => divWeight_sum_eq_zero hq hw hU d)
     (fun j d => le_max_right _ _) (fun j d => lt_max_of_lt_left (hlam d Yi hYi))
     hYi hYj hτ hcfl
+
+/-- **Proposition 5.7, composed with the EPD rule** (no free interface orders).
+
+The interface orders of every edge of `i` are those of the rule `r` on the neighbour
+graph `nb` with particle orders `k` (all `≥ 1`); `ι` maps the local neighbour indices to
+particles. The rule is EPD1 or EPD2, or any rule if all orders are `≤ 1` (the case
+`K = 1`). Then `local_admissibility_order_one` applies with `hord` discharged by
+`fallback_orders` / `fallback_all_order_one`. -/
+theorem local_admissibility_order_one_epd {G : Set E} (hG : Convex ℝ G) {F : Fin D → E → E}
+    {lam : Fin D → E → ℝ} (hLF : LFHyp G F lam) (hlam : ∀ d U, U ∈ G → 0 < lam d U)
+    {P : Type*} [DecidableEq P] (nb : P → Finset P) (k : P → ℕ) (hk : ∀ l, 1 ≤ k l)
+    (r : EPD) (i : P) (hi : k i = 1) (hrule : r ≠ .zero ∨ ∀ l, k l ≤ 1)
+    (K : ℕ) (hK : 1 ≤ K) (ι : J → P)
+    {q : ℕ} (hq : 1 ≤ q) {w : J → ℝ} {x : J → Pt D} (hw : ∀ j, 0 < w j)
+    (hU : UnisolventAt q x)
+    (Yi : E) (Yj : J → E) (ai : (Fin D → ℕ) → E) (aj : J → (Fin D → ℕ) → E)
+    (hYi : Yi ∈ G) (hYj : ∀ j, Yj j ∈ G) {τ : ℝ} (hτ : 0 ≤ τ)
+    (hcfl : τ * ∑ j, ∑ d, max (lam d Yi) (lam d (Yj j)) * |divWeight q hq w x d j| ≤ 1) :
+    let c := fun j d => divWeight q hq w x d j
+    let Uij := fun j => truncRecon Yi ai (epdOrder nb k r i (ι j)) ((1 / 2 : ℝ) • x j)
+    let Uji := fun j => truncRecon (Yj j) (aj j) (epdOrder nb k r (ι j) i) (-(1 / 2 : ℝ) • x j)
+    Yi + τ • schemeOp F c (alignedFluxOrientation K (k i) (fun j => k (ι j)) c x)
+      (fun j d => max (lam d Yi) (lam d (Yj j))) Yi Uij Uji ∈ G := by
+  have hord : ∀ j, epdOrder nb k r i (ι j) = 1 ∧ epdOrder nb k r (ι j) i = 1 := by
+    intro j
+    rcases hrule with hr | hK1
+    · exact fallback_orders nb k hk hi r hr (ι j)
+    · exact ⟨fallback_all_order_one nb k hk hK1 r i (ι j),
+        fallback_all_order_one nb k hk hK1 r (ι j) i⟩
+  exact local_admissibility_order_one hG hLF hlam K (k i) (fun j => k (ι j))
+    (fun j => epdOrder nb k r i (ι j)) (fun j => epdOrder nb k r (ι j) i) hi hK hord hq hw hU
+    Yi Yj ai aj hYi hYj hτ hcfl
 
 end Local
 

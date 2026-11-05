@@ -231,7 +231,7 @@ theorem banded_qf_le [DecidableEq ι] (R : Matrix ι ι ℝ) {b ε : ℝ}
     intro i j
     by_cases h : R i j = 0
     · simp [h]
-    · simp only [h, ne_eq, not_false_eq_true, if_true]
+    · simp only [h, ne_eq, not_false_eq_true, ite_true]
       rw [abs_mul, abs_mul]
       have h1 : |u i| * |u j| ≤ (u i ^ 2 + u j ^ 2) / 2 := by
         nlinarith [sq_nonneg (|u i| - |u j|), sq_abs (u i), sq_abs (u j)]

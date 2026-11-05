@@ -31,16 +31,32 @@ thetas = np.array(list(itertools.product(th1, repeat=D)))
 avals = np.linspace(amin, amax, na)
 for A in (avals if D == 1 else itertools.product(avals, repeat=D)):
     Avec = np.atleast_1d(np.array(A, float))
-    P = 0.5 + idx * Avec * h                 # affine lattice around the torus centre
-    nb = neighbours(P, kappa * h)
+    if D == 1:
+        # Full periodic lattice of spacing A (in units of h): every row has the full two-sided stencil. (The open patch
+        # used before has one-sided stencils at its edges, whose fits are singular for K = 3, 4 in 1-D; fixed 2026-11-04.)
+        Nper = 64
+        hA = 1.0 / (Nper * Avec[0])          # spacing 1/Nper = A * hA
+        Pp = ((np.arange(Nper) + 0.5) / Nper)[:, None]
+        nbp = neighbours(Pp, kappa * hA)
+        offs = (np.arange(Nper) - Nper // 2)[:, None]    # offset of site j from the centre site (stencil << Nper/2)
+    else:
+        P = 0.5 + idx * Avec * h             # affine lattice around the torus centre
+        nb = neighbours(P, kappa * h)
     for K in Ks:
         for orient in orients:
-            L = build_operator(P, h, kappa, K, a, orient, nb=nb)
-            row = L[centre] * h              # dimensionless stencil beta_l
-            sym = row @ np.exp(1j * (idx @ thetas.T))
+            if D == 1:
+                L = build_operator(Pp, hA, kappa, K, a, orient, nb=nbp)
+                row = L[Nper // 2] * hA          # dimensionless stencil beta_l (units of h)
+                sym = row @ np.exp(1j * (offs @ thetas.T))
+                nbc = len(nbp[Nper // 2][0])
+            else:
+                L = build_operator(P, h, kappa, K, a, orient, nb=nb)
+                row = L[centre] * h              # dimensionless stencil beta_l
+                sym = row @ np.exp(1j * (idx @ thetas.T))
+                nbc = len(nb[centre][0])
             i = int(np.argmax(sym.real))
             line = "| %d | %g | %d | %s | %s | %d | %.3e | %s |" % (
-                D, kappa, K, orient, np.round(Avec, 3).tolist(), len(nb[centre][0]), sym.real[i],
+                D, kappa, K, orient, np.round(Avec, 3).tolist(), nbc, sym.real[i],
                 np.round(thetas[i], 3).tolist())
             print(line, flush=True)
             lines.append(line)

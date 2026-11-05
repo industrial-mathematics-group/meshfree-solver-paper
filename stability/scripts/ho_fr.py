@@ -11,11 +11,12 @@ def fejer_riesz(c, tol=1e-9):
     # deflate zeros at x = 1
     m = 0
     while True:
-        q, r = Pl.polydiv(F, [1.0, -1.0])        # F = q (x - 1) + r
+        q, r = Pl.polydiv(F, [1.0, -1.0])        # numpy order: [1, -1] is 1 - x, so F = q (1 - x) + r
         if abs(r[0]) > tol * np.abs(F).max():
             break
         F, m = q, m + 1
-    F = F * (-1) ** m                            # (x-1)^m = (-1)^m (1-x)^m, F now >= 0 on [-1,1] (after deflation)
+    F = F * (-1) ** m                            # NB: F was divided by (1-x)^m, so this flips the sign for odd m;
+                                                 # harmless, since only the roots of F and a normalisation are used below
     g = C.poly2cheb(F)
     g = np.concatenate([[g[0]], g[1:] / 2])      # back to the c-convention
     dg = len(g) - 1

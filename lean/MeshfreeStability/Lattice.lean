@@ -9,7 +9,7 @@ import MeshfreeStability.Markov
 * **Theorem 5.2** (order two on lattices): (ii) `k2_nearest_neighbour`; (i) `k2_symbol_mu_form`
   (from `eq:rek2` to the `μ`-form), `k2_mu_form_eq` (the `E_{nm}` expansion), `E_eq_cheb`
   (Chebyshev form), `k2_lattice_1d` (non-positivity **given the computer-assisted inequalities
-  `P_{nm} ≥ 0` on `[-1,1]` as a hypothesis**), `E12_closed_form`, `P11_nonneg`.
+  `P_{nm} ≥ 0` on `[-1,1]` as a hypothesis**), `E12_closed_form`, `P11_P21_nonneg`.
 -/
 
 open Finset Matrix Real
@@ -104,7 +104,7 @@ theorem lattice_contraction_iff {ι : Type*} [Fintype ι] [DecidableEq ι] (C S 
   constructor
   · intro h v
     by_contra hv
-    push_neg at hv
+    push Not at hv
     obtain ⟨U, hU0, hU⟩ := hex v
     have hd := hasDerivAt_qf (W := (1 : Matrix ι ι ℝ)) transpose_one (hU 0)
     rw [hqfL, hU0] at hd

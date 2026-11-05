@@ -312,7 +312,7 @@ theorem sum_lowerOn_lt [Fintype I] (k : I → ℕ) (T : Finset I) (h : X.toLower
   · refine ⟨i, mem_univ i, ?_⟩
     have : 1 < k i := by
       simp only [toLower, mem_filter] at hi; exact hi.2.2
-    simp only [lowerOn, hi, if_true]; omega
+    simp only [lowerOn, hi, ite_true]; omega
 
 /-- The loop of Algorithm 1: returns the final orders. Termination: every pass that does
 not break lowers at least one order, and the sum of the orders decreases. -/
@@ -356,7 +356,7 @@ theorem run_spec [Fintype I] (hhood : ∀ C, C ⊆ X.hood C) (hloc : X.Local) :
     · intro i hi hbad
       have hiC : i ∉ C := fun h' => hi (hhood C h')
       rw [hloc k C i hi] at hbad
-      simp only [lowerOn, hiC, if_false]
+      simp only [lowerOn, hiC, ite_false]
       by_cases hiT : i ∈ T
       · classical
         simp only [C, toLower, mem_filter, not_and, not_lt] at hiC

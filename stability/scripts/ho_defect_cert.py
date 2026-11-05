@@ -155,7 +155,7 @@ def superposition(K, orient, rho, ndef, n, A, seed, out):
     S = W @ L + L.T @ W
     omW = sl.eigh(0.5 * (S + S.T), W, eigvals_only=True)[-1] / 2
     V = dphi(s)
-    omV = sl.eigh(0.5 * (np.diag(V) @ L + L.T @ np.diag(V)), np.diag(V), eigvals_only=True)[-1] / 2
+    omV = sl.eigh(0.5 * (np.diag(V) @ L + L.T @ np.diag(V)), np.diag(V), eigvals_only=True)[-1]   # already the symmetric part (fixed 2026-11-04: was halved)
     alpha = np.linalg.eigvals(L).real.max()
     ew = np.linalg.eigvalsh(W)
     kr = kreiss(L, V, np.logspace(-2, 3, 26))

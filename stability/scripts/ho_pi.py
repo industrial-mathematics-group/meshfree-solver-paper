@@ -39,7 +39,7 @@ for n in ns:
             rms, mx = np.sqrt(np.mean(d ** 2)), np.abs(d).max()
             omV = sym_abscissa(L, V)
             normL = np.linalg.norm(np.diag(np.sqrt(V)) @ L @ np.diag(1 / np.sqrt(V)), 2)
-            lb = np.sum(V * d ** 2) / (16 * normL)
+            lb = np.sum(V * d ** 2) / (9 * normL)   # constant 9 of prop:obstruction (fixed 2026-11-04: was 16)
             if ratio > 0:
                 rho = (pi / V).max() / (pi / V).min()
                 omp = sym_abscissa(L, pi)
