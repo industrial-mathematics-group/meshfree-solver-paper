@@ -105,6 +105,50 @@ Human-Review = "H1"
 AI-Review = "A0"
 Reviewed-by = ["blhackslash <dev@blackslash.win>"]
 
+# ---- A2: independent review of paper/ and addendum/ at a6edcc9 (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper-pass2.md).
+# The review read the sources and reran the checks; it did not compile the PDFs, so the
+# .pdf/.bbl build outputs stay at A1. Files changed after a6edcc9 fall back to A1.
+
+[[annotations]]
+path = ["addendum/figures/**", "paper/figures/epd_rules_light.tex"]
+AI-Generation = "G3"
+Human-Review = "H0"
+AI-Review = "A2"
+Assisted-by = ["Claude Fable 5.1 (Anthropic)"]
+Reviewed-by = ["blhackslash <dev@blackslash.win>"]
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper-pass2.md)"]
+
+[[annotations]]
+path = ["addendum/math_addendum.tex", "addendum/math_addendum_refs.bib", "addendum/refs.bib"]
+AI-Generation = "G3"
+Human-Review = "H0"
+AI-Review = "A2"
+Assisted-by = ["Claude Fable 5.1 (Anthropic)", "Claude Opus 5.5 (Anthropic)"]
+Reviewed-by = ["blhackslash <dev@blackslash.win>"]
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper-pass2.md)"]
+
+[[annotations]]
+path = ["paper/main_light.tex", "paper/refs.bib"]
+AI-Generation = "G2"
+Human-Review = "H2"
+AI-Review = "A2"
+Assisted-by = ["Claude Opus 5.5 (Anthropic)"]
+Reviewed-by = ["blhackslash <dev@blackslash.win>"]
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper-pass2.md)"]
+
+[[annotations]]
+path = [
+  "paper/figures/*.jpg",
+  "paper/figures/advection_conv_radius.pdf", "paper/figures/burgers_conv_radius.pdf",
+  "paper/figures/euler_sod_components.pdf",
+  "paper/figures/shock_mass_defect_epd1.pdf", "paper/figures/shock_mass_defect_epd2.pdf",
+]
+AI-Generation = "G0"
+Human-Review = "H2"
+AI-Review = "A2"
+Reviewed-by = ["blhackslash <dev@blackslash.win>"]
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper-pass2.md)"]
+
 # Standard MIT licence text, declared by Pascal on 5 Nov 2026 (unchanged).
 [[annotations]]
 path = "LICENSE"
