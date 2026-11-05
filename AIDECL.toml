@@ -322,6 +322,16 @@ Assisted-by = ["Claude Opus 5.5 (Anthropic)"]
 Reviewed-by = ["blhackslash <dev@blackslash.win>"]
 AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), self-check by the session that fixed the 5 Nov 2026 review findings (PR #9)"]
 
+# New files of PR #9 (Claude Opus 5.5, self-checked by that session).
+[[annotations]]
+path = ["CHANGES.md", "scripts/figure_measurements/frames.py"]
+AI-Generation = "G3"
+Human-Review = "H0"
+AI-Review = "A1"
+Assisted-by = ["Claude Opus 5.5 (Anthropic)"]
+Reviewed-by = ["blhackslash <dev@blackslash.win>"]
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), self-check by the session that fixed the 5 Nov 2026 review findings (PR #9)"]
+
 # Standard MIT licence text, declared by Pascal on 5 Nov 2026 (unchanged).
 [[annotations]]
 path = "LICENSE"
