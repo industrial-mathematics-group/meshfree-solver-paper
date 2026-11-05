@@ -132,7 +132,7 @@ Two related edits:
   - code pass 1: F2, F6, F7, F9, FV2, FV3, R1.
 
   None affects a published number. Listing them as deferred would make the open list complete.
-- **M4, addendum, conservation remark (`:388`).** "Together with the closure Σ_j S_ij = 0 …, (scheme) can always be written as V_i dU_i/dt = −Σ_j S_ij·F*_ij by the definition of S_ij". The FV form does not need the closure. The closure is what makes it consistent (constants preserved). Wording only.
+- **M4, addendum, conservation remark (`:385`).** "Together with the closure Σ_j S_ij = 0 …, (scheme) can always be written as V_i dU_i/dt = −Σ_j S_ij·F*_ij by the definition of S_ij". The FV form does not need the closure. The closure is what makes it consistent (constants preserved). Wording only.
 - **M5, `scripts/figure_measurements/frames.py` docstring.** It says a frame line has "more than half (30 %)" dark pixels. The code uses 50 % for rows and 30 % for columns.
 - **M6, `tab:steppos`.** Bow 0.3045 → 0.30 and 0.3059 → 0.31, and stem 0.5823 → 0.58 and 0.5851 → 0.59, differ by 1–4 px (≈ 0.0014 per px). This is correct rounding, but the table shows 0.01 differences that the text rightly calls "within 0.005". This is acceptable; three decimals would avoid the apparent contradiction.
 
