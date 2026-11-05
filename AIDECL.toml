@@ -1,6 +1,6 @@
 # AI declarations of the files in this repository (aidecl version 3).
 # Scheme: https://github.com/industrial-mathematics-group/.github/blob/main/.github/CONTRIBUTING.md#ai-assisted-contributions
-# The last matching annotation wins. Human-Review is left as TODO for Pascal to fill in.
+# The last matching annotation wins. Human-Review levels are the ones Pascal declared on 3 Nov 2026.
 version = 3
 exclude = ["reviews/**"]   # committed AI reviews (CONTRIBUTING.md) need no declaration
 
@@ -9,7 +9,7 @@ exclude = ["reviews/**"]   # committed AI reviews (CONTRIBUTING.md) need no decl
 [[annotations]]
 path = "**"
 AI-Generation = "G2"
-Human-Review = "TODO"
+Human-Review = "H1"
 AI-Review = "A1"
 Assisted-by = ["Claude Opus 5.5 (Anthropic)"]
 Reviewed-by = ["blhackslash <dev@blackslash.win>"]
@@ -22,7 +22,7 @@ AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), self-check by the generating ses
 [[annotations]]
 path = ["addendum/**", "fv_reference/**", "lean/**", "scripts/**", "stability/**", "paper/figures/epd_rules_light.tex"]
 AI-Generation = "G3"
-Human-Review = "TODO"
+Human-Review = "H0"
 AI-Review = "A1"
 Assisted-by = ["Claude Fable 5.1 (Anthropic)"]
 Reviewed-by = ["blhackslash <dev@blackslash.win>"]
@@ -52,7 +52,7 @@ path = [
   "stability/tables/ho_pi.tex",
 ]
 AI-Generation = "G3"
-Human-Review = "TODO"
+Human-Review = "H0"
 AI-Review = "A1"
 Assisted-by = ["Claude Fable 5.1 (Anthropic)", "Claude Opus 5.5 (Anthropic)"]
 Reviewed-by = ["blhackslash <dev@blackslash.win>"]
@@ -66,7 +66,7 @@ AI-Reviewed-by = [
 [[annotations]]
 path = ["paper/main_light.tex", "paper/main_light.pdf", "paper/main_light.bbl", "paper/refs.bib"]
 AI-Generation = "G2"
-Human-Review = "TODO"
+Human-Review = "H2"
 AI-Review = "A1"
 Assisted-by = ["Claude Opus 5.5 (Anthropic)"]
 Reviewed-by = ["blhackslash <dev@blackslash.win>"]
@@ -76,7 +76,7 @@ AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), self-check by the generating ses
 [[annotations]]
 path = "results/reports/**"
 AI-Generation = "G3"
-Human-Review = "TODO"
+Human-Review = "H2"
 AI-Review = "A1"
 Assisted-by = ["Claude Opus 5.5 (Anthropic)"]
 Reviewed-by = ["blhackslash <dev@blackslash.win>"]
@@ -93,7 +93,7 @@ path = [
   "paper/figures/shock_mass_defect_epd1.pdf", "paper/figures/shock_mass_defect_epd2.pdf",
 ]
 AI-Generation = "G0"
-Human-Review = "TODO"
+Human-Review = "H2"
 AI-Review = "A0"
 Reviewed-by = ["blhackslash <dev@blackslash.win>"]
 
@@ -101,7 +101,7 @@ Reviewed-by = ["blhackslash <dev@blackslash.win>"]
 [[annotations]]
 path = ".github/**"
 AI-Generation = "G0"
-Human-Review = "TODO"
+Human-Review = "H1"
 AI-Review = "A0"
 Reviewed-by = ["blhackslash <dev@blackslash.win>"]
 
