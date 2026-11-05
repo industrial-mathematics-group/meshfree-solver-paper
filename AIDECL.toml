@@ -168,8 +168,9 @@ Assisted-by = ["Claude Opus 5.5 (Anthropic)"]
 Reviewed-by = ["blhackslash <dev@blackslash.win>"]
 AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper.md)"]
 
-# ---- A2: independent review of the code at a6edcc9 (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md).
-# scripts/figure_measurements/ could not be run (stays A1); results/ needs HyperCloud (unchanged).
+# ---- A2: two independent reviews of the code at a6edcc9 (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md, reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md).
+# scripts/figure_measurements/ could not be run (stays A1). results/configs needs HyperCloud (unchanged);
+# results/reports was checked against the run log and the paper by the first review only.
 
 [[annotations]]
 path = ["scripts/*.py", "fv_reference/**", "stability/scripts/**", "stability/data/**", "stability/tables/**"]
@@ -178,7 +179,7 @@ Human-Review = "H0"
 AI-Review = "A2"
 Assisted-by = ["Claude Fable 5.1 (Anthropic)"]
 Reviewed-by = ["blhackslash <dev@blackslash.win>"]
-AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
 
 [[annotations]]
 path = [
@@ -218,7 +219,16 @@ Human-Review = "H0"
 AI-Review = "A2"
 Assisted-by = ["Claude Fable 5.1 (Anthropic)", "Claude Opus 5.5 (Anthropic)"]
 Reviewed-by = ["blhackslash <dev@blackslash.win>"]
-AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[annotations]]
+path = "results/reports/**"
+AI-Generation = "G3"
+Human-Review = "H2"
+AI-Review = "A2"
+Assisted-by = ["Claude Opus 5.5 (Anthropic)"]
+Reviewed-by = ["blhackslash <dev@blackslash.win>"]
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)"]
 
 # Standard MIT licence text, declared by Pascal on 5 Nov 2026 (unchanged).
 [[annotations]]
