@@ -1,4 +1,4 @@
-"""Writes figures/epd_rules_light.tex: the EPD sketch of make_epd_figure.py with the rules of the
+"""Writes paper/figures/epd_rules_light.tex: the EPD sketch of make_epd_figure.py with the rules of the
 light paper only (EPD0, EPD1, EPD2; StrictEPD0 is deprecated)."""
 import os
 import make_epd_figure as m
@@ -12,7 +12,7 @@ def main():
         out += m.panel(rule, n * (width + gap))
     out.append("\\end{tikzpicture}")
     here = os.path.dirname(os.path.abspath(__file__))
-    path = os.path.join(here, "..", "figures", "epd_rules_light.tex")
+    path = os.path.join(here, "..", "paper", "figures", "epd_rules_light.tex")
     with open(path, "w") as f:
         f.write("\n".join(out) + "\n")
     print("written", os.path.normpath(path))

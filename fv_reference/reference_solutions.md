@@ -12,8 +12,9 @@ in this folder. Values marked "FV" are our own computations, not literature valu
 - MUSCL reconstruction of (rho, u, v, p) with the MC limiter; first-order fallback if a face value is not positive.
 - HLLC flux with Einfeldt-Roe wave-speed estimates.
 - SSP-RK3, CFL 0.4.
-- An a posteriori first-order fallback on the faces of cells that would become non-admissible. Only the step runs
-  need it; the DMR and Riemann runs stay admissible without it (no NaN, minimum density and pressure equal to the
+- An a posteriori first-order fallback on the faces of cells that would become non-admissible. Of the runs listed
+  here only the step run at h = 1/160 triggers it (one fix); the step runs at 1/40 and 1/80 and the DMR and Riemann
+  runs report no fixes and stay admissible without it (no NaN, minimum density and pressure equal to the
   smallest initial state).
 - Solid walls by mirror cells, two ghost layers. The step is a masked solid block with mirrored stencil cells.
 - DMR top boundary: the exact moving shock state is evaluated at the ghost-cell centres.

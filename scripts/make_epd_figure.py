@@ -1,4 +1,6 @@
-"""Writes figures/epd_rules.tex: TikZ sketch of the interface-order rules EPD0, StrictEPD0, EPD1, EPD2.
+"""Writes epd_rules.tex (in the current directory; no document uses it): TikZ sketch of the interface-order rules EPD0,
+StrictEPD0 (removed from the method), EPD1, EPD2. The panels used by the paper and the addendum are written by
+make_epd_figure_light.py and make_epd_figure_addendum.py.
 
 A lattice patch with nearest-neighbour edges stands in for the neighbour graph. The particle in the
 centre has been lowered to order 1, all others have order K. Every edge (a, b) is drawn as two halves;
@@ -78,8 +80,7 @@ def main():
     for n, rule in enumerate(("EPD0", "StrictEPD0", "EPD1", "EPD2")):
         out += panel(rule, n * (width + gap))
     out.append("\\end{tikzpicture}")
-    here = os.path.dirname(os.path.abspath(__file__))
-    path = os.path.join(here, "..", "figures", "epd_rules.tex")
+    path = "epd_rules.tex"
     with open(path, "w") as f:
         f.write("\n".join(out) + "\n")
     print("written", os.path.normpath(path))

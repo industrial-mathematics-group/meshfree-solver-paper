@@ -1,10 +1,5 @@
-"""Euler helpers shared by the Monte Carlo scripts."""
-
-# First-order fallback (piecewise constant states, Rusanov, code's orientation) with the actual MLS derivative weights
-# of degree 1 and degree 3 of a perturbed lattice; random admissible data; time step at the limit of (5.5).
-import sys, numpy as np
-import os; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import stencil_diagnostics as sd
+"""Euler helpers (flux, wave speed, conserved variables, pressure; gamma = 1.4) shared by the Monte Carlo scripts."""
+import numpy as np
 g = 1.4
 def flux(U, d):
     r, mx, my, E = U; u, v = mx/r, my/r; p = (g-1)*(E-0.5*r*(u*u+v*v)); vel = (u, v)[d]

@@ -14,7 +14,9 @@ quantify properties discussed in the paper on the point clouds of the experiment
 
 Cloud: periodic Cartesian lattice of spacing h, optionally with uniform jitter of amplitude 0.2 h per
 axis, support radius R = 2.5 h, weight w(r) = 1 / (1 + y + y^2/2 + y^3/6 + y^4/24), y = r^2 / R^2,
-Shepard volumes with one smoothing sweep. Run:  python3 stencil_diagnostics.py [n]
+Shepard volumes with one smoothing sweep (the pair defects are also printed without the sweep and with equal
+volumes, and the share of pairs on which the aligned orientations of the two particles disagree).
+Run:  python3 stencil_diagnostics.py [n]   (n = 300 for the perturbed column of Table "Stencil diagnostics")
 """
 import itertools
 import sys
@@ -101,11 +103,14 @@ def derivative_weights(off, m, R, q, intercept, eps0=1e-10, chunk=20000):
     return out
 
 
-def shepard_volumes(idx, off, m, R, area):
+def shepard_volumes(idx, off, m, R, area, sweep=True):
+    """Shepard volumes 1/sum_j w_ij, with one smoothing sweep unless sweep=False, scaled to the area."""
     w0 = weight(0.0, R)
     W = np.where(m, weight((off**2).sum(-1), R), 0.0)
     S = w0 + W.sum(1)
     V = 1.0 / S
+    if not sweep:
+        return V * area / V.sum()
     Vt = w0 / S * V + (np.where(m, W / S[np.where(m, idx, 0)] * V[np.where(m, idx, 0)], 0.0)).sum(1)
     return Vt * area / Vt.sum()
 
@@ -127,10 +132,30 @@ def pair_defect(idx, m, c, V, mask=None):
     return num / den
 
 
+def sign_mismatch(idx, m, c):
+    """Share of pairs and directions with sign(c_ij^(d)) = sign(c_ji^(d)) (both nonzero) and their share of
+    sum(|c_ij| + |c_ji|): on these the two particles orient the aligned Rusanov flux differently."""
+    N, K = idx.shape; slot = {}
+    for i in range(N):
+        for k in range(K):
+            if m[i, k]: slot[(i, idx[i, k])] = k
+    cnt = tot = 0; wbad = wtot = 0.0
+    D = c.shape[-1]
+    for (i, j), k in slot.items():
+        if j > i:
+            a, b = c[i, k], c[j, slot[(j, i)]]
+            tol = 1e-10*max(np.abs(a).max(), np.abs(b).max()); same = (a*b > 0) & (np.abs(a) > tol) & (np.abs(b) > tol)
+            cnt += same.sum(); tot += D
+            wbad += (np.abs(a) + np.abs(b))[same].sum(); wtot += (np.abs(a) + np.abs(b)).sum()
+    return cnt/tot, wbad/wtot
+
+
 def diagnostics(n=48, jitter=0.2, R=2.5, seed=42, pairs=True):
     P, L = make_cloud(n, jitter, seed)
     idx, off, m = neighbour_table(P, L, R)
     V = shepard_volumes(idx, off, m, R, L * L)
+    V0 = shepard_volumes(idx, off, m, R, L * L, sweep=False)
+    Veq = np.full(len(P), L * L / len(P))
     nnb = m.sum(1)
     out = {"N": len(P), "mean_nb": nnb.mean(), "min_nb": nnb.min(), "max_nb": nnb.max()}
     cs = {}
@@ -146,16 +171,20 @@ def diagnostics(n=48, jitter=0.2, R=2.5, seed=42, pairs=True):
         viol = (sgn * c < 0) & m[..., None]
         negshare = np.clip(-sgn * c, 0, None).sum((1, 2)) / np.abs(c).sum((1, 2))
         out[q] = dict(l1=l1.mean(), l1max=l1.max(), l1hat=l1hat.mean(), l1hatmax=l1hat.max(),
-                      reldiff=np.abs(l1 - l1hat).max() / l1.min() if False else (np.abs(l1 - l1hat) / l1hat).max(),
+                      reldiff=(np.abs(l1 - l1hat) / l1hat).max(),
                       row=row.max(), rowhat=rowhat.mean(), rowhat_max=rowhat.max(),
                       neg_frac=viol.sum() / (m.sum() * P.shape[1]), neg_particles=viol.any((1, 2)).mean(),
                       neg_share=negshare.mean(), neg_share_max=negshare.max(),
-                      pair=pair_defect(idx, m, c, V) if pairs else np.nan)
+                      pair=pair_defect(idx, m, c, V) if pairs else np.nan,
+                      pair_nosweep=pair_defect(idx, m, c, V0) if pairs else np.nan,
+                      pair_equal=pair_defect(idx, m, c, Veq) if pairs else np.nan,
+                      mismatch=sign_mismatch(idx, m, c) if pairs else (np.nan, np.nan))
     if pairs:
         rng = np.random.default_rng(seed + 1)
         qmix = np.where(rng.random(len(P)) < 0.5, 1, 3)
         cmix = np.where((qmix == 1)[:, None, None], cs[1], cs[3])
         out["mixed_pairs"] = pair_defect(idx, m, cmix, V, mask=lambda i, j: qmix[i] != qmix[j])
+        out["mixed_pairs_equal"] = pair_defect(idx, m, cmix, Veq, mask=lambda i, j: qmix[i] != qmix[j])
     out["V_spread"] = (V.min() / H**2, V.max() / H**2)
     return out
 
@@ -170,8 +199,10 @@ def report(res, title):
         print(f"        row sums: with constant term max {r['row']:.1e}; without: mean {100*r['rowhat']:.1f}% max {100*r['rowhat_max']:.1f}%")
         print(f"        sign condition violated by {100*r['neg_frac']:.1f}% of the entries, at {100*r['neg_particles']:.0f}% of the particles, "
               f"share of sum|c| mean {100*r['neg_share']:.2f}% max {100*r['neg_share_max']:.1f}%; pair defect {100*r['pair']:.1f}%")
+        print(f"        pair defect without the smoothing sweep {100*r['pair_nosweep']:.1f}%, with equal volumes {100*r['pair_equal']:.1f}%")
+        print(f"        pairs x directions with sign(c_ij)=sign(c_ji): {100*r['mismatch'][0]:.2f}% (weight share {100*r['mismatch'][1]:.2f}%)")
     if "mixed_pairs" in res:
-        print(f"  pairs with degrees 1 and 3: pair defect {100*res['mixed_pairs']:.1f}%")
+        print(f"  pairs with degrees 1 and 3: pair defect {100*res['mixed_pairs']:.1f}%, with equal volumes {100*res['mixed_pairs_equal']:.1f}%")
 
 
 if __name__ == "__main__":

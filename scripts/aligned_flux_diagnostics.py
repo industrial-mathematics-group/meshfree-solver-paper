@@ -1,7 +1,9 @@
-"""Aligned dissipation (Sec. 4.3/5.3): (1) Monte Carlo check of the first-order fallback with the Rusanov flux oriented
-by sign(c_ij^(d)) instead of sign(x_ij^(d)), degree-1 and degree-3 weights of the perturbed lattice (kappa = 2.5),
-random admissible Euler states, time step at the limit of (5.5); (2) share of pairs and directions on which the two
-orientations of the aligned flux disagree, sign(c_ij^(d)) = sign(c_ji^(d)) (the flux is then not symmetric).
+"""Aligned dissipation (paper, Secs. "Interface fluxes" and "Positivity"): (1) Monte Carlo check of the first-order
+fallback with the Rusanov flux oriented by sign(c_ij^(d)) (aligned) and by sign(x_ij^(d)) (geometric), degree-1 and
+degree-3 weights of the perturbed 48x48 lattice (kappa = 2.5), random admissible Euler states, time step at the limit
+of the positivity CFL condition (eq:cflpos); this gives the "about 9 %" of the paper; (2) share of pairs and directions
+on which the two orientations of the aligned flux disagree, sign(c_ij^(d)) = sign(c_ji^(d)) (the flux is then not
+symmetric) on the 48x48 clouds; stencil_diagnostics.py prints the same share for the 300x300 cloud of the table.
 Run: python3 aligned_flux_diagnostics.py"""
 import sys, os, numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -24,18 +26,7 @@ def mc(c, off, m, P, orient, trials=20000, seed=1):
         Unew = Ui + rhs/S
         mval = min(Unew[0], pres(Unew)); worst = min(worst, mval); bad += mval <= 0
     return bad, trials, worst
-def sign_mismatch(idx, m, c):
-    N, K = idx.shape; slot = {}
-    for i in range(N):
-        for k in range(K):
-            if m[i, k]: slot[(i, idx[i, k])] = k
-    cnt = tot = 0; wbad = wtot = 0.0
-    for (i, j), k in slot.items():
-        if j > i:
-            a, b = c[i, k], c[j, slot[(j, i)]]
-            tol = 1e-10*max(np.abs(a).max(), np.abs(b).max()); same = (a*b > 0) & (np.abs(a) > tol) & (np.abs(b) > tol); cnt += same.sum(); tot += 2
-            wbad += (np.abs(a) + np.abs(b))[same].sum(); wtot += (np.abs(a) + np.abs(b)).sum()
-    return cnt/tot, wbad/wtot
+sign_mismatch = sd.sign_mismatch
 if __name__ == "__main__":
      for jit in (0.0, 0.2):
         P, L = sd.make_cloud(48, jit, 42); idx, off, m = sd.neighbour_table(P, L, 2.5)
