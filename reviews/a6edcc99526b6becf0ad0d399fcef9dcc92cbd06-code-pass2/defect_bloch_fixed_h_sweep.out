@@ -1,0 +1,8 @@
+merge m=8: alpha_h with h=1/(3m): 1.56e-06
+merge m=16: alpha_h with h=1/(3m): 7.55e-08
+merge m=32: alpha_h with h=1/(3m): 1.81e-08
+merge m=64: alpha_h with h=1/(3m): 4.49e-09
+insert m=8: alpha_h with h=1/(3m): 2.64e-06
+insert m=16: alpha_h with h=1/(3m): 8.63e-07
+insert m=32: alpha_h with h=1/(3m): 2.25e-07
+insert m=64: alpha_h with h=1/(3m): 5.71e-08
