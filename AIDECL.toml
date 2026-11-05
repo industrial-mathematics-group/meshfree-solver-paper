@@ -230,6 +230,37 @@ Assisted-by = ["Claude Opus 5.5 (Anthropic)"]
 Reviewed-by = ["blhackslash <dev@blackslash.win>"]
 AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)"]
 
+# ---- A2: independent review of lean/ at a6edcc9 (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06.md): lake build, no sorry, standard axioms only.
+
+[[annotations]]
+path = "lean/**"
+AI-Generation = "G3"
+Human-Review = "H0"
+AI-Review = "A2"
+Assisted-by = ["Claude Fable 5.1 (Anthropic)"]
+Reviewed-by = ["blhackslash <dev@blackslash.win>"]
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06.md)"]
+
+[[annotations]]
+path = [
+  "lean/MeshfreeAddendum/AxiomCheck.lean",
+  "lean/MeshfreeAddendum/Positivity.lean",
+  "lean/MeshfreeAddendum/Time.lean",
+  "lean/MeshfreeStability/Defects.lean",
+  "lean/MeshfreeStability/Energy.lean",
+  "lean/MeshfreeStability/Lattice.lean",
+  "lean/MeshfreeStability/Limits.lean",
+  "lean/MeshfreeStability/Markov.lean",
+  "lean/README.md",
+  "lean/STABILITY.md",
+]
+AI-Generation = "G3"
+Human-Review = "H0"
+AI-Review = "A2"
+Assisted-by = ["Claude Fable 5.1 (Anthropic)", "Claude Opus 5.5 (Anthropic)"]
+Reviewed-by = ["blhackslash <dev@blackslash.win>"]
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06.md)"]
+
 # Standard MIT licence text, declared by Pascal on 5 Nov 2026 (unchanged).
 [[annotations]]
 path = "LICENSE"
