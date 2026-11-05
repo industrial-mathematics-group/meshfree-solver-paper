@@ -29,3 +29,10 @@ Human-Review = "H2"
 Reviewed-by = "blhackslash <dev@blackslash.win>"
 AI-Review = "A1"
 AI-Reviewed-by = "Claude (Anthropic), claude-opus-5-5"
+
+[[annotations]]
+path = ["LICENSE"]
+AI-Generation = "G0"
+Human-Review = "H2"
+Reviewed-by = "blhackslash <dev@blackslash.win>"
+AI-Review = "A0"
