@@ -1,7 +1,7 @@
 """Panel detection for the PDEStudio colour-map exports in paper/figures/*.jpg.
 
-The panels are framed by dark lines. A frame line is a pixel row (column) in which more than
-half (30 %) of the pixels are dark. Columns: consecutive frame lines at least W/4 apart form the
+The panels are framed by dark lines. A frame line is a pixel row (column) in which more than 50 % (30 %)
+of the pixels are dark. Columns: consecutive frame lines at least W/4 apart form the
 left and right edges of a panel column. Rows: two frame lines form the top and bottom of a panel
 if their distance is the panel width divided by the plot aspect ratio (plot_width/plot_height in
 the export metadata, results/configs/*/*.csv) to within 2 %. Lines inside a panel (such as the

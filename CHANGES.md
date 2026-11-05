@@ -9,9 +9,9 @@ There is no full paper in the repository (only `paper/main_light.tex`), so nothi
 | What | Command | Expected |
 |---|---|---|
 | Wave positions, Mach 3 step (`tab:steppos`) | `cd scripts/figure_measurements && python steppos.py ../../paper/figures/mach3_density_078.jpg` | bow 0.302/0.305/0.306/0.305, stem 0.582/0.585/0.585/0.585, reflection 1.313/1.290/1.262/1.238 (EPD1-K3, EPD2-K3, EPD1-K4, EPD2-K4); triple point y ≈ 0.73 |
-| DMR stem / incident shock | `python dmrpos.py ../../paper/figures/dmr_density_078.jpg` | K=2 foot 2.788, K≥3 stem 2.74–2.77, incident 3.047–3.049 |
+| DMR stem / incident shock | `python dmrpos.py ../../paper/figures/dmr_density_078.jpg` | K=2 foot 2.788, K≥3 stem 2.74–2.77, incident 3.047–3.049 (exact at y = 0.97: 3.036; the readings of this figure sit about 0.011 downstream at every height, see the re-review N3) |
 | Riemann plane shocks | `python clainpos2.py ../../paper/figures/riemann2d_density_078.jpg` | 0.370–0.374 and 0.299–0.301 |
-| Stencil table (`tab:stencils`) | `cd scripts && python stencil_diagnostics.py` (n = 300) | unchanged values; it now also prints the no-sweep (6.2 % / 16.9 %) and equal-volume (5.7 % / 16.7 % / 72.9 %) pair defects and the sign-mismatch rows (5.02 % / 18.75 %, weight 0.39 % / 4.71 %) |
+| Stencil table (`tab:stencils`) | `cd scripts && python stencil_diagnostics.py` (n = 300) | unchanged values except the equal-volume mixed defect 72.8 → 72.9 %; it now also prints the no-sweep (6.2 % / 16.9 %) and equal-volume (5.7 % / 16.7 % / 72.9 %) pair defects and the sign-mismatch rows (5.02 % / 18.75 %, weight 0.39 % / 4.71 %) |
 | Monte Carlo, geometric vs aligned | `python aligned_flux_diagnostics.py`, `python fallback_positivity.py` | both 1797/20000 = 9.0 % for degree 3, geometric (before: 8.5 % from the second script) |
 | EPD sketches | `python make_epd_figure_light.py`, `python make_epd_figure_addendum.py` | byte-identical to `paper/figures/epd_rules_light.tex`, `addendum/figures/epd_rules_addendum.tex` |
 | Defect Bloch arrays | see the commands in the next section, then `python stability/scripts/ho_make_tables.py` | numbers below |
@@ -83,7 +83,7 @@ The shift records and the 2-D data are unchanged. Only the merge and insert cell
   - New K=2 αh, merge, m = 8…128: 2.8e-6, 1.1e-7, 2.1e-8, 4.9e-9, 1.2e-9 → **1.6e-6, 7.5e-8, 1.8e-8, 4.5e-9, 1.1e-9**.
   - New K=2 αh, insert: 3.3e-8 … 1.5e-10 → **2.6e-6, 8.6e-7, 2.2e-7, 5.7e-8, 1.4e-8**.
   - The decay rate in `obs:defectbloch(i)` changes from ≈ m^−2.5 to **≈ m^−2**, so the residual bound becomes ≳ ϱ^−2 and α ≈ c·h/ℓ².
-  - Insert K=3 Kreiss constant 1.09 → **1.10**. Kreiss constants in `tab:defectbloch` change in the third digit (e.g. K=4 merge, geometric: 1.636 → 1.646 at m = 8). Signs and conclusions are unchanged.
+  - Insert K=3 Kreiss constant 1.09 → **1.10**. Kreiss constants in `tab:defectbloch` change in the third digit (e.g. K=4 merge, geometric: 1.636 → 1.646 at m = 8). Signs and conclusions are unchanged except for one cell: the K = 4 aligned insert array, which was zero at the wrong h, is weakly unstable at the correct h (fixed in the follow-up below).
 - `tables/ho_random.tex` (F1/S2): the Kreiss range of (1-D, jitter 0.4, K=4, geometric) is `2.636--5.177` → **`2.636--∞`**. `ho_make_tables.py` now shows ∞ whenever a cloud blows up.
 - Cor 8.8(i) (Lean S8): the threshold is now ϱ_h ≥ c⁻¹ log(C₀/(2 min(c_W,1) g₋ h)), matching the proof.
 - AI declaration (Lean S9): "a partial Lean 4 formalization of Part I … several analytic steps enter as hypotheses".
@@ -117,11 +117,35 @@ The shift records and the 2-D data are unchanged. Only the merge and insert cell
 - `lean/MeshfreeAddendum/AxiomCheck.lean`: comment only. The reference to the missing `ReviewCompositions.lean` was dropped (A10/A5).
 
 ## Open, needs Pascal or data that is not in the repository
-1. **K = 5 neighbour explanation (paper `:620`, S3 of paper pass 1).** At θ = 0.4, κ = 5.5 every 1-D stencil has at least 9 = 1.5·6 neighbours, so with the "at least 1.5×" rule of `:246` no stencil falls back. The explanation holds only if HyperCloudCore's safeguard is strict (> 1.5×). Which one does the code use? The text is unchanged until that is known.
+1. ~~K = 5 neighbour explanation~~: resolved. Pascal confirmed that the safeguard is strict, and `:246` and `:620` were fixed in the follow-ups below.
 2. **`tab:vortex` L² errors (S5/R2)** and the intermediate errors of `tab:conv` and the Sod table are not in `results/reports`. "π₀ = 10⁻² at N = 100" (`:559`) has no run in the reports either. These need the HyperCloud outputs.
 3. **AI declaration in the paper (P12):** "the authors … verified all content" and the review claims are Pascal's statement to make.
 4. `results/reports/RUNS.md` says PDEStudioCore 0.4.2 while the CSVs say PDEStudio 0.4.5. These may be two packages; please confirm. Stale comments in `results/configs/*` (Pascal's files, G0) were not touched.
 5. Addendum notation overloads (A9/S9) and moving the Lemma 3.7(iii) proof from the Lean review into `MLS.lean` (needs a Lean build).
 
 ## Follow-up of 5 Nov 2026 (evening)
-- `paper/main_light.tex:246` and `addendum/math_addendum.tex:264`: the order-increase safeguard is strict, as Pascal confirmed for HyperCloudCore. "at least 1.5 times" → "more than 1.5 times", and `|N(i)| ≥ 1.5(B_k+1)` → `> 1.5(B_k+1)`. The K = 5 explanation at paper `:620` (open item 1 above) therefore stands as written. Both PDFs were rebuilt.
+- `paper/main_light.tex:246` and `addendum/math_addendum.tex:264`: the order-increase safeguard is strict, as Pascal confirmed for HyperCloudCore. "at least 1.5 times" → "more than 1.5 times", and `|N(i)| ≥ 1.5(B_k+1)` → `> 1.5(B_k+1)`. The mechanism of the K = 5 explanation at paper `:620` therefore holds, but its wording needed a fix too (next section). Both PDFs were rebuilt.
+
+## Follow-up 2: fixes from the re-reviews of 627fab6
+
+These come from the two independent re-reviews of the fixes, `reviews/627fab6…-fixes.md` (PR #12) and `reviews/627fab6…-fixes-pass2.md` (PR #13).
+
+- `paper/main_light.tex:620` (N2 of both): "requires 1.5·6 = 9 neighbours; … some stencils have fewer" → "requires **more than** 1.5·6 = 9 neighbours; … about a tenth of the stencils have **exactly nine**". The minimum is exactly 9 at θ = 0.4, with 10–11 % of the particles; none has fewer.
+- `paper/main_light.tex:512` (N1 / M1): "5 to 30 times smaller" now says "in two dimensions (42 times for K = 4 in one dimension)". The 1-D K = 4 ratio is 2.06e-8 / 4.94e-10 = 42.
+- `stability/stability_combined.tex` (N1 of pass 2): with the corrected h, the **K = 4 aligned insert array is weakly unstable**, with αh = 3.7e-7, 7.0e-8, 1.1e-8, 1.6e-9 for m = 8, 16, 32, 64. It was zero to round-off with the wrong h. The geometric insert array stays at zero.
+  - `obs:defectbloch(ii)` now says "K = 4 (merge with both orientations, insert with the geometric one)".
+  - `(iii)` now covers shift and insert.
+  - `obs:cert`, Cor 8.8 (`:768`) and the summary rows `:143` and `:169` now say the residuals are *ruled out* for K = 4 aligned at insert defects, not just "stalling".
+- `stability/stability_combined.tex:168`, `:1102` (N5): "K_V − 1 < 5·10⁻⁴" → "≤ 5·10⁻⁴" (2-D), because the table prints 5e-4.
+- `addendum/math_addendum.tex:103` (N4): "(H3)" is no longer listed as a Lean gap of Thm 6.3, since it is a hypothesis of the theorem itself.
+- `scripts/figure_measurements/frames.py` (M5): docstring now says 50 % (rows) and 30 % (columns).
+- Kept as is: the addendum's conservation remark (M4 of pass 2). There the scheme has the form −2Σ c·(F* − F(U_i)), so the closure Σ_j S_ij = 0 is what removes the F(U_i) term.
+- `tab:steppos` keeps two decimals (M6), matching the stated accuracy of 0.01. The script output above gives three.
+- The PDFs of the paper, the addendum and the stability note were rebuilt.
+
+Still open, besides items 2–5 above:
+- **Lean in the paper's supplement (N6 / M2).** The paper's AI declaration no longer lists Lean, but `lean/` ships in the archive and the addendum and stability note point to it. This is Pascal's call.
+- **Deferred code findings** (no published number depends on them):
+  - code pass 1: F2 (`lattice_symbols.py` tolerance), F3 (cvxpy status not checked; 13 `optimal_inaccurate` records), F4, F6, F7, F9, FV2, FV3 (`analyze.dmr` spurious triple point), R1;
+  - code pass 2: F3 (rp3 triple points), F5, S4, S7–S9;
+  - the `parity_fails_even'` docstring in `lean/MeshfreeAddendum/MLS.lean`.
