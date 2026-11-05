@@ -1,0 +1,24 @@
+lattice 48x48: N = 2304, neighbours mean/min/max = 20.00/20/20, V/h^2 in [1.000, 1.000]
+  q=1: h*sum|c| mean 1.359 max 1.359 (no constant term: mean 1.359 max 1.359; max rel. difference 0.0%)
+        row sums: with constant term max 5.7e-17; without: mean 0.0% max 0.0%
+        sign condition violated by 0.0% of the entries, at 0% of the particles, share of sum|c| mean 0.00% max 0.0%; pair defect 0.0%
+  q=3: h*sum|c| mean 3.593 max 3.593 (no constant term: mean 3.593 max 3.593; max rel. difference 0.0%)
+        row sums: with constant term max 2.2e-16; without: mean 0.0% max 0.0%
+        sign condition violated by 40.0% of the entries, at 100% of the particles, share of sum|c| mean 17.53% max 17.5%; pair defect 0.0%
+  pairs with degrees 1 and 3: pair defect 73.1%
+perturbed 48x48: N = 2304, neighbours mean/min/max = 19.60/17/21, V/h^2 in [0.921, 1.063]
+  q=1: h*sum|c| mean 1.399 max 1.526 (no constant term: mean 1.401 max 1.517; max rel. difference 2.4%)
+        row sums: with constant term max 1.8e-11; without: mean 4.3% max 13.8%
+        sign condition violated by 3.2% of the entries, at 72% of the particles, share of sum|c| mean 0.18% max 3.5%; pair defect 5.4%
+  q=3: h*sum|c| mean 3.795 max 4.561 (no constant term: mean 3.790 max 4.544; max rel. difference 5.6%)
+        row sums: with constant term max 6.0e-11; without: mean 4.0% max 14.2%
+        sign condition violated by 44.1% of the entries, at 100% of the particles, share of sum|c| mean 17.96% max 25.6%; pair defect 16.7%
+  pairs with degrees 1 and 3: pair defect 72.8%
+perturbed 300x300: N = 90000, neighbours mean/min/max = 19.62/16/22, V/h^2 in [0.904, 1.088]
+  q=1: h*sum|c| mean 1.399 max 1.567 (no constant term: mean 1.400 max 1.553; max rel. difference 3.5%)
+        row sums: with constant term max 2.5e-11; without: mean 4.3% max 18.9%
+        sign condition violated by 3.2% of the entries, at 72% of the particles, share of sum|c| mean 0.17% max 4.8%; pair defect 5.3%
+  q=3: h*sum|c| mean 3.792 max 4.721 (no constant term: mean 3.787 max 4.654; max rel. difference 10.6%)
+        row sums: with constant term max 8.2e-11; without: mean 4.0% max 18.5%
+        sign condition violated by 44.2% of the entries, at 100% of the particles, share of sum|c| mean 17.94% max 28.1%; pair defect 16.6%
+  pairs with degrees 1 and 3: pair defect 72.9%

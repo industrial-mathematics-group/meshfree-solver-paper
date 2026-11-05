@@ -1,0 +1,2 @@
+degree 1: 0 of 20000 random first-order updates at the limit of (5.5) are inadmissible (min of rho, p: 0.283)
+degree 3: 1701 of 20000 random first-order updates at the limit of (5.5) are inadmissible (min of rho, p: -119)
