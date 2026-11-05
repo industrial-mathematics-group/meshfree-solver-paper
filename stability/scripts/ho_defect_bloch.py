@@ -61,7 +61,7 @@ with open(out, "a") as f:
                 thetas = np.array([(x, y) for x in t1 for y in t1])
             for K in Ks:
                 for orient in orients:
-                    syms, h = bloch_symbols(P0, kappa, K, a, orient, thetas)
+                    syms, h = bloch_symbols(P0, kappa, K, a, orient, thetas, m=m)
                     alph = [np.linalg.eigvals(S).real.max() for S in syms]
                     kr = max(kreiss_sym(S, h) for S in syms)
                     i = int(np.argmax(alph))

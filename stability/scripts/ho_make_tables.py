@@ -33,6 +33,15 @@ def rng_sci(vals):
     return sci(hi) if lo <= 1e-12 else (sci(lo) + "--" + sci(hi)).replace("$--$", "--")
 
 
+def kreiss_range(kr, n):
+    """Range of the Kreiss constants; clouds without one (blow-up, alpha h > 0) make the upper end infinite."""
+    if not kr:
+        return "$\\infty$"
+    if len(kr) < n:
+        return ("%.3f" % min(kr)) + "--$\\infty$"
+    return rng(kr)
+
+
 # ---- random clouds: numerical abscissa and Kreiss constants ------------------------------------
 rows = defaultdict(list)
 for r in load("ho_random_1d.jsonl") + load("ho_random_2d.jsonl"):
@@ -53,7 +62,7 @@ with open(os.path.join(root, "tables", "ho_random.tex"), "w") as out:
         pre = "%d & %g & %g" % head if head != last else "&&"
         last = head
         out.write("%s & %d & %s & %d--%d & %s & %s & %s\\\\\n" % (
-            pre, K, orient, ns[0], ns[-1], rng_sci(al), rng(om, "%.4f"), rng(kr) if kr else "$\\infty$"))
+            pre, K, orient, ns[0], ns[-1], rng_sci(al), rng(om, "%.4f"), kreiss_range(kr, len(rs))))
 
 # ---- deformed lattices -------------------------------------------------------------------------
 rows = defaultdict(list)

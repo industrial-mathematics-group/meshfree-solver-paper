@@ -1,36 +1,51 @@
-import numpy as np, sys, matplotlib
-from PIL import Image
-lut=(matplotlib.colormaps['viridis'](np.linspace(0,1,256))[:,:3]*255)
-im=np.asarray(Image.open(sys.argv[1]).convert('RGB')).astype(float)
-H,W,_=im.shape
-dark=(im.sum(2)<150)
-def groups(a):
-    g=[];s=a[0];p=a[0]
-    for x in a[1:]:
-        if x!=p+1: g.append((s,p)); s=x
-        p=x
-    g.append((s,p)); return g
-rows=groups(np.where(dark.sum(1)>W*0.5)[0]); cols=groups(np.where(dark.sum(0)>H*0.3)[0])
-print(rows, cols)
-R=[(143,1393),(1622,2871),(3100,4349),(4578,5827)]; c0,c1=147,2959
-def idx(px):
-    d=((px[:,None,:]-lut[None])**2).sum(2); return d.argmin(1).astype(float)
-def prof(r0,r1,y):
-    r=int(round(r0+(1-y)*(r1-r0))); px=im[r,c0+3:c1-2]; x=3*(np.arange(c0+3,c1-2)-c0)/(c1-c0); return x, idx(px)
-for r0,r1 in R:
-    out=[]
-    for y,(a,b) in [(0.05,(0.15,0.55)),(0.95,(0.3,0.9))]:
-        x,v=prof(r0,r1,y); m=(x>=a)&(x<=b); xs,vs=x[m],v[m]; left=np.median(vs[:15]); right=np.median(vs[-15:]); mid=(left+right)/2
-        k=np.where(vs>mid)[0]; out.append(xs[k[0]])
-    x,v=prof(r0,r1,0.215); m=(x>=1.0)&(x<=1.8); xs,vs=x[m],v[m]; lo=vs[:40].min(); hi=np.median(vs[-30:]); mid=(lo+hi)/2
-    k=np.where((vs>mid))[0]; out.append(xs[k[0]])
-    print("  ".join(f"{o:.3f}" for o in out))
-print('triple')
-for r0,r1 in R:
-    xs_=[]
-    ys=np.arange(0.97,0.5,-0.005)
+"""Wave positions of the Mach 3 step runs from paper/figures/mach3_density_078.jpg (Table tab:steppos).
+
+Usage: python steppos.py ../../paper/figures/mach3_density_078.jpg
+Prints per panel (top to bottom): bow shock at y=0.05, Mach stem at y=0.95, reflection on the
+step at y=0.215; then the stem position and the triple point. Domain [0,3]x[0,1].
+"""
+import sys
+import numpy as np
+from frames import load, colour_index, panels
+
+im = load(sys.argv[1])
+R, C = panels(im, aspect=3.0)
+c0, c1 = C[0]
+print('panels', R, C)
+
+
+def prof(r0, r1, y):
+    r = int(round(r0 + (1 - y) * (r1 - r0)))
+    px = im[r, c0 + 3:c1 - 2]
+    x = 3 * (np.arange(c0 + 3, c1 - 2) - c0) / (c1 - c0)
+    return x, colour_index(px)
+
+
+def first(k, xs):
+    return xs[k[0]] if len(k) else np.nan
+
+
+print('bow(y=0.05)  stem(y=0.95)  reflection(y=0.215)')
+for r0, r1 in R:
+    out = []
+    for y, (a, b) in [(0.05, (0.15, 0.55)), (0.95, (0.3, 0.9))]:
+        x, v = prof(r0, r1, y); m = (x >= a) & (x <= b); xs, vs = x[m], v[m]
+        mid = (np.median(vs[:15]) + np.median(vs[-15:])) / 2
+        out.append(first(np.where(vs > mid)[0], xs))
+    x, v = prof(r0, r1, 0.215); m = (x >= 1.0) & (x <= 1.8); xs, vs = x[m], v[m]
+    mid = (vs[:40].min() + np.median(vs[-30:])) / 2
+    out.append(first(np.where(vs > mid)[0], xs))
+    print('  '.join(f'{o:.4f}' for o in out))
+print('triple point')
+for r0, r1 in R:
+    xs_ = []
+    ys = np.arange(0.97, 0.5, -0.005)
     for y in ys:
-        x,v=prof(r0,r1,y); m=(x>=0.2)&(x<=0.9); xs,vs=x[m],v[m]; left=np.median(vs[:15]); 
-        k=np.where(vs>left+40)[0]; xs_.append(xs[k[0]] if len(k) else np.nan)
-    xs_=np.array(xs_); x0=np.median(xs_[:6]); j=np.where(np.abs(xs_-x0)>0.015)[0][0]
-    print(f"stem {x0:.3f} triple y~{ys[j]:.3f} x~{xs_[j-1]:.3f}")
+        x, v = prof(r0, r1, y); m = (x >= 0.2) & (x <= 0.9); xs, vs = x[m], v[m]
+        xs_.append(first(np.where(vs > np.median(vs[:15]) + 40)[0], xs))
+    xs_ = np.array(xs_); x0 = np.median(xs_[:6])
+    j = np.where(np.abs(xs_ - x0) > 0.015)[0]
+    if len(j):
+        print(f'stem {x0:.3f} triple y~{ys[j[0]]:.3f} x~{xs_[j[0]-1]:.3f}')
+    else:
+        print(f'stem {x0:.3f} (no triple point found)')

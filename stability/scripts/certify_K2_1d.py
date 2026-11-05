@@ -4,14 +4,15 @@ With t = theta/2 and the Chebyshev polynomials T_n, U_{n-1} in c = cos t,
   E_nm(t) = n sin^2(mt) + m sin^2(nt) - (n+m) sin(nt)cos(nt) sin(mt)cos(mt) = sin^2(t) P_nm(c),
   P_nm = n U_{m-1}^2 + m U_{n-1}^2 - (n+m) U_{n-1} T_n U_{m-1} T_m.
 The script checks P_nm >= 0 on [-1, 1] in exact rational arithmetic (square-free decomposition and Sturm root
-counting) for 1 <= m <= n <= NMAX, and reports the first pair that fails.
+counting) for 1 <= m <= n <= NMAX (default 9, as used in the note; NMAX >= 10 reports the failure at P_{10,1}),
+and reports the first pair that fails.
 """
 import sys
 
 import sympy as sp
 
 c = sp.symbols("c")
-NMAX = int(sys.argv[1]) if len(sys.argv) > 1 else 12
+NMAX = int(sys.argv[1]) if len(sys.argv) > 1 else 9
 
 
 def T(n):

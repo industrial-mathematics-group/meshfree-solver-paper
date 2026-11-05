@@ -1,4 +1,4 @@
-"""Writes figures/epd_rules_addendum.tex: the EPD0, EPD1, EPD2 panels of make_epd_figure.py for math_addendum.tex."""
+"""Writes addendum/figures/epd_rules_addendum.tex: the EPD0, EPD1, EPD2 panels of make_epd_figure.py for math_addendum.tex."""
 import os
 
 from make_epd_figure import NX, S, panel
@@ -12,7 +12,7 @@ def main():
         out += panel(rule, n * (width + gap))
     out.append("\\end{tikzpicture}")
     here = os.path.dirname(os.path.abspath(__file__))
-    path = os.path.join(here, "..", "figures", "epd_rules_addendum.tex")
+    path = os.path.join(here, "..", "addendum", "figures", "epd_rules_addendum.tex")
     with open(path, "w") as f:
         f.write("\n".join(out) + "\n")
     print("written", os.path.normpath(path))

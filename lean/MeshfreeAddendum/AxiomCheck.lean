@@ -49,8 +49,7 @@ open Meshfree
 #print axioms stagewise_mood_admissible
 #print axioms ssp_order_one
 
-/-- Non-vacuity: the hypotheses of `ssprk54_negative_coefficient` hold for the Table 1 values
-(from the independent review, `ReviewCompositions.lean`). -/
+/-- Non-vacuity: the hypotheses of `ssprk54_negative_coefficient` hold for the Table 1 values. -/
 example : (0.2380 : ℝ) - 0.2874 * 0.4444 / 0.5556 - 0.1337 * 0.1781 / 0.8219 < 0 :=
   ssprk54_negative_coefficient 0.4444 0.1781 0.2380 0.5556 0.8219 0.2874 0.1337
     (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)

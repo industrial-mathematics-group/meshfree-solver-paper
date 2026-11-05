@@ -1,7 +1,13 @@
 """Simple 2-D Euler finite-volume solver (gamma=1.4) for reference runs.
 MUSCL reconstruction of primitive variables (MC or minmod limiter), HLLC flux,
 SSP-RK3, uniform Cartesian grid, 2 ghost layers, optional solid mask (mirror cells).
-Usage: python fv.py problem h [limiter] [flux]
+Usage: python fv.py problem n [limiter] [flux]
+  problem: dmr, step, stepfix (step with a Woodward-Colella type corner treatment) or rp3 (2-D Riemann problem)
+  n:       number of cells per unit length, h = 1/n (integer, e.g. 120)
+  limiter: 0 = minmod, 1 = MC (default)
+  flux:    0 = HLLC (default), 1 = HLL
+  The environment variable TEND overrides the final time (used for the self-similarity run of the DMR).
+Writes <problem>_<n>_l<limiter>_f<flux>[_t<TEND>].npz.
 """
 import sys, time, numpy as np
 from numba import njit, prange

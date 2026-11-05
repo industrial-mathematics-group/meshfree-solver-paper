@@ -1,3 +1,6 @@
+"""Three-shock theory for the DMR triple point as a function of the path angle chi, compared with the stem angle of
+an FV run. Needs dmr_240_l1_f0_front.txt in the working directory: python fv.py dmr 240, then
+python analyze.py dmr dmr_240_l1_f0.npz."""
 import numpy as np, sys, os
 from scipy.optimize import fsolve
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))

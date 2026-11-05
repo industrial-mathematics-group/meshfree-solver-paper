@@ -8,7 +8,7 @@ Local-squares decomposition of the lattice dissipation form (ho_fr.local_squares
 B_j(u) = (sum_k b_k u_{j+k})^2.  For a zone Z = {|x - z| <= rho g} the certificate is a symmetric block W_Z with
     E(W) := W L + L^T W + sum_{far j} B_j  <=  t I   on the touched set Z',   cW I <= W_Z <= CW I,   W = g I outside Z,
 where "far" squares are those whose support avoids Z.  t = t(rho) is minimized (SDP, CLARABEL).  Because
-sum_far B_j <= 0 this gives  u^T (W L + L^T W) u <= t |u_{Z'}|^2  for every cloud containing the defect, and the
+sum_far B_j >= 0 this gives  u^T (W L + L^T W) u <= t |u_{Z'}|^2  for every cloud containing the defect, and the
 zone blocks of distinct defects superpose when the zones are separated by more than 2 kappa + d.
 
 Usage:
