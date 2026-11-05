@@ -261,7 +261,7 @@ the smallest odd degree that is not below $k-1$: $\qdiv(k)=k-1$ for even $k$ and
 \end{definition}
 
 \begin{remark}[Safeguards]\label{rem:safeguards}
-The implementation uses the odd increase from $k-1$ to $k$ only if $|\nb(i)|\ge1.5\,(B_k+1)$, applies it only up to degree three in three dimensions, and lowers the degree of the derivative fit until $|\nb(i)|\ge B_q+1$. A particle whose neighbourhood is too small for its reconstruction fit is set to order one. The statements below refer to the degree $q_i$ actually used by particle $i$.
+The implementation uses the odd increase from $k-1$ to $k$ only if $|\nb(i)|>1.5\,(B_k+1)$, applies it only up to degree three in three dimensions, and lowers the degree of the derivative fit until $|\nb(i)|\ge B_q+1$. A particle whose neighbourhood is too small for its reconstruction fit is set to order one. The statements below refer to the degree $q_i$ actually used by particle $i$.
 \end{remark}
 
 % ===========================================================================

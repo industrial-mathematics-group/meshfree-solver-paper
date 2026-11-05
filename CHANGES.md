@@ -122,3 +122,6 @@ The shift records and the 2-D data are unchanged. Only the merge and insert cell
 3. **AI declaration in the paper (P12):** "the authors … verified all content" and the review claims are Pascal's statement to make.
 4. `results/reports/RUNS.md` says PDEStudioCore 0.4.2 while the CSVs say PDEStudio 0.4.5. These may be two packages; please confirm. Stale comments in `results/configs/*` (Pascal's files, G0) were not touched.
 5. Addendum notation overloads (A9/S9) and moving the Lemma 3.7(iii) proof from the Lean review into `MLS.lean` (needs a Lean build).
+
+## Follow-up of 5 Nov 2026 (evening)
+- `paper/main_light.tex:246` and `addendum/math_addendum.tex:264`: the order-increase safeguard is strict, as Pascal confirmed for HyperCloudCore. "at least 1.5 times" → "more than 1.5 times", and `|N(i)| ≥ 1.5(B_k+1)` → `> 1.5(B_k+1)`. The K = 5 explanation at paper `:620` (open item 1 above) therefore stands as written. Both PDFs were rebuilt.
