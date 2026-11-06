@@ -263,13 +263,11 @@ Assisted-by = ["Claude Fable 5.1 (Anthropic)", "Claude Opus 5.5 (Anthropic)"]
 Reviewed-by = ["blhackslash <dev@blackslash.win>"]
 AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-pass2.md)"]
 
-# ---- Changed after the reviews of a6edcc9 by the fixes for their findings (PR #9, Claude Opus 5.5):
-# back to A1 (self-check by the session that made the fixes) until reviewed again.
+# ---- Changed by the fixes for the findings of the a6edcc9 reviews (PR #9, Claude Opus 5.5).
+# Reviewed again at 627fab6 by two new sessions (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes.md, reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes-pass2.md).
 
 [[annotations]]
 path = [
-  "addendum/math_addendum.pdf",
-  "addendum/math_addendum.tex",
   "fv_reference/fv.py",
   "fv_reference/reference_solutions.md",
   "fv_reference/tst2.py",
@@ -292,17 +290,44 @@ path = [
   "stability/scripts/ho_defect_bloch.py",
   "stability/scripts/ho_defect_cert.py",
   "stability/scripts/ho_make_tables.py",
-  "stability/stability_combined.pdf",
-  "stability/stability_combined.tex",
   "stability/tables/ho_defect_bloch.tex",
   "stability/tables/ho_random.tex",
 ]
 AI-Generation = "G3"
 Human-Review = "H0"
+AI-Review = "A2"
+Assisted-by = ["Claude Fable 5.1 (Anthropic)", "Claude Opus 5.5 (Anthropic)"]
+Reviewed-by = ["blhackslash <dev@blackslash.win>"]
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes-pass2.md)"]
+
+[[annotations]]
+path = "README.md"
+AI-Generation = "G2"
+Human-Review = "H1"
+AI-Review = "A2"
+Assisted-by = ["Claude Opus 5.5 (Anthropic)"]
+Reviewed-by = ["blhackslash <dev@blackslash.win>"]
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes-pass2.md)"]
+
+[[annotations]]
+path = "results/reports/2026-10-29-sod1d.md"
+AI-Generation = "G3"
+Human-Review = "H2"
+AI-Review = "A2"
+Assisted-by = ["Claude Opus 5.5 (Anthropic)"]
+Reviewed-by = ["blhackslash <dev@blackslash.win>"]
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes-pass2.md)"]
+
+# Changed again after 627fab6 (PR #11, same Opus 5.5 session as #9): A1 until reviewed again.
+
+[[annotations]]
+path = ["addendum/math_addendum.tex", "addendum/math_addendum.pdf", "stability/stability_combined.tex", "stability/stability_combined.pdf"]
+AI-Generation = "G3"
+Human-Review = "H0"
 AI-Review = "A1"
 Assisted-by = ["Claude Fable 5.1 (Anthropic)", "Claude Opus 5.5 (Anthropic)"]
 Reviewed-by = ["blhackslash <dev@blackslash.win>"]
-AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), self-check by the session that fixed the 5 Nov 2026 review findings (PR #9)"]
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), self-check by the session that fixed the review findings (PRs #9 and #11)"]
 
 [[annotations]]
 path = ["paper/main_light.tex", "paper/main_light.pdf"]
@@ -311,16 +336,17 @@ Human-Review = "H2"
 AI-Review = "A1"
 Assisted-by = ["Claude Opus 5.5 (Anthropic)"]
 Reviewed-by = ["blhackslash <dev@blackslash.win>"]
-AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), self-check by the session that fixed the 5 Nov 2026 review findings (PR #9)"]
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), self-check by the session that fixed the review findings (PRs #9 and #11)"]
 
+# New files of PR #9, changed again in PR #11.
 [[annotations]]
-path = "results/reports/2026-10-29-sod1d.md"
+path = ["CHANGES.md", "scripts/figure_measurements/frames.py"]
 AI-Generation = "G3"
-Human-Review = "H2"
+Human-Review = "H0"
 AI-Review = "A1"
 Assisted-by = ["Claude Opus 5.5 (Anthropic)"]
 Reviewed-by = ["blhackslash <dev@blackslash.win>"]
-AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), self-check by the session that fixed the 5 Nov 2026 review findings (PR #9)"]
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), self-check by the session that fixed the review findings (PRs #9 and #11)"]
 
 # Standard MIT licence text, declared by Pascal on 5 Nov 2026 (unchanged).
 [[annotations]]
