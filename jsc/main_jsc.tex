@@ -46,7 +46,6 @@
 \usepackage[numbers,square,sort&compress]{natbib}
 \usepackage{microtype}
 \usepackage[section]{placeins}% floats are output before the next section starts
-\usepackage[hyphens]{url}% URLs may break after hyphens as well as slashes
 \usepackage[colorlinks=true,linkcolor=blue!50!black,citecolor=green!35!black,urlcolor=blue!60!black]{hyperref}
 % svjour3 + amsmath leave \cl@chapter self-referential, which makes cleveref
 % loop (TeX capacity exceeded); the paper has no chapters, so reset it.
@@ -685,8 +684,9 @@ This work was funded by the Deutsche Forschungsgemeinschaft (DFG, German Researc
 Not applicable.
 
 \paragraph{Data availability}
-The run reports and tables of all computations reported in this paper, the run configurations, the stencil diagnostics and the scripts that produce the wave positions read from the figures are publicly available in the repository
-\url{https://github.com/industrial-mathematics-group/meshfree-solver-paper} and archived on Zenodo at \TODO{DOI of the Zenodo archive of the repository}.
+\begin{sloppypar}% the long repository URL can only break after slashes
+The run reports and tables of all computations reported in this paper, the run configurations, the stencil diagnostics and the scripts that produce the wave positions read from the figures are publicly available in the repository \url{https://github.com/industrial-mathematics-group/meshfree-solver-paper} and archived on Zenodo at \TODO{DOI of the Zenodo archive of the repository}.
+\end{sloppypar}
 
 \paragraph{Code availability}
 The solver HyperCloudCore.jl \cite{jung_hypercloudcore} (version 0.7.8), the simulation framework HyperCloud.jl \cite{jung_hypercloud} (version 0.5.1) and the visualization package PDEStudio \cite{jung_pdestudio} (version 0.4.5) are open source and archived on Zenodo. The run configurations and driver scripts are available in \cite{jung_meshfree_simulations}, and the mathematical addendum \cite{JungAddendum2026} is part of the supplementary material at \url{https://github.com/industrial-mathematics-group/meshfree-solver-paper} (archived at \TODO{DOI of the Zenodo archive of the repository}). A preprint of this paper is available at \url{https://zenodo.org/records/23807966}.
