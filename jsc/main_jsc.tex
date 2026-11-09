@@ -6,6 +6,18 @@
 \documentclass[smallextended]{svjour3}
 \smartqed
 
+% Show the pages on the journal's trim size, 155 mm x 235 mm (the page size of
+% published JSC articles), instead of A4. The class option smallextended sets
+% the text block (119 mm x 195 mm) for this format but prints it at the top left
+% of an A4 sheet, which leaves wide empty margins. Only the paper size and the
+% position of the text block change; line and page breaks are the same. Remove
+% these lines to get the class's A4 output.
+\setlength{\paperwidth}{155mm}
+\setlength{\paperheight}{235mm}
+\setlength{\hoffset}{\dimexpr(\paperwidth-\textwidth)/2-1in\relax}
+\setlength{\voffset}{-34pt}
+\AtBeginDocument{\setlength{\pdfpagewidth}{\paperwidth}\setlength{\pdfpageheight}{\paperheight}}
+
 % ---------------------------------------------------------------------------
 % Version of paper/main_light.tex for submission to the Journal of Scientific
 % Computing. paper/ holds the preprint archived on Zenodo; edit this file for the
@@ -784,13 +796,13 @@ in the upper left, upper right, lower left and lower right quadrants, and the so
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=\textwidth]{figures/riemann2d_density_078.jpg}
+\includegraphics[width=0.74\textwidth]{figures/riemann2d_density_078.jpg}
 \caption{Two-dimensional Riemann problem (Configuration~3), density at $t=0.3$ on $800\times800$ particles perturbed by $0.2h$, with a common colour scale, for RK2MUSCL1, RK2MUSCL2 with the VK limiter, EPD2 and EPD1, RK3MUSCL3(EPD1,MLS3) and RK4SSPMUSCL4(EPD1,MLS4); all schemes except RK2MUSCL1 use the aligned flux}\label{fig:riemann}
 \end{figure}
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=\textwidth]{figures/riemann2d_zoom_078.jpg}
+\includegraphics[width=0.74\textwidth]{figures/riemann2d_zoom_078.jpg}
 \caption{Two-dimensional Riemann problem: detail $[0.225,0.5]\times[0.21,0.52]$ of \cref{fig:riemann} with $100$ contour levels}\label{fig:riemannzoom}
 \end{figure}
 
@@ -804,7 +816,7 @@ The double Mach reflection of Woodward and Colella \cite{Woodward1984} describes
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.92\textwidth]{figures/dmr_density_078.jpg}
+\includegraphics[width=0.72\textwidth]{figures/dmr_density_078.jpg}
 \caption{Double Mach reflection, density at $t=0.2$ on $1440\times450$ particles perturbed by $0.2h$ for RK2MUSCL2(VK), RK3MUSCL3(EPD1,MLS3), RK3MUSCL3(EPD2,MLS3) and RK4SSPMUSCL4(EPD1,MLS4), all with the aligned flux, with a common colour scale}\label{fig:dmr}
 \end{figure}
 
@@ -822,7 +834,7 @@ In the second problem of \cite{Woodward1984}, a uniform Mach 3 flow $(\rho,u,v,p
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.92\textwidth]{figures/mach3_density_078.jpg}
+\includegraphics[width=0.72\textwidth]{figures/mach3_density_078.jpg}
 \caption{Mach 3 wind tunnel with a step, density at $t=4$ on $900\times300$ particles perturbed by $0.2h$ for RK3MUSCL3 and RK4SSPMUSCL4 with EPD1 and EPD2 and $k_{\mathrm{div}}=K$, all with the aligned flux, with a common colour scale; the step is shown in grey}\label{fig:step}
 \end{figure}
 
