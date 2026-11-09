@@ -4,7 +4,7 @@
 
 Build: `latexmk -pdf main_jsc.tex`. The folder is self-contained. It holds the figures (copies of `../paper/figures/`), `refs.bib`, and the class and style files from Springer's official author package `LaTeX_DL_468198_240419` (`svjour3.cls` v3.2, `svglov3.clo`, `spmpsci.bst`), so it can be uploaded as it is.
 
-**Layout.** The journal asks for `svjour3` with the option `smallextended`. That option sets a 119 mm × 195 mm text block, the journal's own page format, and places it at the top left of an A4 sheet. The wide right and bottom margins and the "manuscript No." box are therefore expected. Springer's own `template.tex` compiled with the same class looks the same, and the final layout is produced by Springer's typesetters.
+**Layout.** The journal asks for `svjour3` with the option `smallextended`, which sets a 119 mm × 195 mm text block for the journal's page format but prints it at the top left of an A4 sheet. `main_jsc.tex` therefore sets the PDF page to the trim size of published JSC articles, 155 mm × 235 mm, with the text block centred. Delete the marked lines after `\smartqed` to get the class's A4 output; the line and page breaks stay the same. The two-dimensional colour maps are scaled to 74–80 % of the text width so that text fits on their pages, which keeps the figures within the text.
 
 Placeholders are printed in red as `[TODO: …]`:
 - the corresponding author and their e-mail, and the ORCIDs (title page)
