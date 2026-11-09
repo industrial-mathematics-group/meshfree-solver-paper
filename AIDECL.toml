@@ -355,3 +355,21 @@ AI-Generation = "G0"
 Human-Review = "H2"
 Reviewed-by = ["blhackslash <dev@blackslash.win>"]
 AI-Review = "A0"
+
+# ---- JSC formatting (svjour3 smallextended, declarations, references), made by a Claude Opus 5.5
+# session on 9 Nov 2026. The changed paper files are back at A1 until they are reviewed again.
+[[annotations]]
+path = ["paper/main_light.tex", "paper/main_light.pdf", "paper/main_light.bbl", "paper/refs.bib"]
+AI-Generation = "G2"
+Human-Review = "H2"
+AI-Review = "A1"
+Assisted-by = ["Claude Opus 5.5 (Anthropic)"]
+Reviewed-by = ["blhackslash <dev@blackslash.win>"]
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), self-check by the session that applied the JSC formatting"]
+
+# Springer LaTeX package files (svjour3 v3.3, spmpsci.bst), copied unchanged; not AI-generated.
+[[annotations]]
+path = ["paper/svjour3.cls", "paper/svglov3.clo", "paper/spmpsci.bst"]
+AI-Generation = "G0"
+Human-Review = "H0"
+AI-Review = "A0"
