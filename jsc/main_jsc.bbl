@@ -12,14 +12,6 @@ Avesani, D., Dumbser, M., Bellin, A.: A new class of moving-least-squares
 \newblock J. Comput. Phys. \textbf{270}, 278--299 (2014).
 \newblock \doi{10.1016/j.jcp.2014.03.041}
 
-\bibitem{BarthFrederickson1990}
-Barth, T.J., Frederickson, P.O.: Higher order solution of the {E}uler equations
-  on unstructured grids using quadratic reconstruction.
-\newblock In: 28th Aerospace Sciences Meeting. American Institute of
-  Aeronautics and Astronautics, Reno, NV (1990).
-\newblock \doi{10.2514/6.1990-13}.
-\newblock AIAA Paper 90-0013
-
 \bibitem{BarthJespersen1989}
 Barth, T.J., Jespersen, D.C.: The design and application of upwind schemes on
   unstructured meshes.
