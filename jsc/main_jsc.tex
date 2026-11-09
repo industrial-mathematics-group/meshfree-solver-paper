@@ -277,11 +277,9 @@ On a centrally symmetric stencil, such as a lattice, a fit of odd degree $q$ is 
 \begin{equation}\label{eq:qk}
 \qdiv(k) = 2\lceil k/2\rceil - 1,
 \end{equation}
-i.e.\ $k-1$ for even $k$ and $k$ for odd $k$. For a polynomial solution of degree $k-1$ every step of the scheme is then exact on arbitrary clouds, the meshfree analogue of a $(k-1)$-exact reconstruction \cite{BarthFrederickson1990}, and on lattices a Taylor expansion gives a truncation error of order $k$; with the even degree $k-1$ the odd orders would lose one order. Every fit lowers its degree until it has at least as many neighbours as unknowns, and the increase from $k-1$ to $k$ is only used with more than $1.5$ times as many. With $\kappa=2.5$ the two-dimensional stencils support all degrees up to $k=4$; in one dimension $\kappa=2.5$ gives only four neighbours, so $k=3$ falls back to derivative degree two, and on perturbed clouds $k=5$ needs about $\kappa\ge5.5$ in one and $\kappa\ge3.5$ in two dimensions.
+i.e.\ $k-1$ for even $k$ and $k$ for odd $k$; on lattices this gives a truncation error of order $k$. Every fit lowers its degree until it has at least as many neighbours as unknowns, and the increase from $k-1$ to $k$ is only used with more than $1.5$ times as many. With $\kappa=2.5$ the two-dimensional stencils support all degrees up to $k=4$; in one dimension $\kappa=2.5$ gives only four neighbours, so $k=3$ falls back to derivative degree two, and on perturbed clouds $k=5$ needs about $\kappa\ge5.5$ in one and $\kappa\ge3.5$ in two dimensions.
 
 The derivative degree can be chosen in two ways. In the \emph{coupled} mode it follows the current order, $q_i=\qdiv(k_i)$. In the \emph{frozen} mode it is fixed, $q_i=\qdiv(k_{\mathrm{div}})$ for a prescribed $k_{\mathrm{div}}\le K$, independently of what MOOD does; for example, $k_{\mathrm{div}}=2$ with $K=4$ uses degree-one weights everywhere and is formally of second order only. The frozen mode with the aligned flux of the next subsection is our recommended choice.
-
-\paragraph{Conservation.}\label{sec:conservation} Summing the volume-weighted updates \eqref{eq:scheme} over all interior particles, every interior pair enters with the pair defects $d_{ij,d}=V_ic^{(d)}_{ij}+V_jc^{(d)}_{ji}$. The scheme is conservative if the generalized face vectors $S_{ij}=2V_ic_{ij}$ are antisymmetric, $S_{ij}=-S_{ji}$, like the normals of a mesh face seen from its two cells. The MLS weights have this property on lattices with equal volumes, but not on irregular clouds, and pairs whose two particles use different derivative degrees have large defects even on lattices. In the coupled mode MOOD creates such pairs at the boundaries of every lowered region; the frozen mode avoids them. Meshless coefficients that are exactly antisymmetric can be constructed \cite{Chiu2011,Chiu2012,Suchde2017}; we do not apply such a correction here and measure the conservation error in \cref{sec:mass}.
 
 \subsection{Interface fluxes}\label{sec:fluxes}
 
@@ -493,19 +491,13 @@ With $\kappa=5.5$ every scheme attains its design order for linear advection, in
 
 The smaller radius $\kappa=2.5$ of the shock computations keeps the design orders on lattices (in two dimensions $2.02$, $3.00$, $4.01$ for advection and $2.06$, $2.98$, $4.12$ for Burgers) with errors at the finest resolution that are $5$ to $30$ times smaller than with $\kappa=5.5$ in two dimensions ($42$ times for $K=4$ in one dimension), since the fits weight the near neighbours more strongly; the exception is $K=3$ in one dimension, which falls back to the derivative degree two (\cref{sec:parity}) and is of second order. \Cref{fig:convergence} shows that on the perturbed clouds the radius acts mainly on the error constant. For $K=2$ the curves of both radii are parallel, and at $N=1000$ the relative $L^2$ errors with $\kappa=2.5$ are $4.9$ (advection) and $5.0$ (Burgers) times smaller than with $\kappa=5.5$. For $K=4$ the factors are $8.5$ and $19$. $K=2$ and $K=3$ keep their orders on the perturbed clouds ($1.97$--$2.00$ and $2.91$ in two dimensions, \cref{tab:convergence}), whereas $K=4$ with $\kappa=2.5$ drops to $2.98$ in one dimension, $3.24$ for two-dimensional advection and $3.78$ for Burgers, visible in \cref{fig:convergence} as the less regular slope of the curve RK4SSPMUSCL4($R=2.5$): with $0.2h$ perturbations some stencils of radius $2.5h$ are too close to the minimal size for the degree-three fits. In two dimensions the errors of $K=4$ with $\kappa=2.5$ are nevertheless smaller than with $\kappa=5.5$ over the whole range tested ($1.1\cdot10^{-7}$ instead of $1.4\cdot10^{-6}$ in $L^1$ for Burgers at $N=1000$); in one dimension they are about $20\%$ larger at $N=3163$. For the full order of $K=4$ on perturbed clouds, $\kappa$ between $3.5$ and $5.5$ is needed.
 
-\subsection{Mass conservation}\label{sec:mass}
+\subsection{Mass conservation}\label{sec:mass}\label{sec:conservation}
 
-The conservation error of the scheme stems from the lack of antisymmetry of the volume-weighted derivative weights (\cref{sec:conservation}). We now measure it. Let $m(t)=\bar h^D\sum_{i\in I}U_i$ be the discrete mass with the equal volumes $\bar h^D=|\Omega|/|I|$ of the interior particles,  and let $\Phi(t)$ be the exact time-integrated boundary flux. With equal volumes, the pair defects $d_{ij}$ measure the antisymmetry of the weights $c_{ij}$ themselves; on the perturbed lattices of \cref{sec:experiments} they are $5.7\%$, $16.7\%$ and $72.9\%$ for degree one, degree three and mixed degrees, almost the same as with Shepard volumes. We report the \emph{conservation defect}
+Summing the volume-weighted updates \eqref{eq:scheme} over all interior particles shows that the scheme is conservative if the generalized face vectors $S_{ij}=2V_ic_{ij}$ are antisymmetric, $S_{ij}=-S_{ji}$, like the normals of a mesh face seen from its two cells. The MLS weights have this property on lattices with equal volumes, but not on irregular clouds: on the perturbed lattices of our experiments the relative pair defects $|V_ic_{ij}+V_jc_{ji}|$ are about $6\%$ for degree one and $17\%$ for degree three, and $73\%$ for pairs whose two particles use different derivative degrees, which the coupled mode creates at the boundaries of every lowered region. Meshless coefficients that are exactly antisymmetric can be constructed \cite{Chiu2011,Chiu2012,Suchde2017}; we do not apply such a correction here. To measure the effect, we report the \emph{conservation defect}
 \begin{equation}\label{eq:defect}
 \delta_m = \frac{m(t_{\mathrm{end}})-m(0)-\Phi(t_{\mathrm{end}})}{m(t_{\mathrm{end}})},
 \end{equation}
-which vanishes up to round-off for a conservative scheme with exact boundary fluxes. Unlike the relative error with respect to the mass of the exact solution sampled on the particles, $\delta_m$ contains no sampling error of a discontinuous reference. Three scalar problems are used, all with $\CFL=0.2$:
-\begin{itemize}
-\item a one-dimensional Burgers shock, $u=1$ for $x<-2$ and $u=0$ for $x>-2$ on $[-5,5]$ with transmissive boundaries, up to $t=10$, when the shock, moving with speed $\tfrac12$, has reached $x=3$; here $\Phi=\tfrac12t$;
-\item one-dimensional linear advection of the Gaussian of \cref{sec:smooth} with periodic boundaries over one period, $t=10$ ($\Phi=0$);
-\item the two-dimensional Burgers problem of \cref{sec:smooth} before shock formation, $t=0.5$ ($\Phi=0$).
-\end{itemize}
-The one-dimensional sweeps use $N=32,\dots,3163$ and the two-dimensional ones $N=32,\dots,200$ per direction. The clouds are lattices perturbed by $\theta h$ per coordinate with $\theta\in\{0,\dots,0.5\}$, mostly $\theta=0.4$, and $R=\kappa h$ with mostly $\kappa=5.5$ and $\alpha=1$. The schemes use the steppers of \cref{sec:smooth} and the aligned flux; for comparison, all MOOD variants were also run with the geometric orientation (RU). The complete data, including the time histories, are provided as supplementary material. The conservation of the Sod problem is reported in \cref{sec:sod}.
+with the discrete mass $m(t)=\bar h^D\sum_{i\in I}U_i$, the equal volumes $\bar h^D=|\Omega|/|I|$ and the exact time-integrated boundary flux $\Phi$, for a one-dimensional Burgers shock: $u=1$ for $x<-2$ and $u=0$ for $x>-2$ on $[-5,5]$ with transmissive boundaries, up to $t=10$, so $\Phi=\tfrac12t$. We use $N=32,\dots,3163$ particles perturbed by $0.4h$, $\kappa=5.5$, $\CFL=0.2$ and the aligned flux. The full study, including smooth and two-dimensional problems, other perturbations and radii, the limiters and the geometric flux, is part of the supplementary material.
 
 \begin{figure}[!htbp]
 \centering
@@ -520,66 +512,7 @@ The one-dimensional sweeps use $N=32,\dots,3163$ and the two-dimensional ones $N
 \caption{Conservation defect $|\delta_m|$ of \eqref{eq:defect} for the one-dimensional Burgers shock, perturbation $0.4h$, $\kappa=5.5$, aligned flux, for RK4SSPMUSCL4 without MOOD (MLS4) and with MOOD in the coupled mode (MLS0) and in the frozen mode with $k_{\mathrm{div}}=2$ (MLS2) and $k_{\mathrm{div}}=4$ (MLS4)}\label{fig:mass}
 \end{figure}
 
-\begin{table}[!htbp]
-\centering
-\caption{Conservation defect \eqref{eq:defect} for the one-dimensional Burgers shock at $N=3163$, perturbation $0.4h$, $\kappa=5.5$, for MUSCL$K$ with the given stabilization and derivative mode (frozen $K$: $k_{\mathrm{div}}=K$; frozen 2: $k_{\mathrm{div}}=2$, derivative degree one), with the aligned flux except for the rows RU, which use the geometric flux. In parentheses: the rate $r$ of a least-squares fit $|\delta_m|\propto N^{-r}$ over $N\ge100$; rates near zero mean that the defect does not decrease with $N$.}\label{tab:mass_shock}
-\footnotesize
-\setlength{\tabcolsep}{4pt}
-\begin{adjustbox}{max width=\textwidth}
-\begin{tabular}{llcccc}
-\toprule
-stabilization & derivative & $K=2$ & $K=3$ & $K=4$ & $K=5$\\
-\midrule
-none & frozen $K$ & $+$1.1e-4 (1.0) & $+$2.3e-4 (1.0) & $+$5.1e-4 (0.9) & $-$2.3e-3 (0.0)\\
-VK limiter & frozen $K$ & $-$4.3e-4 (0.9) & $+$5.1e-4 (0.9) & $-$7.3e-4 (0.8) & $-$3.6e-3 (0.1)\\
-minmod limiter & frozen $K$ & $-$3.6e-4 (0.9) & $+$2.0e-3 (0.5) & $+$1.5e-3 (0.7) & $-$3.8e-3 (0.0)\\
-\midrule
-MOOD, EPD1 & frozen 2 & $-$4.1e-4 (0.9) & $-$4.7e-4 (0.8) & $-$4.9e-4 (0.8) & $-$5.4e-4 (0.8)\\
-MOOD, EPD2 & frozen 2 & $-$6.0e-4 (0.7) & $-$7.0e-4 (0.7) & $-$6.3e-4 (0.8) & $-$6.1e-4 (0.7)\\
-MOOD, EPD1 & frozen $K$ & $-$4.1e-4 (0.9) & $+$3.1e-4 (0.9) & $-$1.6e-3 (0.2) & $-$7.2e-3 (0.1)\\
-MOOD, EPD2 & frozen $K$ & $-$6.0e-4 (0.7) & $+$1.8e-3 (0.8) & $+$4.9e-4 (0.9) & $-$1.3e-3 (0.4)\\
-\midrule
-MOOD, EPD1 & coupled & $-$4.1e-4 (0.9) & $+$1.2e-1 (0.0) & $+$7.0e-2 (0.0) & $+$1.4e-1 (0.0)\\
-MOOD, EPD2 & coupled & $-$6.0e-4 (0.7) & $+$6.3e-2 (0.0) & $+$3.2e-2 (0.0) & $+$7.1e-2 (0.0)\\
-MOOD, EPD1 & coupled, RU & $-$4.1e-4 (0.9) & $-$2.8e-2 ($-$0.1) & $+$2.7e-2 (0.0) & $-$2.8e-3 (0.1)\\
-MOOD, EPD2 & coupled, RU & $-$5.7e-4 (0.7) & $+$3.4e-2 (0.0) & $+$2.7e-2 (0.0) & $-$5.0e-3 ($-$0.1)\\
-\bottomrule
-\end{tabular}
-\end{adjustbox}
-\end{table}
-
-\paragraph{The floor of the shock test.} On the unperturbed lattice all frozen and unlimited schemes of this test give the same kind of defect, which is either at most about $2\cdot10^{-5}$ in magnitude, mostly zero to round-off, or exactly $-h\,u_L/(2m(t_{\mathrm{end}}))$, i.e.\ half a particle of the inflow state (for instance $-2.0\cdot10^{-4}$ at $N=3163$), depending on $N$. The interior scheme is exactly conservative on the lattice (\cref{sec:conservation}), so this value reflects how the inflow boundary and the initial discontinuity sit on the lattice rather than the scheme. It decreases like $h$, and defects below a few $10^{-4}$ at $N=3163$ are not resolved by this test.
-
-\paragraph{The frozen mode with degree one.} With the frozen derivative degree $k_{\mathrm{div}}=2$, i.e.\ derivative weights of degree one for every $K$, the conservation defect of MOOD is at the level of the floor for all orders $K=2,\dots,5$ and both interface rules, between $-4.1\cdot10^{-4}$ and $-7.0\cdot10^{-4}$ at $N=3163$, and it decreases under refinement, at fitted rates between $0.7$ and $0.9$ (\cref{fig:mass,tab:mass_shock}). The aligned and the geometric orientation give the same defects to within $7\%$, since for these weights they differ only on the few weights that violate the sign condition (\cref{sec:positivity}).
-
-\paragraph{The coupled mode.} The coupled mode produces mixed-degree pairs at the boundaries of the lowered regions. With the geometric flux it changes the mass for $K=3$ and $K=4$ by $2.7$--$3.4\%$, with either sign, and this defect does not decrease under refinement, in agreement with the defect of $73\%$ of mixed-degree pairs, which is as large on lattices as on perturbed clouds (\cref{sec:conservation}). With the aligned flux, whose orientation is taken from the weights of the degree in use (\cref{sec:fluxes}), the defects are even larger: $3.2$--$14\%$, flat in $N$ (\cref{fig:mass}). The aligned orientation makes the fallback positive, but it does not remove the mixed-degree pairs, which dominate the conservation error. The coupled mode should not be used for $K\ge3$.
-
-\paragraph{The frozen mode with higher degrees.} With $k_{\mathrm{div}}=K$, the aligned flux makes the fallback positive, and there are no mixed-degree pairs. For $K=3$ with EPD1 and $K=4$ with EPD2 the defects at $N=3163$ are $3.1\cdot10^{-4}$ and $4.9\cdot10^{-4}$ and decrease at rates of about $0.9$, like those of the unstabilized schemes; for $K=3$ with EPD2 the defect is $1.8\cdot10^{-3}$ at a rate of $0.8$. With EPD1, defects of $1.6\cdot10^{-3}$ for $K=4$ and $7.2\cdot10^{-3}$ for $K=5$ decrease only slowly or not at all in the range tested; in \cref{fig:mass}a the defect of RK4SSPMUSCL4(EPD1,MLS4) stays between $8.6\cdot10^{-4}$ and $2.3\cdot10^{-3}$ for $N\ge631$, while the variants with $k_{\mathrm{div}}=2$ and without MOOD continue to decrease. For $K=5$ the degree-five derivative fit has six unknowns in one dimension and therefore requires more than $1.5\cdot6=9$ neighbours (\cref{sec:parity}); at $\theta=0.4$ and $\kappa=5.5$ about a tenth of the stencils have exactly nine, fall back to degree four and create mixed-degree pairs, which also explains the flat defects of the unstabilized scheme and of the limiters at $K=5$ ($2$--$4\cdot10^{-3}$). For $K=4$ the cause is open (\cref{sec:open}).
-
-\paragraph{Irregularity, support and weight.} On the shock problem the perturbation alone costs a few $10^{-4}$: for $\theta=0.1,\dots,0.5$ the defects of the unstabilized schemes with $K=2$ and $K=4$ lie between $1.0\cdot10^{-4}$ and $8.0\cdot10^{-4}$. MUSCL4(EPD1) with $k_{\mathrm{div}}=4$ is more sensitive to the perturbation ($-2.0\cdot10^{-3}$ at $\theta=0.5$), to the radius ($+2.5\cdot10^{-3}$ for $\kappa=3.5$, $-6.5\cdot10^{-4}$ for $\kappa=9.5$) and to the weight parameter $\alpha\in[0.5,4]$ (changes of up to $1.1\cdot10^{-3}$). For smooth periodic solutions in one dimension the perturbation-induced defect is negligible, at most $7.4\cdot10^{-8}$ at $N=3163$. In two dimensions (\cref{tab:mass_2d}) the lattice is exactly conservative, while the perturbed clouds have defects of about $10^{-4}$ at $N=200$ on smooth data, roughly proportional to $\theta$, nearly independent of $K$ and of the stabilization, and decreasing with fitted rates between $1.0$ and $2.0$. This is the static asymmetry $V_ic_{ij}\ne-V_jc_{ji}$ of the stencils on irregular clouds (\cref{sec:conservation}), which acts like a truncation error.
-
-\begin{table}[!htbp]
-\centering
-\caption{Conservation defect \eqref{eq:defect} for the two-dimensional periodic Burgers problem at $N=200$ ($4\cdot10^4$ particles), frozen derivative degree $k_{\mathrm{div}}=K$, without stabilization, with MOOD (EPD1) and with the VK limiter, for perturbation amplitudes $\theta h$ and support radii $\kappa h$ (in parentheses: fitted rate of $|\delta_m|$ over $N\ge100$). On the unperturbed lattice $|\delta_m|\le3\cdot10^{-16}$ for all variants.}\label{tab:mass_2d}
-\footnotesize
-\setlength{\tabcolsep}{3.5pt}
-\begin{adjustbox}{max width=\textwidth}
-\begin{tabular}{cccccccc}
-\toprule
-& & \multicolumn{3}{c}{$K=2$} & \multicolumn{3}{c}{$K=4$}\\
-\cmidrule(lr){3-5}\cmidrule(lr){6-8}
-$\theta$ & $\kappa$ & none & EPD1 & VK & none & EPD1 & VK\\
-\midrule
-0.2 & 3.5 & $+$8.3e-5 (1.9) & $+$7.4e-5 (2.0) & $+$7.9e-5 (2.0) & $+$1.1e-4 (1.2) & $+$1.1e-4 (1.2) & $+$1.1e-4 (1.3)\\
-0.2 & 5.5 & $+$1.4e-4 (1.2) & $+$1.3e-4 (1.3) & $+$1.3e-4 (1.0) & $+$1.1e-4 (1.4) & $+$1.1e-4 (1.4) & $+$1.1e-4 (1.1)\\
-0.4 & 3.5 & $+$2.2e-4 (1.5) & $+$2.1e-4 (1.5) & $+$2.2e-4 (1.6) & $+$2.2e-4 (1.2) & $+$2.2e-4 (1.2) & $+$2.2e-4 (1.6)\\
-0.4 & 5.5 & $+$2.6e-4 (1.3) & $+$2.5e-4 (1.3) & $+$2.6e-4 (1.1) & $+$2.3e-4 (1.3) & $+$2.3e-4 (1.3) & $+$2.4e-4 (1.1)\\
-\bottomrule
-\end{tabular}
-\end{adjustbox}
-\end{table}
-
-\paragraph{Why mixed degrees do not converge and equal degrees do.} In the mass balance, the interface fluxes of every pair are weighted by its pair defect. For a smooth solution the interface fluxes are smooth functions of the midpoints, and the interior sum is a consistent quadrature of a vanishing quantity whose error decreases with $h$. At a discontinuity the fluxes of the pairs that straddle it jump by $O([F])$, and in one dimension $O(\kappa^2)$ such pairs with pair defects $|d_{ij}|=O(\varepsilon)$ change the mass at a rate $O(\varepsilon[F])$ independent of $h$. Whether this rate accumulates depends on its sign. At the boundary of a lowered region, the pairs of a high-degree and a low-degree particle have the same geometric arrangement wherever the shock is, so their defects have a systematic sign, and the mass error grows in time and does not decrease under refinement. With equal degrees on a randomly perturbed cloud, the defects of the pairs at the shock change sign at random as the shock passes from particle to particle, and their contributions largely cancel; the integrated error then decreases under refinement, which is what we observe. This heuristic is consistent with the flat defects of the coupled mode and with the decreasing defects of the frozen mode, but it does not predict a rate.
+\Cref{fig:mass} shows the main effects. Without MOOD and in the frozen mode with $k_{\mathrm{div}}=2$, the defect decreases under refinement, at rates between $0.7$ and $1$, to a few $10^{-4}$ at $N=3163$, which is the resolution of this test: even on the unperturbed lattice, the position of the inflow boundary and of the initial jump causes defects of up to half a particle of the inflow state. The coupled mode changes the mass by several percent ($3$--$14\%$ for $K=3,4,5$), and this defect does not decrease under refinement; the coupled mode should therefore not be used for $K\ge3$. The frozen mode with $k_{\mathrm{div}}=K$ avoids mixed degrees; its defects mostly decrease like those of the unstabilized scheme, except for EPD1 with $K=4$, whose defect stays at about $10^{-3}$ in the range tested, and for $K=5$, where some stencils are too small for the degree-five fit and fall back to a lower degree. The difference between mixed and equal degrees has a simple explanation: the pairs of a high-degree and a low-degree particle at the boundary of a lowered region have the same arrangement wherever the shock is, so their defects have a systematic sign and accumulate, whereas with equal degrees on a randomly perturbed cloud the defects of the pairs at the shock change sign as the shock moves and largely cancel. For smooth solutions the defects caused by the irregular cloud are small, about $10^{-4}$ in two dimensions at $N=200$, and decrease under refinement.
 
 \subsection{The Sod shock tube}\label{sec:sod}
 
@@ -770,6 +703,10 @@ The solver HyperCloudCore.jl \cite{jung_hypercloudcore} (version 0.7.8), the sim
 \paragraph{Use of large language models}
 During the preparation of this work, the first author used Claude Opus 5.5 (Anthropic) to draft substantial parts of the manuscript text. The use of AI tools in the development of the software and of the finite-volume reference code is described in the section ``Software'' above. The authors reviewed, revised, and verified all content and take full responsibility for the content of this publication. The AI declaration for the supplementary material can be found at \url{https://github.com/industrial-mathematics-group/meshfree-solver-paper}.
 
+% Compact reference list as in the published JSC articles: smaller font,
+% no extra space between entries. DOIs stay as full links (JSC guidelines).
+\renewcommand{\bibfont}{\small}
+\setlength{\bibsep}{0pt plus 0.3ex}
 \bibliographystyle{spmpsci}
 \bibliography{refs}
 
