@@ -56,7 +56,7 @@ Boscheri, W., Loub{\`e}re, R., Dumbser, M.: Direct
 \bibitem{Bourgeois2022}
 Bourgeois, R., Lee, D.: {GP-MOOD}: a positivity-preserving high-order finite
   volume method for hyperbolic conservation laws.
-\newblock J. Comput. Phys. \textbf{471}, 111,603 (2022).
+\newblock J. Comput. Phys. \textbf{471}, 111603 (2022).
 \newblock \doi{10.1016/j.jcp.2022.111603}
 
 \bibitem{Chan2021}
@@ -64,7 +64,7 @@ Chan, A., Gallice, G., Loub{\`e}re, R., Maire, P.H.: Positivity preserving and
   entropy consistent approximate {R}iemann solvers dedicated to the high-order
   {MOOD}-based finite volume discretization of {L}agrangian and {E}ulerian gas
   dynamics.
-\newblock Comput. Fluids \textbf{229}, 105,056 (2021).
+\newblock Comput. Fluids \textbf{229}, 105056 (2021).
 \newblock \doi{10.1016/j.compfluid.2021.105056}
 
 \bibitem{Chandrashekar2004}
@@ -149,7 +149,7 @@ Dumbser, M., Zanotti, O., Loub{\`e}re, R., Diot, S.: A posteriori subcell
 \bibitem{Farmakis2020}
 Farmakis, P.S., Tsoutsanis, P., Nogueira, X.: {WENO} schemes on unstructured
   meshes using a relaxed a posteriori {MOOD} limiting approach.
-\newblock Comput. Methods Appl. Mech. Eng. \textbf{363}, 112,921 (2020).
+\newblock Comput. Methods Appl. Mech. Eng. \textbf{363}, 112921 (2020).
 \newblock \doi{10.1016/j.cma.2020.112921}
 
 \bibitem{FornbergLehto2011}
