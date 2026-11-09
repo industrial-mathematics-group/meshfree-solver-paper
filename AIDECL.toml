@@ -373,3 +373,4 @@ path = ["paper/svjour3.cls", "paper/svglov3.clo", "paper/spmpsci.bst"]
 AI-Generation = "G0"
 Human-Review = "H0"
 AI-Review = "A0"
+Reviewed-by = ["blhackslash <dev@blackslash.win>"]
