@@ -110,19 +110,19 @@
 \author{Pascal Jung \and Klaas Willems \and Axel Klar}
 \authorrunning{P. Jung, K. Willems, A. Klar}
 
-\institute{P. Jung \TODO{corresponding author? confirm} \at
+\institute{P. Jung \at
   Faculty of Mathematics, RPTU Kaiserslautern-Landau, Kaiserslautern, Germany\\
-  \email{\TODO{institutional e-mail of the corresponding author}}\\
-  ORCID: \TODO{0000-0000-0000-0000}
+  \email{pajung@rptu.de}\\
+  ORCID: 0009-0004-8527-4621
   \and
   K. Willems \at
   Faculty of Mathematics, RPTU Kaiserslautern-Landau, Kaiserslautern, Germany\\
   Department of Computer Science, KU Leuven, Leuven, Belgium\\
-  ORCID: \TODO{0000-0000-0000-0000}
+  ORCID: 0009-0004-8527-4621
   \and
   A. Klar \at
   Faculty of Mathematics, RPTU Kaiserslautern-Landau, Kaiserslautern, Germany\\
-  ORCID: \TODO{0000-0000-0000-0000}
+  ORCID: 0000-0003-1679-9438
 }
 
 \date{Received: date / Accepted: date}
@@ -130,7 +130,7 @@
 \maketitle
 
 \begin{abstract}
-We present meshfree monotone upstream-centred schemes for conservation laws (MUSCL) of arbitrary design order $k$ for hyperbolic systems on scattered point clouds. Moving least-squares (MLS) reconstructions of degree $k-1$ are evaluated at midpoints between neighbouring particles, jumps are resolved by approximate Riemann solvers, and the interface fluxes are differentiated by an MLS derivative operator whose weights sum to zero. The scheme is exact for polynomial solutions of linear problems, is consistent of order $k$ on periodic Cartesian lattices, and its conservation error is the lack of antisymmetry of the derivative weights. Orienting the dissipation of the Rusanov flux by the signs of the derivative weights keeps density and pressure positive in the first-order fallback for derivative operators of any degree. Discontinuities are treated by slope limiters or a per-particle multi-dimensional optimal order detection (MOOD) procedure within strong-stability-preserving Runge--Kutta methods; as the fallback is positive, the degree of the derivative operator can stay fixed while MOOD lowers only the degree of the reconstructions. Numerical experiments confirm the design orders up to five for smooth solutions on regular and perturbed clouds and show that, with a degree-one derivative operator, the conservation defect at moving shocks decreases under refinement. A two-dimensional Riemann problem and the double Mach reflection are computed robustly with positive density and pressure.
+We present meshfree monotone upstream-centred schemes for conservation laws (MUSCL) of arbitrary design order for hyperbolic systems on scattered point clouds. Moving least-squares reconstructions are evaluated at the midpoints between neighbouring particles, the jumps are resolved by a Rusanov flux, and the interface fluxes are differentiated by a moving least-squares derivative operator whose weights sum to zero. Orienting the dissipation of the Rusanov flux by the signs of the derivative weights keeps density and pressure positive in the first-order fallback for derivative operators of any degree. Discontinuities are treated by slope limiters or by a per-particle multi-dimensional optimal order detection (MOOD) procedure within strong-stability-preserving Runge--Kutta methods. Since the fallback is positive, the degree of the derivative operator can stay fixed while MOOD lowers only the degree of the reconstructions, which keeps the conservation defect small. Numerical experiments confirm the design orders up to five for smooth solutions on regular and perturbed clouds, show that the conservation defect at moving shocks decreases under refinement for a degree-one derivative operator, and compute the Sod shock tube, a two-dimensional Riemann problem and the double Mach reflection with positive density and pressure.
 \keywords{Meshfree methods \and Moving least squares \and MUSCL \and MOOD \and A~posteriori limiting \and Compressible Euler equations}
 \subclass{65M06 \and 65M08 \and 65M12 \and 35L65 \and 76M28}
 \end{abstract}
@@ -678,24 +678,21 @@ The computations were carried out on the high-performance cluster Elwetritsch of
 This work was funded by the Deutsche Forschungsgemeinschaft (DFG, German Research Foundation), grant KL~1105/34.
 
 \paragraph{Competing interests}
-\TODO{confirm or replace: The authors have no competing interests to declare that are relevant to the content of this article.}
+The authors have no competing interests to declare that are relevant to the content of this article.
 
 \paragraph{Ethics approval and consent}
 Not applicable.
 
 \paragraph{Data availability}
 \begin{sloppypar}% the long repository URL can only break after slashes
-The run reports and tables of all computations reported in this paper, the run configurations, the stencil diagnostics and the scripts that produce the wave positions read from the figures are publicly available in the repository \url{https://github.com/industrial-mathematics-group/meshfree-solver-paper} and archived on Zenodo at \TODO{DOI of the Zenodo archive of the repository}.
+The run reports and tables of all computations reported in this paper, the run configurations, the stencil diagnostics and various helper scripts are publicly available in the repository \url{https://github.com/industrial-mathematics-group/meshfree-simulations} \cite{jung_meshfree_simulations}.
 \end{sloppypar}
 
 \paragraph{Code availability}
-The solver HyperCloudCore.jl \cite{jung_hypercloudcore} (version 0.7.8), the simulation framework HyperCloud.jl \cite{jung_hypercloud} (version 0.5.1) and the visualization package PDEStudio \cite{jung_pdestudio} (version 0.4.5) are open source and archived on Zenodo. The run configurations and driver scripts are available in \cite{jung_meshfree_simulations}, and the mathematical addendum \cite{JungAddendum2026} is part of the supplementary material at \url{https://github.com/industrial-mathematics-group/meshfree-solver-paper} (archived at \TODO{DOI of the Zenodo archive of the repository}). A preprint of this paper is available at \url{https://zenodo.org/records/23807966}.
-
-\paragraph{Author contributions}
-\TODO{author contribution statement, e.g.\ in CRediT form: Conceptualization: \ldots; Methodology: \ldots; Software: \ldots; Formal analysis and investigation: \ldots; Writing -- original draft preparation: \ldots; Writing -- review and editing: \ldots; Funding acquisition: \ldots; Supervision: \ldots}
+The solver HyperCloudCore.jl \cite{jung_hypercloudcore} (version 0.7.8), the simulation framework HyperCloud.jl \cite{jung_hypercloud} (version 0.5.1) and the visualization package PDEStudio \cite{jung_pdestudio} (version 0.4.5) are open source and archived on Zenodo. The run configurations and driver scripts are available in \cite{jung_meshfree_simulations}, and the mathematical addendum \cite{JungAddendum2026} is part of the supplementary material at \url{https://github.com/industrial-mathematics-group/meshfree-solver-paper} \cite{jung_supplementary}. A preprint of this paper is available at \url{https://zenodo.org/records/23807966}.
 
 \paragraph{Use of large language models}
-During the preparation of this work, the first author used Claude Opus 5.5 (Anthropic) to draft substantial parts of the manuscript text. The use of AI tools in the development of the software is described in the section ``Software'' above. The authors reviewed, revised, and verified all content and take full responsibility for the content of this publication. The AI declaration for the supplementary material can be found at \url{https://github.com/industrial-mathematics-group/meshfree-solver-paper}.
+During the preparation of this work, the first author used Claude Opus 5.5 (Anthropic) to draft substantial parts of the manuscript text. The use of AI tools in the development of the software is described in the section ``Software'' above. The authors reviewed, revised, and verified all content and take full responsibility for the content of this publication.
 
 % Compact reference list as in the published JSC articles: smaller font,
 % no extra space between entries. DOIs stay as full links (JSC guidelines).
