@@ -1,473 +1,549 @@
-\begin{thebibliography}{10}
-\providecommand{\url}[1]{{#1}}
-\providecommand{\urlprefix}{URL }
+\begin{thebibliography}{73}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
-  \providecommand{\doi}[1]{DOI~\discretionary{}{}{}#1}\else
-  \providecommand{\doi}{DOI~\discretionary{}{}{}\begingroup
-  \urlstyle{rm}\Url}\fi
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
 
-\bibitem{Avesani2014}
-Avesani, D., Dumbser, M., Bellin, A.: A new class of moving-least-squares
-  {WENO-SPH} schemes.
-\newblock J. Comput. Phys. \textbf{270}, 278--299 (2014).
-\newblock \doi{10.1016/j.jcp.2014.03.041}
+\bibitem[Avesani et~al.(2014)Avesani, Dumbser, and Bellin]{Avesani2014}
+D.~Avesani, M.~Dumbser, and A.~Bellin.
+\newblock A new class of moving-least-squares {WENO-SPH} schemes.
+\newblock \emph{J. Comput. Phys.}, 270:\penalty0 278--299, 2014.
+\newblock \doi{10.1016/j.jcp.2014.03.041}.
 
-\bibitem{BarthFrederickson1990}
-Barth, T.J., Frederickson, P.O.: Higher order solution of the {E}uler equations
-  on unstructured grids using quadratic reconstruction.
-\newblock In: 28th Aerospace Sciences Meeting. American Institute of
-  Aeronautics and Astronautics, Reno, NV (1990).
+\bibitem[Barth and Frederickson(1990)]{BarthFrederickson1990}
+T.~J. Barth and P.~O. Frederickson.
+\newblock Higher order solution of the {E}uler equations on unstructured grids
+  using quadratic reconstruction.
+\newblock In \emph{28th Aerospace Sciences Meeting}, Reno, NV, 1990. American
+  Institute of Aeronautics and Astronautics.
 \newblock \doi{10.2514/6.1990-13}.
-\newblock AIAA Paper 90-0013
+\newblock AIAA Paper 90-0013.
 
-\bibitem{BarthJespersen1989}
-Barth, T.J., Jespersen, D.C.: The design and application of upwind schemes on
-  unstructured meshes.
-\newblock In: 27th Aerospace Sciences Meeting. American Institute of
-  Aeronautics and Astronautics (1989).
+\bibitem[Barth and Jespersen(1989)]{BarthJespersen1989}
+T.~J. Barth and D.~C. Jespersen.
+\newblock The design and application of upwind schemes on unstructured meshes.
+\newblock In \emph{27th Aerospace Sciences Meeting}. American Institute of
+  Aeronautics and Astronautics, 1989.
 \newblock \doi{10.2514/6.1989-366}.
-\newblock AIAA Paper 89-0366
+\newblock AIAA Paper 89-0366.
 
-\bibitem{Belytschko1996}
-Belytschko, T., Krongauz, Y., Organ, D., Fleming, M., Krysl, P.: Meshless
-  methods: an overview and recent developments.
-\newblock Comput. Methods Appl. Mech. Eng. \textbf{139}(1--4), 3--47 (1996).
-\newblock \doi{10.1016/S0045-7825(96)01078-X}
+\bibitem[Belytschko et~al.(1996)Belytschko, Krongauz, Organ, Fleming, and
+  Krysl]{Belytschko1996}
+T.~Belytschko, Y.~Krongauz, D.~Organ, M.~Fleming, and P.~Krysl.
+\newblock Meshless methods: an overview and recent developments.
+\newblock \emph{Comput. Methods Appl. Mech. Eng.}, 139\penalty0
+  (1--4):\penalty0 3--47, 1996.
+\newblock \doi{10.1016/S0045-7825(96)01078-X}.
 
-\bibitem{Benito2001}
-Benito, J.J., Ure{\~n}a, F., Gavete, L.: Influence of several factors in the
-  generalized finite difference method.
-\newblock Appl. Math. Model. \textbf{25}(12), 1039--1053 (2001).
-\newblock \doi{10.1016/S0307-904X(01)00029-4}
+\bibitem[Benito et~al.(2001)Benito, Ure{\~n}a, and Gavete]{Benito2001}
+J.~J. Benito, F.~Ure{\~n}a, and L.~Gavete.
+\newblock Influence of several factors in the generalized finite difference
+  method.
+\newblock \emph{Appl. Math. Model.}, 25\penalty0 (12):\penalty0 1039--1053,
+  2001.
+\newblock \doi{10.1016/S0307-904X(01)00029-4}.
 
-\bibitem{Benito2007}
-Benito, J.J., Ure{\~n}a, F., Gavete, L.: Solving parabolic and hyperbolic
-  equations by the generalized finite difference method.
-\newblock J. Comput. Appl. Math. \textbf{209}(2), 208--233 (2007).
-\newblock \doi{10.1016/j.cam.2006.10.090}
+\bibitem[Benito et~al.(2007)Benito, Ure{\~n}a, and Gavete]{Benito2007}
+J.~J. Benito, F.~Ure{\~n}a, and L.~Gavete.
+\newblock Solving parabolic and hyperbolic equations by the generalized finite
+  difference method.
+\newblock \emph{J. Comput. Appl. Math.}, 209\penalty0 (2):\penalty0 208--233,
+  2007.
+\newblock \doi{10.1016/j.cam.2006.10.090}.
 
-\bibitem{Boscheri2015}
-Boscheri, W., Loub{\`e}re, R., Dumbser, M.: Direct
-  {A}rbitrary-{L}agrangian-{E}ulerian {ADER-MOOD} finite volume schemes for
-  multidimensional hyperbolic conservation laws.
-\newblock J. Comput. Phys. \textbf{292}, 56--87 (2015).
-\newblock \doi{10.1016/j.jcp.2015.03.015}
+\bibitem[Boscheri et~al.(2015)Boscheri, Loub{\`e}re, and Dumbser]{Boscheri2015}
+W.~Boscheri, R.~Loub{\`e}re, and M.~Dumbser.
+\newblock Direct {A}rbitrary-{L}agrangian-{E}ulerian {ADER-MOOD} finite volume
+  schemes for multidimensional hyperbolic conservation laws.
+\newblock \emph{J. Comput. Phys.}, 292:\penalty0 56--87, 2015.
+\newblock \doi{10.1016/j.jcp.2015.03.015}.
 
-\bibitem{Bourgeois2022}
-Bourgeois, R., Lee, D.: {GP-MOOD}: a positivity-preserving high-order finite
-  volume method for hyperbolic conservation laws.
-\newblock J. Comput. Phys. \textbf{471}, 111,603 (2022).
-\newblock \doi{10.1016/j.jcp.2022.111603}
+\bibitem[Bourgeois and Lee(2022)]{Bourgeois2022}
+R.~Bourgeois and D.~Lee.
+\newblock {GP-MOOD}: a positivity-preserving high-order finite volume method
+  for hyperbolic conservation laws.
+\newblock \emph{J. Comput. Phys.}, 471:\penalty0 111603, 2022.
+\newblock \doi{10.1016/j.jcp.2022.111603}.
 
-\bibitem{Chan2021}
-Chan, A., Gallice, G., Loub{\`e}re, R., Maire, P.H.: Positivity preserving and
-  entropy consistent approximate {R}iemann solvers dedicated to the high-order
-  {MOOD}-based finite volume discretization of {L}agrangian and {E}ulerian gas
-  dynamics.
-\newblock Comput. Fluids \textbf{229}, 105,056 (2021).
-\newblock \doi{10.1016/j.compfluid.2021.105056}
+\bibitem[Chan et~al.(2021)Chan, Gallice, Loub{\`e}re, and Maire]{Chan2021}
+A.~Chan, G.~Gallice, R.~Loub{\`e}re, and P.-H. Maire.
+\newblock Positivity preserving and entropy consistent approximate {R}iemann
+  solvers dedicated to the high-order {MOOD}-based finite volume discretization
+  of {L}agrangian and {E}ulerian gas dynamics.
+\newblock \emph{Comput. Fluids}, 229:\penalty0 105056, 2021.
+\newblock \doi{10.1016/j.compfluid.2021.105056}.
 
-\bibitem{Chandrashekar2004}
-Chandrashekar, P.: A positive meshless method for hyperbolic equations.
+\bibitem[Chandrashekar(2004)]{Chandrashekar2004}
+Praveen Chandrashekar.
+\newblock A positive meshless method for hyperbolic equations.
 \newblock Fluid Mechanics Report 2004-FM-16, Department of Aerospace
-  Engineering, Indian Institute of Science, Bangalore (2004)
+  Engineering, Indian Institute of Science, Bangalore, 2004.
 
-\bibitem{ChangChenYang1995}
-Chang, T., Chen, G.Q., Yang, S.: On the 2-{D} {R}iemann problem for the
-  compressible {E}uler equations. {I}. {I}nteraction of shocks and rarefaction
-  waves.
-\newblock Discrete Contin. Dyn. Syst. \textbf{1}(4), 555--584 (1995).
-\newblock \doi{10.3934/dcds.1995.1.555}
+\bibitem[Chang et~al.(1995)Chang, Chen, and Yang]{ChangChenYang1995}
+T.~Chang, G.-Q. Chen, and S.~Yang.
+\newblock On the 2-{D} {R}iemann problem for the compressible {E}uler
+  equations. {I}. {I}nteraction of shocks and rarefaction waves.
+\newblock \emph{Discrete Contin. Dyn. Syst.}, 1\penalty0 (4):\penalty0
+  555--584, 1995.
+\newblock \doi{10.3934/dcds.1995.1.555}.
 
-\bibitem{ChangChenYang2000}
-Chang, T., Chen, G.Q., Yang, S.: On the 2-{D} {R}iemann problem for the
-  compressible {E}uler equations. {II}. {I}nteraction of contact
-  discontinuities.
-\newblock Discrete Contin. Dyn. Syst. \textbf{6}(2), 419--430 (2000).
-\newblock \doi{10.3934/dcds.2000.6.419}
+\bibitem[Chang et~al.(2000)Chang, Chen, and Yang]{ChangChenYang2000}
+T.~Chang, G.-Q. Chen, and S.~Yang.
+\newblock On the 2-{D} {R}iemann problem for the compressible {E}uler
+  equations. {II}. {I}nteraction of contact discontinuities.
+\newblock \emph{Discrete Contin. Dyn. Syst.}, 6\penalty0 (2):\penalty0
+  419--430, 2000.
+\newblock \doi{10.3934/dcds.2000.6.419}.
 
-\bibitem{Chiu2012}
-Chiu, E.K.Y., Wang, Q., Hu, R., Jameson, A.: A conservative mesh-free scheme
-  and generalized framework for conservation laws.
-\newblock SIAM J. Sci. Comput. \textbf{34}(6), A2896--A2916 (2012).
-\newblock \doi{10.1137/110842740}
-
-\bibitem{Chiu2011}
-Chiu, E.K.Y., Wang, Q., Jameson, A.: A conservative meshless scheme: general
-  order formulation and application to {E}uler equations.
-\newblock In: 49th AIAA Aerospace Sciences Meeting. American Institute of
-  Aeronautics and Astronautics, Orlando, FL (2011).
+\bibitem[Chiu et~al.(2011)Chiu, Wang, and Jameson]{Chiu2011}
+E.~K.-Y. Chiu, Q.~Wang, and A.~Jameson.
+\newblock A conservative meshless scheme: general order formulation and
+  application to {E}uler equations.
+\newblock In \emph{49th AIAA Aerospace Sciences Meeting}, Orlando, FL, 2011.
+  American Institute of Aeronautics and Astronautics.
 \newblock \doi{10.2514/6.2011-651}.
-\newblock AIAA Paper 2011-651
+\newblock AIAA Paper 2011-651.
 
-\bibitem{Clain2011}
-Clain, S., Diot, S., Loub{\`e}re, R.: A high-order finite volume method for
-  systems of conservation laws---{M}ulti-dimensional {O}ptimal {O}rder
-  {D}etection ({MOOD}).
-\newblock J. Comput. Phys. \textbf{230}(10), 4028--4050 (2011).
-\newblock \doi{10.1016/j.jcp.2011.02.026}
-
-\bibitem{Clain2024}
-Clain, S., Figueiredo, J.: Stencil and kernel optimisation for mesh-free very
-  high-order generalised finite difference method.
-\newblock Math. Comput. Simul. \textbf{218}, 49--78 (2024).
-\newblock \doi{10.1016/j.matcom.2023.11.009}
-
-\bibitem{CockburnShu1998}
-Cockburn, B., Shu, C.W.: The {R}unge--{K}utta discontinuous {G}alerkin method
-  for conservation laws {V}: multidimensional systems.
-\newblock J. Comput. Phys. \textbf{141}(2), 199--224 (1998).
-\newblock \doi{10.1006/jcph.1998.5892}
-
-\bibitem{Diot2012}
-Diot, S., Clain, S., Loub{\`e}re, R.: Improved detection criteria for the
-  {M}ulti-dimensional {O}ptimal {O}rder {D}etection ({MOOD}) on unstructured
-  meshes with very high-order polynomials.
-\newblock Comput. Fluids \textbf{64}, 43--63 (2012).
-\newblock \doi{10.1016/j.compfluid.2012.05.004}
-
-\bibitem{Diot2013}
-Diot, S., Loub{\`e}re, R., Clain, S.: The {M}ultidimensional {O}ptimal {O}rder
-  {D}etection method in the three-dimensional case: very high-order finite
-  volume method for hyperbolic systems.
-\newblock Int. J. Numer. Methods Fluids \textbf{73}(4), 362--392 (2013).
-\newblock \doi{10.1002/fld.3804}
-
-\bibitem{Diskin2010}
-Diskin, B., Thomas, J.L.: Notes on accuracy of finite-volume discretization
-  schemes on irregular grids.
-\newblock Appl. Numer. Math. \textbf{60}(3), 224--226 (2010).
-\newblock \doi{10.1016/j.apnum.2009.12.001}
-
-\bibitem{Dumbser2014}
-Dumbser, M., Zanotti, O., Loub{\`e}re, R., Diot, S.: A posteriori subcell
-  limiting of the discontinuous {G}alerkin finite element method for hyperbolic
+\bibitem[Chiu et~al.(2012)Chiu, Wang, Hu, and Jameson]{Chiu2012}
+E.~K.-Y. Chiu, Q.~Wang, R.~Hu, and A.~Jameson.
+\newblock A conservative mesh-free scheme and generalized framework for
   conservation laws.
-\newblock J. Comput. Phys. \textbf{278}, 47--75 (2014).
-\newblock \doi{10.1016/j.jcp.2014.08.009}
+\newblock \emph{SIAM J. Sci. Comput.}, 34\penalty0 (6):\penalty0 A2896--A2916,
+  2012.
+\newblock \doi{10.1137/110842740}.
 
-\bibitem{Farmakis2020}
-Farmakis, P.S., Tsoutsanis, P., Nogueira, X.: {WENO} schemes on unstructured
-  meshes using a relaxed a posteriori {MOOD} limiting approach.
-\newblock Comput. Methods Appl. Mech. Eng. \textbf{363}, 112,921 (2020).
-\newblock \doi{10.1016/j.cma.2020.112921}
+\bibitem[Clain and Figueiredo(2024)]{Clain2024}
+S.~Clain and J.~Figueiredo.
+\newblock Stencil and kernel optimisation for mesh-free very high-order
+  generalised finite difference method.
+\newblock \emph{Math. Comput. Simul.}, 218:\penalty0 49--78, 2024.
+\newblock \doi{10.1016/j.matcom.2023.11.009}.
 
-\bibitem{FornbergLehto2011}
-Fornberg, B., Lehto, E.: Stabilization of {RBF}-generated finite difference
-  methods for convective {PDE}s.
-\newblock J. Comput. Phys. \textbf{230}, 2270--2285 (2011).
-\newblock \doi{10.1016/j.jcp.2010.12.014}
+\bibitem[Clain et~al.(2011)Clain, Diot, and Loub{\`e}re]{Clain2011}
+S.~Clain, S.~Diot, and R.~Loub{\`e}re.
+\newblock A high-order finite volume method for systems of conservation
+  laws---{M}ulti-dimensional {O}ptimal {O}rder {D}etection ({MOOD}).
+\newblock \emph{J. Comput. Phys.}, 230\penalty0 (10):\penalty0 4028--4050,
+  2011.
+\newblock \doi{10.1016/j.jcp.2011.02.026}.
 
-\bibitem{Ghosh1995}
-Ghosh, A.K., Deshpande, S.M.: Least squares kinetic upwind method for inviscid
-  compressible flows.
-\newblock In: 12th Computational Fluid Dynamics Conference. American Institute
-  of Aeronautics and Astronautics, San Diego, CA (1995).
+\bibitem[Cockburn and Shu(1998)]{CockburnShu1998}
+B.~Cockburn and C.-W. Shu.
+\newblock The {R}unge--{K}utta discontinuous {G}alerkin method for conservation
+  laws {V}: multidimensional systems.
+\newblock \emph{J. Comput. Phys.}, 141\penalty0 (2):\penalty0 199--224, 1998.
+\newblock \doi{10.1006/jcph.1998.5892}.
+
+\bibitem[Diot et~al.(2012)Diot, Clain, and Loub{\`e}re]{Diot2012}
+S.~Diot, S.~Clain, and R.~Loub{\`e}re.
+\newblock Improved detection criteria for the {M}ulti-dimensional {O}ptimal
+  {O}rder {D}etection ({MOOD}) on unstructured meshes with very high-order
+  polynomials.
+\newblock \emph{Comput. Fluids}, 64:\penalty0 43--63, 2012.
+\newblock \doi{10.1016/j.compfluid.2012.05.004}.
+
+\bibitem[Diot et~al.(2013)Diot, Loub{\`e}re, and Clain]{Diot2013}
+S.~Diot, R.~Loub{\`e}re, and S.~Clain.
+\newblock The {M}ultidimensional {O}ptimal {O}rder {D}etection method in the
+  three-dimensional case: very high-order finite volume method for hyperbolic
+  systems.
+\newblock \emph{Int. J. Numer. Meth. Fluids}, 73\penalty0 (4):\penalty0
+  362--392, 2013.
+\newblock \doi{10.1002/fld.3804}.
+
+\bibitem[Diskin and Thomas(2010)]{Diskin2010}
+B.~Diskin and J.~L. Thomas.
+\newblock Notes on accuracy of finite-volume discretization schemes on
+  irregular grids.
+\newblock \emph{Appl. Numer. Math.}, 60\penalty0 (3):\penalty0 224--226, 2010.
+\newblock \doi{10.1016/j.apnum.2009.12.001}.
+
+\bibitem[Dumbser et~al.(2014)Dumbser, Zanotti, Loub{\`e}re, and
+  Diot]{Dumbser2014}
+M.~Dumbser, O.~Zanotti, R.~Loub{\`e}re, and S.~Diot.
+\newblock A posteriori subcell limiting of the discontinuous {G}alerkin finite
+  element method for hyperbolic conservation laws.
+\newblock \emph{J. Comput. Phys.}, 278:\penalty0 47--75, 2014.
+\newblock \doi{10.1016/j.jcp.2014.08.009}.
+
+\bibitem[Farmakis et~al.(2020)Farmakis, Tsoutsanis, and Nogueira]{Farmakis2020}
+P.~S. Farmakis, P.~Tsoutsanis, and X.~Nogueira.
+\newblock {WENO} schemes on unstructured meshes using a relaxed a posteriori
+  {MOOD} limiting approach.
+\newblock \emph{Comput. Methods Appl. Mech. Eng.}, 363:\penalty0 112921, 2020.
+\newblock \doi{10.1016/j.cma.2020.112921}.
+
+\bibitem[Fornberg and Lehto(2011)]{FornbergLehto2011}
+B.~Fornberg and E.~Lehto.
+\newblock Stabilization of {RBF}-generated finite difference methods for
+  convective {PDE}s.
+\newblock \emph{J. Comput. Phys.}, 230:\penalty0 2270--2285, 2011.
+\newblock \doi{10.1016/j.jcp.2010.12.014}.
+
+\bibitem[Ghosh and Deshpande(1995)]{Ghosh1995}
+A.~K. Ghosh and S.~M. Deshpande.
+\newblock Least squares kinetic upwind method for inviscid compressible flows.
+\newblock In \emph{12th Computational Fluid Dynamics Conference}, San Diego,
+  CA, 1995. American Institute of Aeronautics and Astronautics.
 \newblock \doi{10.2514/6.1995-1735}.
-\newblock AIAA Paper 95-1735
+\newblock AIAA Paper 95-1735.
 
-\bibitem{GottliebKetchesonShu2011}
-Gottlieb, S., Ketcheson, D.I., Shu, C.W.: Strong Stability Preserving
-  {R}unge--{K}utta and Multistep Time Discretizations.
-\newblock World Scientific, Singapore (2011).
-\newblock \doi{10.1142/7498}
+\bibitem[Gottlieb et~al.(2001)Gottlieb, Shu, and Tadmor]{Gottlieb2001}
+S.~Gottlieb, C.-W. Shu, and E.~Tadmor.
+\newblock Strong stability-preserving high-order time discretization methods.
+\newblock \emph{SIAM Rev.}, 43\penalty0 (1):\penalty0 89--112, 2001.
+\newblock \doi{10.1137/S003614450036757X}.
 
-\bibitem{Gottlieb2001}
-Gottlieb, S., Shu, C.W., Tadmor, E.: Strong stability-preserving high-order
-  time discretization methods.
-\newblock SIAM Rev. \textbf{43}(1), 89--112 (2001).
-\newblock \doi{10.1137/S003614450036757X}
+\bibitem[Gottlieb et~al.(2011)Gottlieb, Ketcheson, and
+  Shu]{GottliebKetchesonShu2011}
+S.~Gottlieb, D.~I. Ketcheson, and C.-W. Shu.
+\newblock \emph{Strong Stability Preserving {R}unge--{K}utta and Multistep Time
+  Discretizations}.
+\newblock World Scientific, Singapore, 2011.
+\newblock \doi{10.1142/7498}.
 
-\bibitem{Harten1987}
-Harten, A., Engquist, B., Osher, S., Chakravarthy, S.R.: Uniformly high order
-  accurate essentially non-oscillatory schemes, {III}.
-\newblock J. Comput. Phys. \textbf{71}(2), 231--303 (1987).
-\newblock \doi{10.1016/0021-9991(87)90031-3}
+\bibitem[Harten et~al.(1987)Harten, Engquist, Osher, and
+  Chakravarthy]{Harten1987}
+A.~Harten, B.~Engquist, S.~Osher, and S.~R. Chakravarthy.
+\newblock Uniformly high order accurate essentially non-oscillatory schemes,
+  {III}.
+\newblock \emph{J. Comput. Phys.}, 71\penalty0 (2):\penalty0 231--303, 1987.
+\newblock \doi{10.1016/0021-9991(87)90031-3}.
 
-\bibitem{HouLeFloch1994}
-Hou, T.Y., LeFloch, P.G.: Why nonconservative schemes converge to wrong
-  solutions: error analysis.
-\newblock Math. Comput. \textbf{62}(206), 497--530 (1994).
-\newblock \doi{10.1090/S0025-5718-1994-1201068-0}
+\bibitem[Hou and LeFloch(1994)]{HouLeFloch1994}
+T.~Y. Hou and P.~G. LeFloch.
+\newblock Why nonconservative schemes converge to wrong solutions: error
+  analysis.
+\newblock \emph{Math. Comput.}, 62\penalty0 (206):\penalty0 497--530, 1994.
+\newblock \doi{10.1090/S0025-5718-1994-1201068-0}.
 
-\bibitem{Hubbard1999}
-Hubbard, M.E.: Multidimensional slope limiters for {MUSCL}-type finite volume
+\bibitem[Hubbard(1999)]{Hubbard1999}
+M.~E. Hubbard.
+\newblock Multidimensional slope limiters for {MUSCL}-type finite volume
   schemes on unstructured grids.
-\newblock J. Comput. Phys. \textbf{155}(1), 54--74 (1999).
-\newblock \doi{10.1006/jcph.1999.6329}
+\newblock \emph{J. Comput. Phys.}, 155\penalty0 (1):\penalty0 54--74, 1999.
+\newblock \doi{10.1006/jcph.1999.6329}.
 
-\bibitem{Huh2018}
-Huh, J.Y., Rhee, J.S., Kim, K.H., Jung, S.Y.: New least squares method with
-  geometric conservation law ({GC-LSM}) for compressible flow computation in
-  meshless method.
-\newblock Comput. Fluids \textbf{172}, 122--146 (2018).
-\newblock \doi{10.1016/j.compfluid.2018.06.010}
+\bibitem[Huh et~al.(2018)Huh, Rhee, Kim, and Jung]{Huh2018}
+J.~Y. Huh, J.~S. Rhee, K.~H. Kim, and S.~Y. Jung.
+\newblock New least squares method with geometric conservation law ({GC-LSM})
+  for compressible flow computation in meshless method.
+\newblock \emph{Comput. Fluids}, 172:\penalty0 122--146, 2018.
+\newblock \doi{10.1016/j.compfluid.2018.06.010}.
 
-\bibitem{Jensen1972}
-Jensen, P.S.: Finite difference techniques for variable grids.
-\newblock Comput. Struct. \textbf{2}(1--2), 17--29 (1972).
-\newblock \doi{10.1016/0045-7949(72)90020-X}
+\bibitem[Jensen(1972)]{Jensen1972}
+P.~S. Jensen.
+\newblock Finite difference techniques for variable grids.
+\newblock \emph{Comput. Struct.}, 2\penalty0 (1--2):\penalty0 17--29, 1972.
+\newblock \doi{10.1016/0045-7949(72)90020-X}.
 
-\bibitem{jung_hypercloudcore}
-Jung, P.: {HyperCloudCore.jl}: High-performance, physics-agnostic meshless
+\bibitem[Jung(2026{\natexlab{a}})]{JungAddendum2026}
+Pascal Jung.
+\newblock Meshfree {MUSCL} schemes with a~posteriori order detection:
+  exactness, conservation and admissibility, 2026{\natexlab{a}}.
+\newblock Mathematical companion to this paper.
+
+\bibitem[Jung(2026{\natexlab{b}})]{jung_hypercloud}
+Pascal Jung.
+\newblock {HyperCloud.jl}: A comprehensive meshfree simulation framework for
+  solving {N}-dimensional hyperbolic {PDEs} with high-order numerical accuracy.
+\newblock \url{https://github.com/industrial-mathematics-group/HyperCloud.jl},
+  2026{\natexlab{b}}.
+\newblock Version 0.5.1.
+
+\bibitem[Jung(2026{\natexlab{c}})]{jung_hypercloudcore}
+Pascal Jung.
+\newblock {HyperCloudCore.jl}: High-performance, physics-agnostic meshless
   solver backend for hyperbolic {PDEs}.
 \newblock
-  \url{https://github.com/industrial-mathematics-group/HyperCloudCore.jl}
-  (2026).
-\newblock \doi{10.5281/zenodo.23737384}.
-\newblock Version 0.7.8
+  \url{https://github.com/industrial-mathematics-group/HyperCloudCore.jl},
+  2026{\natexlab{c}}.
+\newblock Version 0.7.8.
 
-\bibitem{jung_hypercloud}
-Jung, P.: {HyperCloud.jl}: A comprehensive meshfree simulation framework for
-  solving {N}-dimensional hyperbolic {PDEs} with high-order numerical accuracy.
-\newblock \url{https://github.com/industrial-mathematics-group/HyperCloud.jl}
-  (2026).
-\newblock \doi{10.5281/zenodo.23685993}.
-\newblock Version 0.5.1
-
-\bibitem{JungAddendum2026}
-Jung, P.: Meshfree {MUSCL} schemes with a~posteriori order detection:
-  exactness, conservation and admissibility.
-\newblock Supplementary material,
-  \url{https://github.com/industrial-mathematics-group/meshfree-solver-paper}
-  (2026).
-\newblock Mathematical companion to this paper
-
-\bibitem{jung_meshfree_simulations}
-Jung, P.: meshfree-simulations: run configurations and driver scripts for the
+\bibitem[Jung(2026{\natexlab{d}})]{jung_meshfree_simulations}
+Pascal Jung.
+\newblock meshfree-simulations: run configurations and driver scripts for the
   meshfree {MUSCL} experiments.
 \newblock
-  \url{https://github.com/industrial-mathematics-group/meshfree-simulations}
-  (2026)
+  \url{https://github.com/industrial-mathematics-group/meshfree-simulations},
+  2026{\natexlab{d}}.
 
-\bibitem{jung_pdestudio}
-Jung, P.: {PDEStudio.jl}: Interactive visualization and exploration for {PDE}
+\bibitem[Jung(2026{\natexlab{e}})]{jung_pdestudio}
+Pascal Jung.
+\newblock {PDEStudio.jl}: Interactive visualization and exploration for {PDE}
   simulations.
-\newblock \url{https://github.com/industrial-mathematics-group/PDEStudio.jl}
-  (2026).
-\newblock \doi{10.5281/zenodo.23770548}.
-\newblock Version 0.4.5
+\newblock \url{https://github.com/industrial-mathematics-group/PDEStudio.jl},
+  2026{\natexlab{e}}.
+\newblock Version 0.4.5.
 
-\bibitem{Katz2009}
-Katz, A., Jameson, A.: A meshless volume scheme.
-\newblock In: 19th AIAA Computational Fluid Dynamics Conference. American
-  Institute of Aeronautics and Astronautics, San Antonio, TX (2009).
+\bibitem[Katz and Jameson(2009)]{Katz2009}
+A.~Katz and A.~Jameson.
+\newblock A meshless volume scheme.
+\newblock In \emph{19th AIAA Computational Fluid Dynamics Conference}, San
+  Antonio, TX, 2009. American Institute of Aeronautics and Astronautics.
 \newblock \doi{10.2514/6.2009-3534}.
-\newblock AIAA Paper 2009-3534
+\newblock AIAA Paper 2009-3534.
 
-\bibitem{Ketcheson2008}
-Ketcheson, D.I.: Highly efficient strong stability-preserving {Runge--Kutta}
-  methods with low-storage implementations.
-\newblock SIAM J. Sci. Comput. \textbf{30}(4), 2113--2136 (2008).
-\newblock \doi{10.1137/07070485X}
+\bibitem[Ketcheson(2008)]{Ketcheson2008}
+David~I. Ketcheson.
+\newblock Highly efficient strong stability-preserving {Runge--Kutta} methods
+  with low-storage implementations.
+\newblock \emph{SIAM Journal on Scientific Computing}, 30\penalty0
+  (4):\penalty0 2113--2136, 2008.
+\newblock \doi{10.1137/07070485X}.
 
-\bibitem{KurganovTadmor2002}
-Kurganov, A., Tadmor, E.: Solution of two-dimensional {R}iemann problems for
-  gas dynamics without {R}iemann problem solvers.
-\newblock Numer. Methods Partial Differ. Equ. \textbf{18}(5), 584--608 (2002).
-\newblock \doi{10.1002/num.10025}
+\bibitem[Kurganov and Tadmor(2002)]{KurganovTadmor2002}
+A.~Kurganov and E.~Tadmor.
+\newblock Solution of two-dimensional {R}iemann problems for gas dynamics
+  without {R}iemann problem solvers.
+\newblock \emph{Numer. Methods Partial Differential Equations}, 18\penalty0
+  (5):\penalty0 584--608, 2002.
+\newblock \doi{10.1002/num.10025}.
 
-\bibitem{Lancaster1981}
-Lancaster, P., Salkauskas, K.: Surfaces generated by moving least squares
-  methods.
-\newblock Math. Comput. \textbf{37}(155), 141--158 (1981).
-\newblock \doi{10.1090/S0025-5718-1981-0616367-1}
+\bibitem[Lancaster and Salkauskas(1981)]{Lancaster1981}
+P.~Lancaster and K.~Salkauskas.
+\newblock Surfaces generated by moving least squares methods.
+\newblock \emph{Math. Comput.}, 37\penalty0 (155):\penalty0 141--158, 1981.
+\newblock \doi{10.1090/S0025-5718-1981-0616367-1}.
 
-\bibitem{LaxLiu1998}
-Lax, P.D., Liu, X.D.: Solution of two-dimensional {R}iemann problems of gas
-  dynamics by positive schemes.
-\newblock SIAM J. Sci. Comput. \textbf{19}(2), 319--340 (1998).
-\newblock \doi{10.1137/S1064827595291819}
+\bibitem[Lax and Liu(1998)]{LaxLiu1998}
+P.~D. Lax and X.-D. Liu.
+\newblock Solution of two-dimensional {R}iemann problems of gas dynamics by
+  positive schemes.
+\newblock \emph{SIAM J. Sci. Comput.}, 19\penalty0 (2):\penalty0 319--340,
+  1998.
+\newblock \doi{10.1137/S1064827595291819}.
 
-\bibitem{LaxWendroff1960}
-Lax, P.D., Wendroff, B.: Systems of conservation laws.
-\newblock Commun. Pure Appl. Math. \textbf{13}(2), 217--237 (1960).
-\newblock \doi{10.1002/cpa.3160130205}
+\bibitem[Lax and Wendroff(1960)]{LaxWendroff1960}
+P.~D. Lax and B.~Wendroff.
+\newblock Systems of conservation laws.
+\newblock \emph{Commun. Pure Appl. Math.}, 13\penalty0 (2):\penalty0 217--237,
+  1960.
+\newblock \doi{10.1002/cpa.3160130205}.
 
-\bibitem{vanLeer1979}
-van Leer, B.: Towards the ultimate conservative difference scheme. {V}. {A}
-  second-order sequel to {G}odunov's method.
-\newblock J. Comput. Phys. \textbf{32}(1), 101--136 (1979).
-\newblock \doi{10.1016/0021-9991(79)90145-1}
+\bibitem[Levin(1998)]{Levin1998}
+D.~Levin.
+\newblock The approximation power of moving least-squares.
+\newblock \emph{Math. Comput.}, 67\penalty0 (224):\penalty0 1517--1531, 1998.
+\newblock \doi{10.1090/S0025-5718-98-00974-0}.
 
-\bibitem{Levin1998}
-Levin, D.: The approximation power of moving least-squares.
-\newblock Math. Comput. \textbf{67}(224), 1517--1531 (1998).
-\newblock \doi{10.1090/S0025-5718-98-00974-0}
+\bibitem[Liska and Wendroff(2003)]{LiskaWendroff2003}
+R.~Liska and B.~Wendroff.
+\newblock Comparison of several difference schemes on {1D} and {2D} test
+  problems for the {E}uler equations.
+\newblock \emph{SIAM J. Sci. Comput.}, 25\penalty0 (3):\penalty0 995--1017,
+  2003.
+\newblock \doi{10.1137/S1064827502402120}.
 
-\bibitem{LiskaWendroff2003}
-Liska, R., Wendroff, B.: Comparison of several difference schemes on {1D} and
-  {2D} test problems for the {E}uler equations.
-\newblock SIAM J. Sci. Comput. \textbf{25}(3), 995--1017 (2003).
-\newblock \doi{10.1137/S1064827502402120}
+\bibitem[Liszka and Orkisz(1980)]{Liszka1980}
+T.~Liszka and J.~Orkisz.
+\newblock The finite difference method at arbitrary irregular grids and its
+  application in applied mechanics.
+\newblock \emph{Comput. Struct.}, 11\penalty0 (1--2):\penalty0 83--95, 1980.
+\newblock \doi{10.1016/0045-7949(80)90149-2}.
 
-\bibitem{Liszka1980}
-Liszka, T., Orkisz, J.: The finite difference method at arbitrary irregular
-  grids and its application in applied mechanics.
-\newblock Comput. Struct. \textbf{11}(1--2), 83--95 (1980).
-\newblock \doi{10.1016/0045-7949(80)90149-2}
+\bibitem[Loub{\`e}re et~al.(2014)Loub{\`e}re, Dumbser, and Diot]{Loubere2014}
+R.~Loub{\`e}re, M.~Dumbser, and S.~Diot.
+\newblock A new family of high order unstructured {MOOD} and {ADER} finite
+  volume schemes for multidimensional systems of hyperbolic conservation laws.
+\newblock \emph{Commun. Comput. Phys.}, 16\penalty0 (3):\penalty0 718--763,
+  2014.
+\newblock \doi{10.4208/cicp.181113.140314a}.
 
-\bibitem{Loubere2014}
-Loub{\`e}re, R., Dumbser, M., Diot, S.: A new family of high order unstructured
-  {MOOD} and {ADER} finite volume schemes for multidimensional systems of
-  hyperbolic conservation laws.
-\newblock Commun. Comput. Phys. \textbf{16}(3), 718--763 (2014).
-\newblock \doi{10.4208/cicp.181113.140314a}
+\bibitem[Nguyen et~al.(2008)Nguyen, Rabczuk, Bordas, and Duflot]{Nguyen2008}
+V.~P. Nguyen, T.~Rabczuk, S.~Bordas, and M.~Duflot.
+\newblock Meshless methods: a review and computer implementation aspects.
+\newblock \emph{Math. Comput. Simul.}, 79\penalty0 (3):\penalty0 763--813,
+  2008.
+\newblock \doi{10.1016/j.matcom.2008.01.003}.
 
-\bibitem{Nguyen2008}
-Nguyen, V.P., Rabczuk, T., Bordas, S., Duflot, M.: Meshless methods: a review
-  and computer implementation aspects.
-\newblock Math. Comput. Simul. \textbf{79}(3), 763--813 (2008).
-\newblock \doi{10.1016/j.matcom.2008.01.003}
+\bibitem[Perrone and Kao(1975)]{Perrone1975}
+N.~Perrone and R.~Kao.
+\newblock A general finite difference method for arbitrary meshes.
+\newblock \emph{Comput. Struct.}, 5\penalty0 (1):\penalty0 45--57, 1975.
+\newblock \doi{10.1016/0045-7949(75)90018-8}.
 
-\bibitem{Perrone1975}
-Perrone, N., Kao, R.: A general finite difference method for arbitrary meshes.
-\newblock Comput. Struct. \textbf{5}(1), 45--57 (1975).
-\newblock \doi{10.1016/0045-7949(75)90018-8}
+\bibitem[Perthame and Shu(1996)]{PerthameShu1996}
+B.~Perthame and C.-W. Shu.
+\newblock On positivity preserving finite volume schemes for {E}uler equations.
+\newblock \emph{Numer. Math.}, 73\penalty0 (1):\penalty0 119--130, 1996.
+\newblock \doi{10.1007/s002110050187}.
 
-\bibitem{PerthameShu1996}
-Perthame, B., Shu, C.W.: On positivity preserving finite volume schemes for
-  {E}uler equations.
-\newblock Numer. Math. \textbf{73}(1), 119--130 (1996).
-\newblock \doi{10.1007/s002110050187}
+\bibitem[Quinlan et~al.(2006)Quinlan, Basa, and Lastiwka]{Quinlan2006}
+N.~J. Quinlan, M.~Basa, and M.~Lastiwka.
+\newblock Truncation error in mesh-free particle methods.
+\newblock \emph{Int. J. Numer. Meth. Eng.}, 66\penalty0 (13):\penalty0
+  2064--2085, 2006.
+\newblock \doi{10.1002/nme.1617}.
 
-\bibitem{Quinlan2006}
-Quinlan, N.J., Basa, M., Lastiwka, M.: Truncation error in mesh-free particle
-  methods.
-\newblock Int. J. Numer. Methods Eng. \textbf{66}(13), 2064--2085 (2006).
-\newblock \doi{10.1002/nme.1617}
+\bibitem[Quirk(1994)]{Quirk1994}
+J.~J. Quirk.
+\newblock A contribution to the great {R}iemann solver debate.
+\newblock \emph{Int. J. Numer. Meth. Fluids}, 18\penalty0 (6):\penalty0
+  555--574, 1994.
+\newblock \doi{10.1002/fld.1650180603}.
 
-\bibitem{Quirk1994}
-Quirk, J.J.: A contribution to the great {R}iemann solver debate.
-\newblock Int. J. Numer. Methods Fluids \textbf{18}(6), 555--574 (1994).
-\newblock \doi{10.1002/fld.1650180603}
+\bibitem[Ramesh and Deshpande(2001)]{Ramesh2001}
+V.~Ramesh and S.~M. Deshpande.
+\newblock Least squares kinetic upwind method on moving grids for unsteady
+  {E}uler computations.
+\newblock \emph{Comput. Fluids}, 30\penalty0 (5):\penalty0 621--641, 2001.
+\newblock \doi{10.1016/S0045-7930(01)00010-X}.
 
-\bibitem{Ramesh2001}
-Ramesh, V., Deshpande, S.M.: Least squares kinetic upwind method on moving
-  grids for unsteady {E}uler computations.
-\newblock Comput. Fluids \textbf{30}(5), 621--641 (2001).
-\newblock \doi{10.1016/S0045-7930(01)00010-X}
+\bibitem[Roe(1985)]{Roe1985}
+P.~L. Roe.
+\newblock Some contributions to the modelling of discontinuous flows.
+\newblock In \emph{Large-Scale Computations in Fluid Mechanics}, volume~22 of
+  \emph{Lectures in Applied Mathematics}, pages 163--193. American Mathematical
+  Society, Providence, RI, 1985.
 
-\bibitem{Roe1985}
-Roe, P.L.: Some contributions to the modelling of discontinuous flows.
-\newblock In: Large-Scale Computations in Fluid Mechanics, \emph{Lectures in
-  Applied Mathematics}, vol.~22, pp. 163--193. American Mathematical Society,
-  Providence, RI (1985)
+\bibitem[Schulz-Rinne(1993)]{SchulzRinne1993class}
+C.~W. Schulz-Rinne.
+\newblock Classification of the {R}iemann problem for two-dimensional gas
+  dynamics.
+\newblock \emph{SIAM J. Math. Anal.}, 24\penalty0 (1):\penalty0 76--88, 1993.
+\newblock \doi{10.1137/0524006}.
 
-\bibitem{SchulzRinne1993class}
-Schulz-Rinne, C.W.: Classification of the {R}iemann problem for two-dimensional
-  gas dynamics.
-\newblock SIAM J. Math. Anal. \textbf{24}(1), 76--88 (1993).
-\newblock \doi{10.1137/0524006}
+\bibitem[Schulz-Rinne et~al.(1993)Schulz-Rinne, Collins, and
+  Glaz]{SchulzRinne1993}
+C.~W. Schulz-Rinne, J.~P. Collins, and H.~M. Glaz.
+\newblock Numerical solution of the {R}iemann problem for two-dimensional gas
+  dynamics.
+\newblock \emph{SIAM J. Sci. Comput.}, 14\penalty0 (6):\penalty0 1394--1414,
+  1993.
+\newblock \doi{10.1137/0914082}.
 
-\bibitem{SchulzRinne1993}
-Schulz-Rinne, C.W., Collins, J.P., Glaz, H.M.: Numerical solution of the
-  {R}iemann problem for two-dimensional gas dynamics.
-\newblock SIAM J. Sci. Comput. \textbf{14}(6), 1394--1414 (1993).
-\newblock \doi{10.1137/0914082}
+\bibitem[Seibold(2006)]{Seibold2006}
+B.~Seibold.
+\newblock \emph{M-matrices in meshless finite difference methods}.
+\newblock PhD thesis, Technische Universit{\"a}t Kaiserslautern, 2006.
+\newblock Published by Shaker, Aachen, ISBN 978-3-8322-5643-2.
 
-\bibitem{Seibold2006}
-Seibold, B.: M-matrices in meshless finite difference methods.
-\newblock Ph.D. thesis, Technische Universit{\"a}t Kaiserslautern (2006).
-\newblock Published by Shaker, Aachen, ISBN 978-3-8322-5643-2
-
-\bibitem{Shu1998}
-Shu, C.W.: Essentially non-oscillatory and weighted essentially non-oscillatory
+\bibitem[Shu(1998)]{Shu1998}
+C.-W. Shu.
+\newblock Essentially non-oscillatory and weighted essentially non-oscillatory
   schemes for hyperbolic conservation laws.
-\newblock In: A.~Quarteroni (ed.) Advanced Numerical Approximation of Nonlinear
-  Hyperbolic Equations, \emph{Lecture Notes in Mathematics}, vol. 1697, pp.
-  325--432. Springer (1998).
-\newblock \doi{10.1007/BFb0096355}
+\newblock In A.~Quarteroni, editor, \emph{Advanced Numerical Approximation of
+  Nonlinear Hyperbolic Equations}, volume 1697 of \emph{Lecture Notes in
+  Mathematics}, pages 325--432. Springer, 1998.
+\newblock \doi{10.1007/BFb0096355}.
 
-\bibitem{ShuOsher1988}
-Shu, C.W., Osher, S.: Efficient implementation of essentially non-oscillatory
+\bibitem[Shu and Osher(1988)]{ShuOsher1988}
+C.-W. Shu and S.~Osher.
+\newblock Efficient implementation of essentially non-oscillatory
   shock-capturing schemes.
-\newblock J. Comput. Phys. \textbf{77}(2), 439--471 (1988).
-\newblock \doi{10.1016/0021-9991(88)90177-5}
+\newblock \emph{J. Comput. Phys.}, 77\penalty0 (2):\penalty0 439--471, 1988.
+\newblock \doi{10.1016/0021-9991(88)90177-5}.
 
-\bibitem{Sod1978}
-Sod, G.A.: A survey of several finite difference methods for systems of
+\bibitem[Sod(1978)]{Sod1978}
+G.~A. Sod.
+\newblock A survey of several finite difference methods for systems of
   nonlinear hyperbolic conservation laws.
-\newblock J. Comput. Phys. \textbf{27}(1), 1--31 (1978).
-\newblock \doi{10.1016/0021-9991(78)90023-2}
+\newblock \emph{J. Comput. Phys.}, 27\penalty0 (1):\penalty0 1--31, 1978.
+\newblock \doi{10.1016/0021-9991(78)90023-2}.
 
-\bibitem{SpiteriRuuth2002}
-Spiteri, R.J., Ruuth, S.J.: A new class of optimal high-order
-  strong-stability-preserving time discretization methods.
-\newblock SIAM J. Numer. Anal. \textbf{40}(2), 469--491 (2002).
-\newblock \doi{10.1137/S0036142901389025}
+\bibitem[Spiteri and Ruuth(2002)]{SpiteriRuuth2002}
+Raymond~J. Spiteri and Steven~J. Ruuth.
+\newblock A new class of optimal high-order strong-stability-preserving time
+  discretization methods.
+\newblock \emph{SIAM Journal on Numerical Analysis}, 40\penalty0 (2):\penalty0
+  469--491, 2002.
+\newblock \doi{10.1137/S0036142901389025}.
 
-\bibitem{SuchdeThesis2018}
-Suchde, P.: Conservation and accuracy in meshfree generalized finite difference
-  methods.
-\newblock Ph.D. thesis, Technische Universit{\"a}t Kaiserslautern (2017).
+\bibitem[Suchde(2017)]{SuchdeThesis2018}
+P.~Suchde.
+\newblock \emph{Conservation and Accuracy in Meshfree Generalized Finite
+  Difference Methods}.
+\newblock PhD thesis, Technische Universit{\"a}t Kaiserslautern, 2017.
 \newblock Published by Fraunhofer Verlag, Stuttgart, 2018, ISBN
-  978-3-8396-1325-2
+  978-3-8396-1325-2.
 
-\bibitem{Suchde2017}
-Suchde, P., Kuhnert, J., Schr{\"o}der, S., Klar, A.: A flux conserving meshfree
-  method for conservation laws.
-\newblock Int. J. Numer. Methods Eng. \textbf{112}(3), 238--256 (2017).
-\newblock \doi{10.1002/nme.5511}
+\bibitem[Suchde et~al.(2017)Suchde, Kuhnert, Schr{\"o}der, and
+  Klar]{Suchde2017}
+P.~Suchde, J.~Kuhnert, S.~Schr{\"o}der, and A.~Klar.
+\newblock A flux conserving meshfree method for conservation laws.
+\newblock \emph{Int. J. Numer. Meth. Eng.}, 112\penalty0 (3):\penalty0
+  238--256, 2017.
+\newblock \doi{10.1002/nme.5511}.
 
-\bibitem{Sweby1984}
-Sweby, P.K.: High resolution schemes using flux limiters for hyperbolic
+\bibitem[Sweby(1984)]{Sweby1984}
+P.~K. Sweby.
+\newblock High resolution schemes using flux limiters for hyperbolic
   conservation laws.
-\newblock SIAM J. Numer. Anal. \textbf{21}(5), 995--1011 (1984).
-\newblock \doi{10.1137/0721062}
+\newblock \emph{SIAM J. Numer. Anal.}, 21\penalty0 (5):\penalty0 995--1011,
+  1984.
+\newblock \doi{10.1137/0721062}.
 
-\bibitem{Tiwari2003}
-Tiwari, S., Kuhnert, J.: Finite pointset method based on the projection method
-  for simulations of the incompressible {N}avier--{S}tokes equations.
-\newblock In: M.~Griebel, M.A. Schweitzer (eds.) Meshfree Methods for Partial
-  Differential Equations, \emph{Lecture Notes in Computational Science and
-  Engineering}, vol.~26, pp. 373--387. Springer (2003).
-\newblock \doi{10.1007/978-3-642-56103-0_26}
+\bibitem[Tiwari and Kuhnert(2003)]{Tiwari2003}
+S.~Tiwari and J.~Kuhnert.
+\newblock Finite pointset method based on the projection method for simulations
+  of the incompressible {N}avier--{S}tokes equations.
+\newblock In M.~Griebel and M.~A. Schweitzer, editors, \emph{Meshfree Methods
+  for Partial Differential Equations}, volume~26 of \emph{Lecture Notes in
+  Computational Science and Engineering}, pages 373--387. Springer, 2003.
+\newblock \doi{10.1007/978-3-642-56103-0_26}.
 
-\bibitem{Toro2009}
-Toro, E.F.: Riemann Solvers and Numerical Methods for Fluid Dynamics: A
-  Practical Introduction, 3rd edn.
-\newblock Springer (2009).
-\newblock \doi{10.1007/b79761}
+\bibitem[Toro(2009)]{Toro2009}
+E.~F. Toro.
+\newblock \emph{Riemann Solvers and Numerical Methods for Fluid Dynamics: A
+  Practical Introduction}.
+\newblock Springer, 3rd edition, 2009.
+\newblock \doi{10.1007/b79761}.
 
-\bibitem{Venkatakrishnan1995}
-Venkatakrishnan, V.: Convergence to steady state solutions of the {E}uler
-  equations on unstructured grids with limiters.
-\newblock J. Comput. Phys. \textbf{118}(1), 120--130 (1995).
-\newblock \doi{10.1006/jcph.1995.1084}
+\bibitem[van Leer(1979)]{vanLeer1979}
+B.~van Leer.
+\newblock Towards the ultimate conservative difference scheme. {V}. {A}
+  second-order sequel to {G}odunov's method.
+\newblock \emph{J. Comput. Phys.}, 32\penalty0 (1):\penalty0 101--136, 1979.
+\newblock \doi{10.1016/0021-9991(79)90145-1}.
 
-\bibitem{WillemsCode2025}
-Willems, K.: meshfree4hypeq.
-\newblock \url{https://github.com/KlaasWillems/meshfree4hypeq} (2025)
+\bibitem[Venkatakrishnan(1995)]{Venkatakrishnan1995}
+V.~Venkatakrishnan.
+\newblock Convergence to steady state solutions of the {E}uler equations on
+  unstructured grids with limiters.
+\newblock \emph{J. Comput. Phys.}, 118\penalty0 (1):\penalty0 120--130, 1995.
+\newblock \doi{10.1006/jcph.1995.1084}.
 
-\bibitem{Willems2025BGK}
-Willems, K., Klar, A., Russo, G., Samaey, G., Tiwari, S.: A meshless {MUSCL}
-  method for the {BGK}-{B}oltzmann equation.
-\newblock arXiv preprint arXiv:2512.11598 (2025).
-\newblock \doi{10.48550/arXiv.2512.11598}
+\bibitem[Willems(2025)]{WillemsCode2025}
+K.~Willems.
+\newblock meshfree4hypeq.
+\newblock \url{https://github.com/KlaasWillems/meshfree4hypeq}, 2025.
 
-\bibitem{Willems2025}
-Willems, K., Klar, A., Samaey, G.: Higher-order meshless schemes for hyperbolic
-  equations.
-\newblock J. Sci. Comput. \textbf{105}(3), 90 (2025).
-\newblock \doi{10.1007/s10915-025-03124-4}
+\bibitem[Willems et~al.(2025{\natexlab{a}})Willems, Klar, Russo, Samaey, and
+  Tiwari]{Willems2025BGK}
+K.~Willems, A.~Klar, G.~Russo, G.~Samaey, and S.~Tiwari.
+\newblock A meshless {MUSCL} method for the {BGK}-{B}oltzmann equation.
+\newblock arXiv:2512.11598, 2025{\natexlab{a}}.
 
-\bibitem{Woodward1984}
-Woodward, P., Colella, P.: The numerical simulation of two-dimensional fluid
-  flow with strong shocks.
-\newblock J. Comput. Phys. \textbf{54}(1), 115--173 (1984).
-\newblock \doi{10.1016/0021-9991(84)90142-6}
+\bibitem[Willems et~al.(2025{\natexlab{b}})Willems, Klar, and
+  Samaey]{Willems2025}
+K.~Willems, A.~Klar, and G.~Samaey.
+\newblock Higher-order meshless schemes for hyperbolic equations.
+\newblock \emph{J. Sci. Comput.}, 105\penalty0 (3):\penalty0 90,
+  2025{\natexlab{b}}.
+\newblock \doi{10.1007/s10915-025-03124-4}.
 
-\bibitem{ZhangZheng1990}
-Zhang, T., Zheng, Y.: Conjecture on the structure of solutions of the {R}iemann
-  problem for two-dimensional gas dynamics systems.
-\newblock SIAM J. Math. Anal. \textbf{21}(3), 593--630 (1990).
-\newblock \doi{10.1137/0521032}
+\bibitem[Woodward and Colella(1984)]{Woodward1984}
+P.~Woodward and P.~Colella.
+\newblock The numerical simulation of two-dimensional fluid flow with strong
+  shocks.
+\newblock \emph{J. Comput. Phys.}, 54\penalty0 (1):\penalty0 115--173, 1984.
+\newblock \doi{10.1016/0021-9991(84)90142-6}.
 
-\bibitem{ZhangShu2010}
-Zhang, X., Shu, C.W.: On positivity-preserving high order discontinuous
-  {G}alerkin schemes for compressible {E}uler equations on rectangular meshes.
-\newblock J. Comput. Phys. \textbf{229}(23), 8918--8934 (2010).
-\newblock \doi{10.1016/j.jcp.2010.08.016}
+\bibitem[Zhang and Zheng(1990)]{ZhangZheng1990}
+T.~Zhang and Y.~Zheng.
+\newblock Conjecture on the structure of solutions of the {R}iemann problem for
+  two-dimensional gas dynamics systems.
+\newblock \emph{SIAM J. Math. Anal.}, 21\penalty0 (3):\penalty0 593--630, 1990.
+\newblock \doi{10.1137/0521032}.
+
+\bibitem[Zhang and Shu(2010)]{ZhangShu2010}
+X.~Zhang and C.-W. Shu.
+\newblock On positivity-preserving high order discontinuous {G}alerkin schemes
+  for compressible {E}uler equations on rectangular meshes.
+\newblock \emph{J. Comput. Phys.}, 229\penalty0 (23):\penalty0 8918--8934,
+  2010.
+\newblock \doi{10.1016/j.jcp.2010.08.016}.
 
 \end{thebibliography}

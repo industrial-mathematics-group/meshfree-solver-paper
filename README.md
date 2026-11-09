@@ -13,7 +13,8 @@ Contents of this archive, by folder:
 
 | Folder | Contents |
 |---|---|
-| `paper/` | `main_light.tex` / `.pdf`, `refs.bib`, `main_light.bbl` and the figures it includes (`figures/`), formatted for the Journal of Scientific Computing with Springer's `svjour3` class (option `smallextended`; `svjour3.cls`, `svglov3.clo` and the numbered reference style `spmpsci.bst` are included). Build: `latexmk -pdf main_light.tex`. |
+| `paper/` | `main_light.tex` / `.pdf`, `refs.bib`, `main_light.bbl` and the figures it includes (`figures/`). Build: `latexmk -pdf main_light.tex`. |
+| `jsc/` | Version of the paper for submission to the Journal of Scientific Computing: `main_jsc.tex` / `.pdf` with Springer's `svjour3` class (option `smallextended`), its own `refs.bib`, the figures and the Springer class and style files. Build: `latexmk -pdf main_jsc.tex`. See `jsc/README.md`. |
 | `addendum/` | Mathematical addendum with the statements and proofs behind the method: `math_addendum.tex` / `.pdf`, bibliography `refs.bib` + `math_addendum_refs.bib`, TikZ figure in `figures/`. Build: `latexmk -pdf math_addendum.tex`. |
 | `stability/`  | Stability note `stability_combined.tex` / `.pdf` (bibliography `stability_combined_refs.bib`, tables read from `tables/`). `scripts/` are the NumPy/SciPy/SymPy computations behind the tables and certificates, `data/` their outputs (`.jsonl`, `.md`, `.npy`). |
 | `lean/` | Lean 4 formalization (Lake project): `MeshfreeAddendum` (results of the addendum) and `MeshfreeStability` (Part I of the stability note). See `lean/README.md` and `lean/STABILITY.md`. Build: `lake exe cache get && lake build` (toolchain pinned in `lean-toolchain`, Mathlib pinned in `lake-manifest.json`). `AxiomCheck.lean` in each library prints the axioms used. |

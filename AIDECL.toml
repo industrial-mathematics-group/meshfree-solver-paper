@@ -20,7 +20,7 @@ AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), self-check by the generating ses
 # The Opus 5.5 review of 3 Nov 2026 is not committed under reviews/ and the files were changed
 # afterwards, so it does not count as A2 here.
 [[annotations]]
-path = ["addendum/**", "fv_reference/**", "lean/**", "scripts/**", "stability/**", "paper/figures/epd_rules_light.tex"]
+path = ["addendum/**", "fv_reference/**", "lean/**", "scripts/**", "stability/**", "paper/figures/epd_rules_light.tex", "jsc/figures/epd_rules_light.tex"]
 AI-Generation = "G3"
 Human-Review = "H0"
 AI-Review = "A1"
@@ -87,10 +87,10 @@ AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), self-check by the generating ses
 [[annotations]]
 path = [
   "results/configs/**",
-  "paper/figures/*.jpg",
-  "paper/figures/advection_conv_radius.pdf", "paper/figures/burgers_conv_radius.pdf",
-  "paper/figures/euler_sod_components.pdf",
-  "paper/figures/shock_mass_defect_epd1.pdf", "paper/figures/shock_mass_defect_epd2.pdf",
+  "paper/figures/*.jpg", "jsc/figures/*.jpg",
+  "paper/figures/advection_conv_radius.pdf", "jsc/figures/advection_conv_radius.pdf", "paper/figures/burgers_conv_radius.pdf", "jsc/figures/burgers_conv_radius.pdf",
+  "paper/figures/euler_sod_components.pdf", "jsc/figures/euler_sod_components.pdf",
+  "paper/figures/shock_mass_defect_epd1.pdf", "jsc/figures/shock_mass_defect_epd1.pdf", "paper/figures/shock_mass_defect_epd2.pdf", "jsc/figures/shock_mass_defect_epd2.pdf",
 ]
 AI-Generation = "G0"
 Human-Review = "H2"
@@ -111,7 +111,7 @@ Reviewed-by = ["blhackslash <dev@blackslash.win>"]
 # Files changed after a6edcc9 fall back to A1 until reviewed again.
 
 [[annotations]]
-path = ["addendum/figures/**", "paper/figures/epd_rules_light.tex"]
+path = ["addendum/figures/**", "paper/figures/epd_rules_light.tex", "jsc/figures/epd_rules_light.tex"]
 AI-Generation = "G3"
 Human-Review = "H0"
 AI-Review = "A2"
@@ -139,10 +139,10 @@ AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generati
 
 [[annotations]]
 path = [
-  "paper/figures/*.jpg",
-  "paper/figures/advection_conv_radius.pdf", "paper/figures/burgers_conv_radius.pdf",
-  "paper/figures/euler_sod_components.pdf",
-  "paper/figures/shock_mass_defect_epd1.pdf", "paper/figures/shock_mass_defect_epd2.pdf",
+  "paper/figures/*.jpg", "jsc/figures/*.jpg",
+  "paper/figures/advection_conv_radius.pdf", "jsc/figures/advection_conv_radius.pdf", "paper/figures/burgers_conv_radius.pdf", "jsc/figures/burgers_conv_radius.pdf",
+  "paper/figures/euler_sod_components.pdf", "jsc/figures/euler_sod_components.pdf",
+  "paper/figures/shock_mass_defect_epd1.pdf", "jsc/figures/shock_mass_defect_epd1.pdf", "paper/figures/shock_mass_defect_epd2.pdf", "jsc/figures/shock_mass_defect_epd2.pdf",
 ]
 AI-Generation = "G0"
 Human-Review = "H2"
@@ -356,10 +356,11 @@ Human-Review = "H2"
 Reviewed-by = ["blhackslash <dev@blackslash.win>"]
 AI-Review = "A0"
 
-# ---- JSC formatting (svjour3 smallextended, declarations, references), made by a Claude Opus 5.5
-# session on 9 Nov 2026. The changed paper files are back at A1 until they are reviewed again.
+# ---- JSC submission version in jsc/ (svjour3 smallextended, declarations, references), made by a
+# Claude Opus 5.5 session on 9 Nov 2026 from paper/main_light.tex and paper/refs.bib. paper/ stays
+# the preprint archived on Zenodo. The figures in jsc/figures are copies of paper/figures (declared above).
 [[annotations]]
-path = ["paper/main_light.tex", "paper/main_light.pdf", "paper/main_light.bbl", "paper/refs.bib"]
+path = ["jsc/main_jsc.tex", "jsc/main_jsc.pdf", "jsc/main_jsc.bbl", "jsc/refs.bib", "jsc/README.md"]
 AI-Generation = "G2"
 Human-Review = "H2"
 AI-Review = "A1"
@@ -367,9 +368,10 @@ Assisted-by = ["Claude Opus 5.5 (Anthropic)"]
 Reviewed-by = ["blhackslash <dev@blackslash.win>"]
 AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), self-check by the session that applied the JSC formatting"]
 
-# Springer LaTeX package files (svjour3 v3.3, spmpsci.bst), copied unchanged; not AI-generated.
+# Springer LaTeX package files from the official JSC author package LaTeX_DL_468198_240419
+# (svjour3 v3.2, svglov3.clo, spmpsci.bst), copied unchanged; not AI-generated.
 [[annotations]]
-path = ["paper/svjour3.cls", "paper/svglov3.clo", "paper/spmpsci.bst"]
+path = ["jsc/svjour3.cls", "jsc/svglov3.clo", "jsc/spmpsci.bst"]
 AI-Generation = "G0"
 Human-Review = "H0"
 AI-Review = "A0"

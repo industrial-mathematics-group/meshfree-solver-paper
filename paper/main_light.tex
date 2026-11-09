@@ -1,10 +1,4 @@
-%% Journal of Scientific Computing (Springer): svjour3 class, option smallextended
-%% as required by the journal's submission guidelines. The class files
-%% svjour3.cls, svglov3.clo and the bibliography style spmpsci.bst (Springer
-%% LaTeX package, numbered references) are included in this folder.
-\RequirePackage{fix-cm}
-\documentclass[smallextended]{svjour3}
-\smartqed
+\documentclass[11pt,a4paper]{article}
 
 % ---------------------------------------------------------------------------
 % Main paper: method and results written as prose, without definitions,
@@ -15,12 +9,12 @@
 % ---------------------------------------------------------------------------
 % Packages
 % ---------------------------------------------------------------------------
+\usepackage[margin=2.5cm]{geometry}
 \usepackage[utf8]{inputenc}
-\usepackage{amsmath,amssymb,mathtools}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
 \usepackage{bm}
 \usepackage{graphicx}
 \usepackage{booktabs}
-\usepackage{adjustbox}
 \usepackage{array}
 \usepackage{xcolor}
 \usepackage{tikz}
@@ -28,28 +22,17 @@
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 \usepackage{enumitem}
-\usepackage[labelfont=bf]{caption}
+\usepackage{caption}
 \usepackage{subcaption}
-\usepackage[numbers,square,sort&compress]{natbib}
+\usepackage[numbers,sort&compress]{natbib}
 \usepackage{microtype}
+\usepackage{authblk}
 \usepackage[section]{placeins}% floats are output before the next section starts
 \usepackage[colorlinks=true,linkcolor=blue!50!black,citecolor=green!35!black,urlcolor=blue!60!black]{hyperref}
-% svjour3 + amsmath leave \cl@chapter self-referential, which makes cleveref
-% loop (TeX capacity exceeded); the paper has no chapters, so reset it.
-\makeatletter\let\cl@chapter\relax\makeatother
 \usepackage[capitalise,nameinlink]{cleveref}
 
-% Springer style: "Fig. 1" (bold label, no punctuation after the number),
-% sub-figures (a), (b), ...
-\captionsetup{font=small,labelsep=space}
-\captionsetup[sub]{labelformat=parens,labelsep=space,labelfont=normalfont}
+\captionsetup{font=small,labelfont=bf}
 \setlist{itemsep=2pt,topsep=4pt}
-
-% Full DOI links in the reference list, as required by the journal.
-\newcommand{\doi}[1]{\url{https://doi.org/#1}}
-
-% Placeholders for information the authors still have to supply.
-\newcommand{\TODO}[1]{\textcolor{red}{[TODO: #1]}}
 
 % Float placement: allow larger floats at the top of text pages and fuller float
 % pages, so that figures and tables stay close to the text that cites them.
@@ -68,8 +51,6 @@
 
 \crefname{assumption}{Assumption}{Assumptions}
 \crefname{algorithm}{Algorithm}{Algorithms}
-\crefname{figure}{Fig.}{Figs.}
-\Crefname{figure}{Fig.}{Figs.}
 
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\N}{\mathbb{N}}
@@ -90,41 +71,24 @@
 \definecolor{lowc}{RGB}{200,30,30}
 \definecolor{highc}{RGB}{170,170,170}
 
-\journalname{Journal of Scientific Computing}
-
 % ---------------------------------------------------------------------------
+\title{High-order meshfree MUSCL schemes with a~posteriori\\
+order detection for hyperbolic systems\\ on scattered point clouds}
+\author[1]{Pascal Jung}
+\author[1,2]{Klaas Willems}
+\author[1]{Axel Klar}
+\affil[1]{Faculty of Mathematics, RPTU Kaiserslautern-Landau, Kaiserslautern, Germany}
+\affil[2]{Department of Computer Science, KU Leuven, Leuven, Belgium}
+\date{30~October 2026}
+
 \begin{document}
-
-\title{High-order meshfree MUSCL schemes with a~posteriori order detection for hyperbolic systems on scattered point clouds}
-\titlerunning{Meshfree MUSCL schemes with a~posteriori order detection}
-
-\author{Pascal Jung \and Klaas Willems \and Axel Klar}
-\authorrunning{P. Jung, K. Willems, A. Klar}
-
-\institute{P. Jung \TODO{corresponding author? confirm} \at
-  Faculty of Mathematics, RPTU Kaiserslautern-Landau, Kaiserslautern, Germany\\
-  \email{\TODO{institutional e-mail of the corresponding author}}\\
-  ORCID: \TODO{0000-0000-0000-0000}
-  \and
-  K. Willems \at
-  Faculty of Mathematics, RPTU Kaiserslautern-Landau, Kaiserslautern, Germany\\
-  Department of Computer Science, KU Leuven, Leuven, Belgium\\
-  ORCID: \TODO{0000-0000-0000-0000}
-  \and
-  A. Klar \at
-  Faculty of Mathematics, RPTU Kaiserslautern-Landau, Kaiserslautern, Germany\\
-  ORCID: \TODO{0000-0000-0000-0000}
-}
-
-\date{Received: date / Accepted: date}
-
 \maketitle
 
 \begin{abstract}
-We present meshfree monotone upstream-centred schemes for conservation laws (MUSCL) of arbitrary design order $k$ for hyperbolic systems on scattered point clouds. Moving least-squares (MLS) reconstructions of degree $k-1$ are evaluated at midpoints between neighbouring particles, jumps are resolved by approximate Riemann solvers, and the interface fluxes are differentiated by an MLS derivative operator whose weights sum to zero. The scheme is exact for polynomial solutions of linear problems, is consistent of order $k$ on periodic Cartesian lattices, and its conservation error is the lack of antisymmetry of the derivative weights. Orienting the dissipation of the Rusanov flux by the signs of the derivative weights keeps density and pressure positive in the first-order fallback for derivative operators of any degree. Discontinuities are treated by slope limiters or a per-particle multi-dimensional optimal order detection (MOOD) procedure within strong-stability-preserving Runge--Kutta methods; as the fallback is positive, the degree of the derivative operator can stay fixed while MOOD lowers only the degree of the reconstructions. Numerical experiments confirm the design orders up to five for smooth solutions on regular and perturbed clouds and show that, with a degree-one derivative operator, the conservation defect at moving shocks decreases under refinement. Two-dimensional shock problems up to the double Mach reflection and the Mach~3 forward-facing step are computed robustly with positive density and pressure. A smooth-extremum detection adapted to meshfree stencils prevents MOOD from clipping an isentropic vortex core for orders three and four once ten to twenty particles resolve its radius.
-\keywords{Meshfree methods \and Moving least squares \and MUSCL \and MOOD \and A~posteriori limiting \and Compressible Euler equations}
-\subclass{65M06 \and 65M08 \and 65M12 \and 35L65 \and 76M28}
+We present meshfree MUSCL schemes of arbitrary design order $k$ for hyperbolic systems of conservation laws on scattered point clouds. Moving least-squares (MLS) reconstructions of degree $k-1$ are evaluated at the midpoints between neighbouring particles, the jumps are resolved by approximate Riemann solvers, and the interface fluxes are differentiated by an MLS derivative operator whose weights sum to zero. The scheme is exact for polynomial solutions of linear problems, is consistent of order $k$ on periodic Cartesian lattices, and its conservation error is the lack of antisymmetry of the derivative weights. Orienting the dissipation of the Rusanov flux by the signs of the derivative weights keeps density and pressure positive in the first-order fallback scheme for derivative operators of any degree. The degree of the derivative operator can therefore stay fixed while MOOD lowers only the degree of the reconstructions. Discontinuities are treated by slope limiters or by a per-particle MOOD procedure within SSP Runge--Kutta methods. Numerical experiments confirm the design orders up to five for smooth solutions on regular and perturbed clouds and show that, with a derivative operator of degree one, the conservation defect at moving shocks decreases under refinement. Two-dimensional shock problems up to the double Mach reflection and the Mach~3 forward-facing step are computed robustly with positive density and pressure. A smooth-extremum detection adapted to meshfree stencils prevents MOOD from clipping the core of an isentropic vortex for orders three and four once the core is resolved by ten to twenty particles per radius.
 \end{abstract}
+
+\noindent\textbf{Keywords:} meshfree methods; generalized finite differences; moving least squares; MUSCL; MOOD; a~posteriori limiting; compressible Euler equations; point clouds
 
 % ===========================================================================
 \section{Introduction}\label{sec:intro}
@@ -198,7 +162,6 @@ The factor two compensates for the midpoint lying at half the distance: the inte
 
 \begin{figure}[!htbp]
 \centering
-\resizebox{\textwidth}{!}{%
 \begin{tikzpicture}[scale=1.05,>=Latex]
   % --- (a) stencil
   \begin{scope}
@@ -235,9 +198,8 @@ The factor two compensates for the midpoint lying at half the distance: the inte
     \node[red!70!black] at (2,3.6) {\small $\Fs(U_{ij},U_{ji};x_{ij})$};
     \node at (2,-0.8) {\small (b) reconstructions $\mathcal{R}_i$, $\mathcal{R}_j$ along the edge};
   \end{scope}
-\end{tikzpicture}%
-}
-\caption{The meshfree MUSCL scheme. (a) Particle $i$, its neighbourhood $\nb(i)$ of radius $R$ and the midpoint $m_{ij}$ of the pair $(i,j)$. (b) The reconstructions of $i$ and $j$, evaluated at $m_{ij}$, define a Riemann problem whose numerical flux enters the updates of both particles}\label{fig:stencil}
+\end{tikzpicture}
+\caption{The meshfree MUSCL scheme. (a) Particle $i$, its neighbourhood $\nb(i)$ of radius $R$ and the midpoint $m_{ij}$ of the pair $(i,j)$. (b) The reconstructions of $i$ and $j$, evaluated at $m_{ij}$, define a Riemann problem whose numerical flux enters the updates of both particles.}\label{fig:stencil}
 \end{figure}
 
 \subsection{Reconstruction}\label{sec:recfit}
@@ -253,10 +215,8 @@ component by component in conservative variables. The fit passes through the par
 
 The derivative weights come from a second fit of degree $q$, now \emph{with} a constant term and over the neighbours only. If $a_0+a^{\mathsf T}p_q(y)$ is the weighted least-squares fit of data $g_j$ at the offsets $x_{ij}$, the weights $c^{(d)}_{ij}$ are defined by $a_d=\sum_jc^{(d)}_{ij}g_j$, the coefficient of the linear monomial $y_d$; explicitly
 \begin{equation}\label{eq:cij}
-\begin{gathered}
-c^{(d)}_{ij} = w_{ij}\; e_{1+d}^{\mathsf T}\,\Ntil_i^{-1}\,\ptil_q(x_{ij}),\\
+c^{(d)}_{ij} = w_{ij}\; e_{1+d}^{\mathsf T}\,\Ntil_i^{-1}\,\ptil_q(x_{ij}),\qquad
 \Ntil_i=\sum_{j\in\nb(i)} w_{ij}\,\ptil_q(x_{ij})\,\ptil_q(x_{ij})^{\mathsf T},\qquad \ptil_q=(1,p_q).
-\end{gathered}
 \end{equation}
 These weights differentiate polynomials of degree $q$ exactly, they scale like $1/h$, and, because constant data are absorbed by the intercept $a_0$, they sum to zero, $\sum_jc_{ij}=0$. This last property is what makes the update \eqref{eq:scheme} depend on fluxes only. A fit forced through the particle value, like the reconstruction, would not have it on irregular stencils: on the perturbed clouds of \cref{sec:experiments} its row sums amount to about $4\%$ of $\sum_j|c_{ij}|$ on average and up to $19\%$ (\cref{tab:stencils}).
 
@@ -271,7 +231,6 @@ which equals $k-1$ for even $k$ and $k$ for odd $k$ (\cref{tab:degrees}).
 \begin{table}[!htbp]
 \centering
 \caption{Polynomial degrees of the scheme of design order $k$ and the number of unknowns of the fits in two dimensions.}\label{tab:degrees}
-\begin{adjustbox}{max width=\textwidth}
 \begin{tabular}{lcccccc}
 \toprule
 design order $k$ & 1 & 2 & 3 & 4 & 5 & 6\\
@@ -282,7 +241,6 @@ unknowns of the reconstruction fit ($D=2$) & -- & 2 & 5 & 9 & 14 & 20\\
 unknowns of the derivative fit ($D=2$) & 3 & 3 & 10 & 10 & 21 & 21\\
 \bottomrule
 \end{tabular}
-\end{adjustbox}
 \end{table}
 
 Two safeguards keep the fits well posed. The increase from degree $k-1$ to $k$ is only used if the neighbourhood contains more than $1.5$ times as many particles as the fit has unknowns, because nearly square least-squares systems are fragile; in three dimensions it is only applied up to degree three. And every fit lowers its degree until there are at least as many neighbours as unknowns. With $\kappa=2.5$ the two-dimensional stencils support the degrees of \cref{tab:degrees} up to $k=4$. In one dimension $\kappa=2.5$ gives only four neighbours, so $k=3$ falls back to derivative degree two, and on perturbed clouds $k=5$ needs about $\kappa\ge5.5$ in one and $\kappa\ge3.5$ in two dimensions (on lattices $\kappa=5$ and $\kappa\approx3.2$ suffice).
@@ -297,10 +255,8 @@ U_{ij} = \mathcal{R}^{[\ord ij]}_i\big(\tfrac12 x_{ij}\big),\qquad U_{ji}=\mathc
 \end{equation}
 where $\mathcal{R}^{[r]}$ denotes the reconstruction truncated to degree $r-1$, and $U_{ji}=U_j$ for ghost neighbours. Since the derivative operator differentiates every coordinate flux separately, we solve a Riemann problem per coordinate direction with the Rusanov (local Lax--Friedrichs) flux \cite{Toro2009},
 \begin{equation}\label{eq:rusanov}
-\begin{gathered}
-\Fs_{ij,d} = \tfrac12\big(F_d(U_{ij})+F_d(U_{ji})\big) - \tfrac12\,s_{ij,d}\,\sigma_{ij,d}\,\big(U_{ji}-U_{ij}\big),\\
+\Fs_{ij,d} = \tfrac12\big(F_d(U_{ij})+F_d(U_{ji})\big) - \tfrac12\,s_{ij,d}\,\sigma_{ij,d}\,\big(U_{ji}-U_{ij}\big),\qquad
 s_{ij,d} = \max\{\lambda_d(U_{ij}),\lambda_d(U_{ji})\}.
-\end{gathered}
 \end{equation}
 The orientation $\sigma_{ij,d}=\pm1$ decides which of the two states counts as the left one. On a mesh the natural choice is \emph{geometric}, $\sigma_{ij,d}=\sgn(x_{ij,d})$. On a point cloud this choice can fail. Inserted into \eqref{eq:scheme}, the dissipation of neighbour $j$ enters the update of particle $i$ with the coefficient $s_{ij,d}\,\sigma_{ij,d}c^{(d)}_{ij}$, which should be non-negative so that the term pulls $U_i$ towards its neighbours. With the geometric orientation it is negative wherever a weight has the opposite sign of its offset. That happens for the outer neighbours of every derivative fit of degree three or higher, just as in the fourth-order central difference $(f_{-2}-8f_{-1}+8f_1-f_2)/(12h)$, and for a few small weights of degree-one fits on perturbed clouds (\cref{tab:stencils}). There the dissipation acts as anti-dissipation.
 
@@ -323,7 +279,7 @@ Summing the volume-weighted updates \eqref{eq:scheme} over all interior particle
 \begin{aligned}
 \frac{\dd}{\dd t}\sum_{i\in I}V_iU_i
 ={}& -2\sum_{i\in I}\ \sum_{j\in\nb(i)\setminus I} V_i\,c_{ij}\cdot\Fs_{ij}\\
-&-\sum_{\substack{\{i,j\}\subset I\\ j\in\nb(i)}}\sum_{d=1}^D\Big[d_{ij,d}\big(F_d(U_{ij})+F_d(U_{ji})\big)-s_{ij,d}\,e_{ij,d}\big(U_{ji}-U_{ij}\big)\Big]
+&-\sum_{\substack{\{i,j\}\subset I\\ j\in\nb(i)}}\ \sum_{d=1}^D\Big[d_{ij,d}\,\big(F_d(U_{ij})+F_d(U_{ji})\big)-s_{ij,d}\,e_{ij,d}\,\big(U_{ji}-U_{ij}\big)\Big]
 \end{aligned}
 \end{equation}
 with the pair defects $d_{ij,d}=V_ic^{(d)}_{ij}+V_jc^{(d)}_{ji}$ and $e_{ij,d}=V_i\sigma_{ij,d}c^{(d)}_{ij}-V_j\sigma_{ji,d}c^{(d)}_{ji}$, where $|e_{ij,d}|\le|d_{ij,d}|$ for both orientations, except on geometric edges with $x_{ij,d}=0$, on which the implementation sets $\sigma_{ij,d}=\sigma_{ji,d}=-1$ and the bound can fail. The first sum plays the role of the boundary fluxes. The second sum vanishes, and the scheme is conservative, if the generalized face vectors $S_{ij}=2V_ic_{ij}$ are antisymmetric, $S_{ij}=-S_{ji}$, just as the normals of a mesh face seen from its two cells, and if on the edges with $x_{ij,d}=0$ either $c^{(d)}_{ij}=0$ or $\sigma_{ji,d}=-\sigma_{ij,d}$; we do not claim the converse. The update can always be written as $V_i\,\dd U_i/\dd t=-\sum_jS_{ij}\cdot\Fs_{ij}$ by the definition of $S_{ij}$ and the closure $\sum_jS_{ij}=0$ from the zero row sums; with antisymmetric $S_{ij}$ it is a conservative FV-type update. Meshless coefficients with both properties can be constructed \cite{Chiu2011,Chiu2012}; other methods enforce the closure alone \cite{Huh2018} or approximately conservative fluxes over closed local cells \cite{Suchde2017,SuchdeThesis2018}; we do not apply such a correction here.
@@ -355,7 +311,7 @@ with $\delta=\delta_0\prod_dh_d$, where $h_d$ is the nominal spacing in directio
 \item \emph{Plateau test.} A component that violates the DMP is nevertheless accepted if it varies across the stencil by less than a fraction $\pi_0$ of its global range, $U^{\max}_{i,m}-U^{\min}_{i,m}<\pi_0\,\big(\max_lU_{l,m}-\min_lU_{l,m}\big)$, with the global extrema over all particles of the previous state. Such a component carries no structure at the scale of the stencil, and what violates the DMP there is the truncation error of the update, for instance the density in the far field of a vortex, which is driven by the divergence of the momentum. The test needs no curvature and therefore also applies below order three. We use $\pi_0=10^{-3}$. Overshoots are thus accepted only where the variation across the stencil is below $10^{-3}$ of the global range, which also means that features of smaller amplitude are not limited.
 \item \emph{Smooth-extremum detection (u2)}, adapted from the criterion called u2 in \cite{Diot2012,Diot2013}: for $K\ge3$ and $k_i\ge3$, a component $m$ that violates the DMP and is not a plateau is nevertheless accepted if, in every direction $d$, the second-derivative coefficients $X_l$ of the reconstructions of the previous state indicate a smooth extremum. The curvatures are measured by the variation $X_lh^2$ they cause over one particle spacing, so that they can be compared with $\delta$ in the units of the state. The component is accepted if the curvature is negligible, $\max_l|X_l|\,h^2<\delta$, or if it has one sign over the whole stencil and comparable magnitudes among the nearest neighbours,
 \begin{equation}\label{eq:u2}
-\big(\min_{l\in\cnb(i)}X_l\,h^2\big)\big(\max_{l\in\cnb(i)}X_l\,h^2\big)>-\delta^2\quad\text{and}\quad\min_{l\in\nb_{1.5}(i)}|X_l|\ge\tfrac12\max_{l\in\nb_{1.5}(i)}|X_l|,
+\big(\min_{l\in\cnb(i)}X_l\,h^2\big)\big(\max_{l\in\cnb(i)}X_l\,h^2\big)>-\delta^2\qquad\text{and}\qquad\min_{l\in\nb_{1.5}(i)}|X_l|\ge\frac12\max_{l\in\nb_{1.5}(i)}|X_l|,
 \end{equation}
 where $\nb_{1.5}(i)$ contains $i$ and its neighbours within $1.5h$. The magnitudes are compared only over the nearest neighbours, which play the role of the face neighbours that the test of \cite{Diot2012} uses on meshes: over a whole meshfree stencil of radius $2.5h$ the curvature of a smooth solution changes by more than a factor two wherever it decays on a few spacings. The magnitude test is still needed, because next to a jump the curvature collapses from large values to zero between neighbours, which the sign test does not see. Only the components that violate the DMP are tested. For $K\le2$ no curvature is available, and smooth extrema that are not plateaus are clipped.
 \end{itemize}
@@ -390,7 +346,7 @@ EPD1 is the minimum rule of FV MOOD; EPD0 and EPD2 are, to our knowledge, new. I
 \begin{figure}[!htbp]
 \centering
 \input{figures/epd_rules_light.tex}
-\caption{Interface orders for one particle (filled red) lowered to order one in a high-order region, on a lattice patch with nearest-neighbour edges standing in for the neighbour graph. Each edge is drawn as two halves; the half next to a particle shows the order with which this particle's reconstruction enters the interface: red for order one (piecewise constant), grey for the full order}\label{fig:epd}
+\caption{Interface orders for one particle (filled red) lowered to order one in a high-order region, on a lattice patch with nearest-neighbour edges standing in for the neighbour graph. Each edge is drawn as two halves; the half next to a particle shows the order with which this particle's reconstruction enters the interface: red for order one (piecewise constant), grey for the full order.}\label{fig:epd}
 \end{figure}
 
 The positivity argument of \cref{sec:positivity} needs both states on every edge of a lowered particle to be constant. EPD1 and EPD2 guarantee this, since their minimum includes the order one of the particle itself. Under EPD0 a high-order neighbour still contributes a reconstructed state, so a particle at order one is not advanced by the first-order scheme in general. For this reason EPD0 is not used in the experiments of \cref{sec:experiments}. EPD2 in addition lowers all fluxes within one hop of a lowered particle, which surrounds every troubled region by a band of low-order fluxes.
@@ -420,7 +376,7 @@ At the checkpoint after stage $\ell-1$, MOOD therefore checks the substep $W_{\e
 \State $T\gets I$ \Comment{particles to check}
 \Loop
   \State form the substep $W_{\ell-1}=Y_{\ell-1}+(\Delta t/C)\,R_{\ell-1}$ \eqref{eq:substep}
-  \State $Z\gets\{i\in T: W_{\ell-1,i} \text{ fails PAD or the DMP test (with plateau and u2)} \text{w.r.t.\ } Y_{\ell-1}\}$
+  \State $Z\gets\{i\in T: W_{\ell-1,i} \text{ fails PAD or the DMP test (with plateau and u2) w.r.t.\ } Y_{\ell-1}\}$
   \State $\Lambda\gets\{i\in Z: k_i>1\}$; \quad $k_i\gets k_i-1$ for $i\in \Lambda$
   \If{$\Lambda=\emptyset$} \Return \EndIf
   \State $T\gets\{i: \text{$i$ within $\varrho$ hops of $\Lambda$}\}$ \Comment{$\varrho=2$ for EPD2, $\varrho=1$ otherwise}
@@ -464,8 +420,8 @@ All results were computed with HyperCloudCore 0.7.8, on the high-performance clu
 \begin{table}[!htbp]
 \centering
 \caption{Parameters of the two-dimensional Euler problems ($\kappa=2.5$, perturbation $0.2h$, $\CFL=0.8$, single precision).}\label{tab:setup}
-\footnotesize\setlength{\tabcolsep}{3pt}
-\begin{tabular}{>{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}p{2.1cm}>{\raggedright\arraybackslash}p{2.1cm}>{\raggedright\arraybackslash}p{2.1cm}>{\raggedright\arraybackslash}p{2.6cm}}
+\footnotesize\setlength{\tabcolsep}{4pt}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.3cm}>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{3.6cm}}
 \toprule
 & isentropic vortex & 2-D Riemann problem & double Mach reflection & Mach 3 step\\
 \midrule
@@ -493,7 +449,6 @@ In two dimensions the particles form $N\times N$ lattices, $h=10/N$, with sixtee
 \caption{Discrete $L^1$ errors and observed orders. The rows with $N$ give the errors on periodic lattices with $\kappa=5.5$ and the orders between consecutive rows; ``mean, last 3'' is the mean of the orders of the last three refinement steps of the full sweep (factor $10^{0.1}$ per step). The row ``perturbed, $\kappa=5.5$'' gives, for the clouds perturbed by $0.2h$, the ratio of the error at the finest resolution to that on the lattice and the mean order; the rows with $\kappa=2.5$ give the error at the finest resolution and the mean order.}\label{tab:convergence}
 \small
 \setlength{\tabcolsep}{4.5pt}
-\begin{adjustbox}{max width=\textwidth}
 \begin{tabular}{rcccccccc}
 \toprule
 & \multicolumn{2}{c}{RK2MUSCL2} & \multicolumn{2}{c}{RK3MUSCL3} & \multicolumn{2}{c}{RK4SSPMUSCL4} & \multicolumn{2}{c}{RK4SSPMUSCL5}\\
@@ -537,7 +492,6 @@ $N$ & error & order & error & order & error & order & error & order\\
 \multicolumn{1}{l}{perturbed, $\kappa=2.5$} & 1.99e-4 & 1.97 & 8.50e-6 & 2.91 & 1.06e-7 & 3.78 &  & \\
 \bottomrule
 \end{tabular}
-\end{adjustbox}
 \end{table}
 
 With $\kappa=5.5$ every scheme attains its design order for linear advection, in agreement with \cref{sec:consistency}. In one dimension the mean orders of the last three refinement steps are $2.00$, $3.00$, $4.00$ and $5.00$ for $K=2,3,4,5$, and the $L^1$ error of RK4SSPMUSCL5 reaches $5.3\cdot10^{-10}$ at $N=3163$; in two dimensions they are $2.08$, $3.00$, $4.03$ and $5.00$. For $K=3$ the degree-three derivative operator of \eqref{eq:qk} is essential; with the even degree two the order would drop to two (\cref{sec:consistency}). The Burgers problem is in the pre-asymptotic range for most of the resolutions, because the solution steepens: for $K=3$ and $K=5$ the observed orders increase steadily and reach $2.95$ and $4.93$ in the last step, for $K=2$ and $K=4$ they overshoot to about $2.2$ and $4.3$. The Rusanov dissipation, whose coefficient $|u|$ varies in space, does not reduce the order, as predicted by \cref{sec:consistency}. On the clouds perturbed by $0.2h$ the results with $\kappa=5.5$ are practically the same: the errors differ from those on the lattice by at most $6.3\%$ at every resolution, and the mean orders agree to within $0.02$. Although \cref{sec:consistency} only covers symmetric stencils, the design orders are thus also attained on irregular clouds; as for FV schemes on irregular grids \cite{Diskin2010}, the truncation error is a pessimistic predictor of the error.
@@ -552,7 +506,7 @@ With $\kappa=5.5$ every scheme attains its design order for linear advection, in
 \includegraphics[width=\textwidth]{figures/burgers_conv_radius.pdf}
 \caption{Burgers equation, $t=0.5$}
 \end{subfigure}
-\caption{Relative discrete $L^2$ errors $\big(\sum_i|U_i-u(x_i,t)|^2\big)^{1/2}/\big(\sum_iu(x_i,t)^2\big)^{1/2}$ for the Gaussian pulse in two dimensions on $N\times N$ particles in $[-5,5]^2$ perturbed by $0.2h$ (``grid resolution'' $N$, $h=10/N$), without limiter or MOOD, for RK2MUSCL2 and RK4SSPMUSCL4 with the support radii $R=2.5h$ and $R=5.5h$; dashed lines: slopes $-2$ and $-4$}\label{fig:convergence}
+\caption{Relative discrete $L^2$ errors $\big(\sum_i|U_i-u(x_i,t)|^2\big)^{1/2}/\big(\sum_iu(x_i,t)^2\big)^{1/2}$ for the Gaussian pulse in two dimensions on $N\times N$ particles in $[-5,5]^2$ perturbed by $0.2h$ (``grid resolution'' $N$, $h=10/N$), without limiter or MOOD, for RK2MUSCL2 and RK4SSPMUSCL4 with the support radii $R=2.5h$ and $R=5.5h$; dashed lines: slopes $-2$ and $-4$.}\label{fig:convergence}
 \end{figure}
 
 The smaller radius $\kappa=2.5$ of the shock computations keeps the design orders on lattices (in two dimensions $2.02$, $3.00$, $4.01$ for advection and $2.06$, $2.98$, $4.12$ for Burgers) with errors at the finest resolution that are $5$ to $30$ times smaller than with $\kappa=5.5$ in two dimensions ($42$ times for $K=4$ in one dimension), since the fits weight the near neighbours more strongly; the exception is $K=3$ in one dimension, which falls back to the derivative degree two (\cref{sec:parity}) and is of second order. \Cref{fig:convergence} shows that on the perturbed clouds the radius acts mainly on the error constant. For $K=2$ the curves of both radii are parallel, and at $N=1000$ the relative $L^2$ errors with $\kappa=2.5$ are $4.9$ (advection) and $5.0$ (Burgers) times smaller than with $\kappa=5.5$. For $K=4$ the factors are $8.5$ and $19$. $K=2$ and $K=3$ keep their orders on the perturbed clouds ($1.97$--$2.00$ and $2.91$ in two dimensions, \cref{tab:convergence}), whereas $K=4$ with $\kappa=2.5$ drops to $2.98$ in one dimension, $3.24$ for two-dimensional advection and $3.78$ for Burgers, visible in \cref{fig:convergence} as the less regular slope of the curve RK4SSPMUSCL4($R=2.5$): with $0.2h$ perturbations some stencils of radius $2.5h$ are too close to the minimal size for the degree-three fits. In two dimensions the errors of $K=4$ with $\kappa=2.5$ are nevertheless smaller than with $\kappa=5.5$ over the whole range tested ($1.1\cdot10^{-7}$ instead of $1.4\cdot10^{-6}$ in $L^1$ for Burgers at $N=1000$); in one dimension they are about $20\%$ larger at $N=3163$. For the full order of $K=4$ on perturbed clouds, $\kappa$ between $3.5$ and $5.5$ is needed.
@@ -565,7 +519,6 @@ The isentropic vortex \cite{Shu1998} tests the Euler equations and, in particula
 \centering
 \caption{Isentropic vortex at $t=10$: discrete $L^2$ error of the density and observed order between consecutive resolutions, single precision, perturbation $0.2h$, $\kappa=2.5$.}\label{tab:vortex}
 \small
-\begin{adjustbox}{max width=\textwidth}
 \begin{tabular}{rcccccc}
 \toprule
 & \multicolumn{2}{c}{RK2MUSCL2(EPD2,MLS2)} & \multicolumn{2}{c}{RK3MUSCL3(EPD2,MLS2)} & \multicolumn{2}{c}{RK3MUSCL3(none,MLS3)}\\
@@ -581,14 +534,12 @@ $N$ & error & order & error & order & error & order\\
 400 & 7.21e-2 & 2.14 & 2.60e-3 & 2.28 & 1.16e-3 & 1.85\\
 \bottomrule
 \end{tabular}
-\end{adjustbox}
 \end{table}
 
 \begin{table}[!htbp]
 \centering
 \caption{Isentropic vortex at $t=10$: minimum particle density (exact: $0.4938$) and number of time steps at $N=400$, single precision on GPUs.}\label{tab:vortex_min}
 \small
-\begin{adjustbox}{max width=\textwidth}
 \begin{tabular}{lccccc}
 \toprule
 & $N=100$ & $N=141$ & $N=200$ & $N=400$ & steps ($N=400$)\\
@@ -601,7 +552,6 @@ RK4SSPMUSCL4(EPD2,MLS4) & 0.4941 & 0.4944 & 0.4938 & 0.4938 & 11800\\
 RK4SSPMUSCL4(none,MLS4) & 0.4941 & 0.4944 & 0.4938 & 0.4938 & 11800\\
 \bottomrule
 \end{tabular}
-\end{adjustbox}
 \end{table}
 
 Without MOOD, RK3MUSCL3 converges with orders between $2.3$ and $2.8$, and the core is resolved already at $N=100$. In the last refinement step the order drops to $1.85$ at an error of $1.2\cdot10^{-3}$, possibly the onset of a round-off floor of the high-order fits in single precision; we have not checked this in double precision. With MOOD (EPD2) and $k_{\mathrm{div}}=2$, the third-order scheme clips the core on the coarse clouds, with minimum densities of $0.82$ at $N=100$ and $0.51$ at $N=141$ and errors of the size of the vortex itself. From $N=200$ on, i.e.\ from about twenty particles per core radius, the core is intact: the minimum density agrees with that of the unlimited scheme to within $0.002$, and to three digits from $N=283$ on, and the error decreases with orders $2.4$ and $2.3$, at about twice the error of the unlimited scheme. This order is that of the frozen derivative degree one, which makes the scheme formally of second order (\cref{sec:consistency}), not a loss caused by MOOD. RK4SSPMUSCL4(EPD2,MLS2) behaves in the same way, with the same threshold $N=200$. With $k_{\mathrm{div}}=4$, MOOD does not act at all from $N=100$ on in the GPU runs: RK4SSPMUSCL4(EPD2,MLS4) gives the minimum densities and the number of time steps of the unlimited scheme to four digits. In the CPU runs the mass changes differ slightly from those of the unlimited scheme (for instance $-2.80\cdot10^{-5}$ and $-3.01\cdot10^{-5}$ at $N=200$), so there either MOOD acts on a few particles or the runs are not bitwise reproducible; we have not separated the two. Only on the coarsest clouds, $N\le71$, do all MOOD runs clip the core. For $K=2$ no curvature test is available (\cref{sec:criteria}), so the smooth extremum is clipped at every resolution: the minimum density is still $0.56$ at $N=400$, and the order of the error only approaches two in the last step. The mass changes by at most $2.4\cdot10^{-4}$ in all runs, and by at most $5.3\cdot10^{-5}$ for $N\ge200$.
@@ -632,7 +582,7 @@ The one-dimensional sweeps use $N=32,\dots,3163$ and the two-dimensional ones $N
 \includegraphics[width=\textwidth]{figures/shock_mass_defect_epd2.pdf}
 \caption{MOOD with EPD2}
 \end{subfigure}
-\caption{Conservation defect $|\delta_m|$ of \eqref{eq:defect} for the one-dimensional Burgers shock, perturbation $0.4h$, $\kappa=5.5$, aligned flux, for RK4SSPMUSCL4 without MOOD (MLS4) and with MOOD in the coupled mode (MLS0) and in the frozen mode with $k_{\mathrm{div}}=2$ (MLS2) and $k_{\mathrm{div}}=4$ (MLS4)}\label{fig:mass}
+\caption{Conservation defect $|\delta_m|$ of \eqref{eq:defect} for the one-dimensional Burgers shock, perturbation $0.4h$, $\kappa=5.5$, aligned flux, for RK4SSPMUSCL4 without MOOD (MLS4) and with MOOD in the coupled mode (MLS0) and in the frozen mode with $k_{\mathrm{div}}=2$ (MLS2) and $k_{\mathrm{div}}=4$ (MLS4).}\label{fig:mass}
 \end{figure}
 
 \begin{table}[!htbp]
@@ -640,7 +590,6 @@ The one-dimensional sweeps use $N=32,\dots,3163$ and the two-dimensional ones $N
 \caption{Conservation defect \eqref{eq:defect} for the one-dimensional Burgers shock at $N=3163$, perturbation $0.4h$, $\kappa=5.5$, for MUSCL$K$ with the given stabilization and derivative mode (frozen $K$: $k_{\mathrm{div}}=K$; frozen 2: $k_{\mathrm{div}}=2$, derivative degree one), with the aligned flux except for the rows RU, which use the geometric flux. In parentheses: the rate $r$ of a least-squares fit $|\delta_m|\propto N^{-r}$ over $N\ge100$; rates near zero mean that the defect does not decrease with $N$.}\label{tab:mass_shock}
 \footnotesize
 \setlength{\tabcolsep}{4pt}
-\begin{adjustbox}{max width=\textwidth}
 \begin{tabular}{llcccc}
 \toprule
 stabilization & derivative & $K=2$ & $K=3$ & $K=4$ & $K=5$\\
@@ -660,7 +609,6 @@ MOOD, EPD1 & coupled, RU & $-$4.1e-4 (0.9) & $-$2.8e-2 ($-$0.1) & $+$2.7e-2 (0.0
 MOOD, EPD2 & coupled, RU & $-$5.7e-4 (0.7) & $+$3.4e-2 (0.0) & $+$2.7e-2 (0.0) & $-$5.0e-3 ($-$0.1)\\
 \bottomrule
 \end{tabular}
-\end{adjustbox}
 \end{table}
 
 \paragraph{The floor of the shock test.} On the unperturbed lattice all frozen and unlimited schemes of this test give the same kind of defect, which is either at most about $2\cdot10^{-5}$ in magnitude, mostly zero to round-off, or exactly $-h\,u_L/(2m(t_{\mathrm{end}}))$, i.e.\ half a particle of the inflow state (for instance $-2.0\cdot10^{-4}$ at $N=3163$), depending on $N$. The interior scheme is exactly conservative on the lattice (\cref{sec:conservation}), so this value reflects how the inflow boundary and the initial discontinuity sit on the lattice rather than the scheme. It decreases like $h$, and defects below a few $10^{-4}$ at $N=3163$ are not resolved by this test.
@@ -678,7 +626,6 @@ MOOD, EPD2 & coupled, RU & $-$5.7e-4 (0.7) & $+$3.4e-2 (0.0) & $+$2.7e-2 (0.0) &
 \caption{Conservation defect \eqref{eq:defect} for the two-dimensional periodic Burgers problem at $N=200$ ($4\cdot10^4$ particles), frozen derivative degree $k_{\mathrm{div}}=K$, without stabilization, with MOOD (EPD1) and with the VK limiter, for perturbation amplitudes $\theta h$ and support radii $\kappa h$ (in parentheses: fitted rate of $|\delta_m|$ over $N\ge100$). On the unperturbed lattice $|\delta_m|\le3\cdot10^{-16}$ for all variants.}\label{tab:mass_2d}
 \footnotesize
 \setlength{\tabcolsep}{3.5pt}
-\begin{adjustbox}{max width=\textwidth}
 \begin{tabular}{cccccccc}
 \toprule
 & & \multicolumn{3}{c}{$K=2$} & \multicolumn{3}{c}{$K=4$}\\
@@ -691,7 +638,6 @@ $\theta$ & $\kappa$ & none & EPD1 & VK & none & EPD1 & VK\\
 0.4 & 5.5 & $+$2.6e-4 (1.3) & $+$2.5e-4 (1.3) & $+$2.6e-4 (1.1) & $+$2.3e-4 (1.3) & $+$2.3e-4 (1.3) & $+$2.4e-4 (1.1)\\
 \bottomrule
 \end{tabular}
-\end{adjustbox}
 \end{table}
 
 \paragraph{Why mixed degrees do not converge and equal degrees do.} The mechanism is visible in \eqref{eq:balance}. For a smooth solution the interface fluxes are smooth functions of the midpoints, and the interior sum is a consistent quadrature of a vanishing quantity whose error decreases with $h$. At a discontinuity the fluxes of the pairs that straddle it jump by $O([F])$, and in one dimension $O(\kappa^2)$ such pairs with pair defects $|d_{ij}|=O(\varepsilon)$ change the mass at a rate $O(\varepsilon[F])$ independent of $h$. Whether this rate accumulates depends on its sign. At the boundary of a lowered region, the pairs of a high-degree and a low-degree particle have the same geometric arrangement wherever the shock is, so their defects have a systematic sign, and the mass error grows in time and does not decrease under refinement. With equal degrees on a randomly perturbed cloud, the defects of the pairs at the shock change sign at random as the shock passes from particle to particle, and their contributions largely cancel; the integrated error then decreases under refinement, which is what we observe. This heuristic is consistent with the flat defects of the coupled mode and with the decreasing defects of the frozen mode, but it does not predict a rate.
@@ -703,7 +649,7 @@ As a one-dimensional test for systems we use the shock tube of Sod \cite{Sod1978
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=\textwidth]{figures/euler_sod_components.pdf}
-\caption{Sod shock tube at $t=0.2$ on $N=200$ particles perturbed by $0.2h$, $\kappa=5.5$: density, momentum and energy of RK2MUSCL1, RK2MUSCL2(VK,MLS2), RK4SSPMUSCL4(EPD1,MLS4) and RK4SSPMUSCL4(EPD2,MLS4), and the exact solution; all schemes except RK2MUSCL1 use the aligned flux}\label{fig:sod}
+\caption{Sod shock tube at $t=0.2$ on $N=200$ particles perturbed by $0.2h$, $\kappa=5.5$: density, momentum and energy of RK2MUSCL1, RK2MUSCL2(VK,MLS2), RK4SSPMUSCL4(EPD1,MLS4) and RK4SSPMUSCL4(EPD2,MLS4), and the exact solution; all schemes except RK2MUSCL1 use the aligned flux.}\label{fig:sod}
 \end{figure}
 
 \begin{table}[!htbp]
@@ -711,7 +657,6 @@ As a one-dimensional test for systems we use the shock tube of Sod \cite{Sod1978
 \caption{Sod shock tube at $t=0.2$, perturbation $0.2h$, $\kappa=5.5$: discrete $L^1$ and $L^2$ errors of the density against the exact solution, observed orders between $N=502$ and $N=1000$, and the relative mass change $m(t)/m(0)-1$ at $N=1000$.}\label{tab:sod}
 \footnotesize
 \setlength{\tabcolsep}{4pt}
-\begin{adjustbox}{max width=\textwidth}
 \begin{tabular}{lccccccc}
 \toprule
 & \multicolumn{4}{c}{$L^1(\rho)$} & \multicolumn{2}{c}{$L^2(\rho)$} & \\
@@ -732,7 +677,6 @@ RK4SSPMUSCL4(EPD1,MLS4) & 2.56e-2 & 8.18e-3 & 2.65e-3 & 1.05 & 8.24e-3 & 0.61 & 
 RK4SSPMUSCL4(EPD2,MLS4) & 2.59e-2 & 8.27e-3 & 2.72e-3 & 1.06 & 8.39e-3 & 0.61 & $+$1.0e-4\\
 \bottomrule
 \end{tabular}
-\end{adjustbox}
 \end{table}
 
 All 132 runs reach the final time with positive density and pressure; the minimum density is that of the exact right state, $0.125$, in all runs except RK2MUSCL2(EPD1), where it is $0.1249$. For every scheme with $K\ge2$ the $L^1$ error decreases with orders between $0.87$ and $1.06$, the rate expected for a solution with a shock, and the $L^2$ error with orders between $0.51$ and $0.61$; RK2MUSCL1 is not yet in its asymptotic range ($0.59$). The frozen mode with $k_{\mathrm{div}}=K$ gives the smallest errors, $3.1\cdot10^{-3}$ for $K=3$ and $2.7\cdot10^{-3}$ for $K=4$ at $N=1000$, $5.0$ and $5.8$ times less than RK2MUSCL1. With $k_{\mathrm{div}}=2$, EPD2 gains little over the second-order scheme ($5.2\cdot10^{-3}$ and $4.9\cdot10^{-3}$ for $K=3,4$, compared with $5.5\cdot10^{-3}$ for $K=2$), EPD1 more ($3.3\cdot10^{-3}$ and $2.8\cdot10^{-3}$, compared with $4.7\cdot10^{-3}$). At $K=2$ the VK limiter ($3.6\cdot10^{-3}$) is more accurate than both MOOD variants. In \cref{fig:sod} the fourth-order schemes resolve the contact discontinuity and the shock over a few particles, with at most small overshoots, while RK2MUSCL1 smears all three waves; RK2MUSCL2(VK) lies in between, with a visibly wider contact and shock. Since the waves stay inside the domain and $u=0$ in both boundary states, the exact mass is constant. Near both boundaries the state stays constant, so that the zero row sums make the updates there vanish and the boundaries cannot change the mass. The measured mass changes of $2.5\cdot10^{-5}$ to $1.2\cdot10^{-4}$ at $N=1000$ are therefore the static asymmetry of the derivative weights at the moving shock and contact (\cref{sec:mass}); they are largest with $k_{\mathrm{div}}=K$, whose degree-three weights have the larger pair defects (\cref{tab:stencils}).
@@ -748,7 +692,6 @@ In the frozen mode the final masses agree with that of RK2MUSCL2(EPD1) to within
 \caption{Two-dimensional shock problems: minimum particle pressure and final mass relative to RK2MUSCL2(EPD1,AR,MLS2) (total masses known to about $0.1\%$). Pairs of values: EPD1 / EPD2. All runs except RK2MUSCL1 with the aligned flux. $^*$: $960\times300$ particles; the mass is still compared with the $1440\times450$ run of RK2MUSCL2(EPD1).}\label{tab:euler2d}
 \scriptsize
 \setlength{\tabcolsep}{2.5pt}
-\begin{adjustbox}{max width=\textwidth}
 \begin{tabular}{@{}lcccccc@{}}
 \toprule
 & \multicolumn{2}{c}{Mach 3 step} & \multicolumn{2}{c}{double Mach reflection} & \multicolumn{2}{c}{2-D Riemann problem}\\
@@ -765,7 +708,6 @@ MUSCL4, $k_{\mathrm{div}}=4$ & 0.034 / 0.28 & $0.0$ / $+0.1$ & 0.91 / 0.97 & $-0
 MUSCL4, coupled & 0.040 / 0.27 & $-3.5$ / $+0.8$ & 0.88$^*$ / 0.96$^*$ & $+4.7^*$ / $+0.2^*$ & 0.019 / 0.027 & $+0.4$ / $-0.1$\\
 \bottomrule
 \end{tabular}
-\end{adjustbox}
 \end{table}
 
 \subsection{A two-dimensional Riemann problem}\label{sec:riemann}
@@ -781,14 +723,14 @@ in the upper left, upper right, lower left and lower right quadrants, and the so
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=\textwidth]{figures/riemann2d_density_078.jpg}
-\caption{Two-dimensional Riemann problem (Configuration~3), density at $t=0.3$ on $800\times800$ particles perturbed by $0.2h$, with a common colour scale, for RK2MUSCL1, RK2MUSCL2 with the VK limiter, EPD2 and EPD1, RK3MUSCL3(EPD1,MLS3) and RK4SSPMUSCL4(EPD1,MLS4); all schemes except RK2MUSCL1 use the aligned flux}\label{fig:riemann}
+\includegraphics[width=0.74\textwidth]{figures/riemann2d_density_078.jpg}
+\caption{Two-dimensional Riemann problem (Configuration~3), density at $t=0.3$ on $800\times800$ particles perturbed by $0.2h$, with a common colour scale, for RK2MUSCL1, RK2MUSCL2 with the VK limiter, EPD2 and EPD1, RK3MUSCL3(EPD1,MLS3) and RK4SSPMUSCL4(EPD1,MLS4); all schemes except RK2MUSCL1 use the aligned flux.}\label{fig:riemann}
 \end{figure}
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=\textwidth]{figures/riemann2d_zoom_078.jpg}
-\caption{Two-dimensional Riemann problem: detail $[0.225,0.5]\times[0.21,0.52]$ of \cref{fig:riemann} with $100$ contour levels}\label{fig:riemannzoom}
+\includegraphics[width=0.74\textwidth]{figures/riemann2d_zoom_078.jpg}
+\caption{Two-dimensional Riemann problem: detail $[0.225,0.5]\times[0.21,0.52]$ of \cref{fig:riemann} with $100$ contour levels.}\label{fig:riemannzoom}
 \end{figure}
 
 \Cref{fig:riemann,fig:riemannzoom} show the density at $t=0.3$. All runs reproduce the expected wave pattern. With the exact boundary states, the shocks are straight up to the boundaries and lie close to their exact positions, $0.373$ and $0.301$, symmetric with respect to the diagonal. With transmissive instead of exact boundary states, the final mass of the EPD2 runs with $k_{\mathrm{div}}=2$ is $0.6\%$ ($K=2,3$) and $0.9\%$ ($K=4$) lower, a boundary effect that does not concern the interior scheme.
@@ -801,14 +743,14 @@ The double Mach reflection of Woodward and Colella \cite{Woodward1984} describes
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.92\textwidth]{figures/dmr_density_078.jpg}
-\caption{Double Mach reflection, density at $t=0.2$ on $1440\times450$ particles perturbed by $0.2h$ for RK2MUSCL2(VK), RK3MUSCL3(EPD1,MLS3), RK3MUSCL3(EPD2,MLS3) and RK4SSPMUSCL4(EPD1,MLS4), all with the aligned flux, with a common colour scale}\label{fig:dmr}
+\includegraphics[width=0.68\textwidth]{figures/dmr_density_078.jpg}
+\caption{Double Mach reflection, density at $t=0.2$ on $1440\times450$ particles perturbed by $0.2h$ for RK2MUSCL2(VK), RK3MUSCL3(EPD1,MLS3), RK3MUSCL3(EPD2,MLS3) and RK4SSPMUSCL4(EPD1,MLS4), all with the aligned flux, with a common colour scale.}\label{fig:dmr}
 \end{figure}
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=\textwidth]{figures/dmr_zoom_078.jpg}
-\caption{Double Mach reflection, detail $[2.13,2.9]\times[0,0.47]$ of \cref{fig:dmr} with $100$ contour levels}\label{fig:dmrzoom}
+\includegraphics[width=0.85\textwidth]{figures/dmr_zoom_078.jpg}
+\caption{Double Mach reflection, detail $[2.13,2.9]\times[0,0.47]$ of \cref{fig:dmr} with $100$ contour levels.}\label{fig:dmrzoom}
 \end{figure}
 
 \Cref{fig:dmr,fig:dmrzoom} show the density at $t=0.2$. All runs reproduce the characteristic pattern: the incident shock, which meets the top boundary at $x\approx3.05$, its exact position, the reflected shock, the Mach stem, the two triple points, the slip line and the wall jet. The second-order run smears the slip line, and the wall jet forms only a weak curl. The third- and fourth-order runs resolve the slip line sharply, and the jet rolls up into a vortex near $x\approx2.5$, with more structure for $K=4$ (in the reference computations the centre of this vortex moves from $x=2.56$ to $2.64$ as $h$ is refined from $1/120$ to $1/480$); the resolution of this roll-up is a common indicator of the numerical dissipation of a scheme. EPD1 and EPD2 give almost the same picture for $K=3$. The stems of the third- and fourth-order runs are almost straight at $x\approx2.76$, where the reference computations place the stem between $y\approx0.2$ and the triple point ($x\approx2.75$--$2.76$). In the second-order run the stem bends forward near the wall, to $x\approx2.79$. The reference computations show a similar bend that grows under refinement ($x=2.79$, $2.80$, $2.81$ at the wall for $h=1/120$, $1/240$, $1/480$), where the wall jet runs into the foot of the stem; the position of the foot is therefore not a converged quantity, and the bend is not by itself a defect of the second-order scheme. All runs show the highest densities at the wall near $x=\tfrac16$, where the boundary condition switches from the post-shock state to the wall; it is a start-up error caused by the discontinuous boundary data at the foot of the initial shock.
@@ -819,15 +761,14 @@ In the second problem of \cite{Woodward1984}, a uniform Mach 3 flow $(\rho,u,v,p
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.92\textwidth]{figures/mach3_density_078.jpg}
-\caption{Mach 3 wind tunnel with a step, density at $t=4$ on $900\times300$ particles perturbed by $0.2h$ for RK3MUSCL3 and RK4SSPMUSCL4 with EPD1 and EPD2 and $k_{\mathrm{div}}=K$, all with the aligned flux, with a common colour scale; the step is shown in grey}\label{fig:step}
+\includegraphics[width=0.68\textwidth]{figures/mach3_density_078.jpg}
+\caption{Mach 3 wind tunnel with a step, density at $t=4$ on $900\times300$ particles perturbed by $0.2h$ for RK3MUSCL3 and RK4SSPMUSCL4 with EPD1 and EPD2 and $k_{\mathrm{div}}=K$, all with the aligned flux, with a common colour scale; the step is shown in grey.}\label{fig:step}
 \end{figure}
 
 \begin{table}[!htbp]
 \centering
 \caption{Mach 3 step: approximate wave positions at $t=4$ read from \cref{fig:step}: the bow shock at $y=0.05$, the Mach stem at $y=0.95$ and the reflection of the shock on the top of the step at $y=0.215$ (crossings of the mean of the adjacent plateau values), accurate to about $0.01$.}\label{tab:steppos}
 \footnotesize
-\begin{adjustbox}{max width=\textwidth}
 \begin{tabular}{lccc}
 \toprule
 & bow shock, $x$ & Mach stem, $x$ & reflection on step, $x$\\
@@ -838,7 +779,6 @@ RK4SSPMUSCL4(EPD1,MLS4) & 0.31 & 0.59 & 1.26\\
 RK4SSPMUSCL4(EPD2,MLS4) & 0.30 & 0.59 & 1.24\\
 \bottomrule
 \end{tabular}
-\end{adjustbox}
 \end{table}
 
 \Cref{fig:step} shows the density at $t=4$ and \cref{tab:steppos} the positions of the main waves. All runs reproduce the bow shock in front of the step, the Mach stem at the upper wall with its triple point at $y\approx0.73$ and slip line, the expansion fan at the corner, the shock reflections at the step and the upper wall, and the wave pattern further downstream, with smooth density fields between the waves and without spurious waves. The bow shock and the Mach stem lie at the same positions in all four runs, to within $0.005$. The reflection on the step moves upstream from $x\approx1.31$ for RK3MUSCL3(EPD1) to $x\approx1.24$ for RK4SSPMUSCL4(EPD2). This position is controlled by the entropy layer at the corner: in the reference computations without a corner treatment it moves downstream under refinement ($x=1.21$, $1.24$, $1.28$ for $h=1/40$, $1/80$, $1/160$), and with a corner treatment of the type of Woodward and Colella it moves upstream ($1.39$, $1.36$, $1.34$), so that the converged position lies between about $1.28$ and $1.34$. The spread of our values thus reflects the dissipation at the corner rather than the accuracy of the interior scheme, and the two third-order runs lie within this range. The reference computations place the bow shock at $x=0.31$ at all three resolutions and the Mach stem at $x=0.62$, $0.60$ and $0.59$; our values, $0.30$--$0.31$ and $0.58$--$0.59$, agree with those of the finest reference computation to within about $0.01$. In all runs a thin region of low density lies along the top of the step behind the corner; without a special treatment of the corner this is where the entropy layer forms that Woodward and Colella suppressed \cite{Woodward1984}. Cockburn and Shu \cite{CockburnShu1998}, who also use no special treatment of the corner, observe that this layer shrinks under refinement.
@@ -893,7 +833,7 @@ The finite-volume reference computations of \cref{sec:riemann,sec:dmr,sec:step} 
 \centering
 \caption{Options of the meshfree MUSCL scheme with explicit time integration.}\label{tab:options}
 \small
-\begin{tabular}{>{\raggedright\arraybackslash}p{2.3cm}>{\raggedright\arraybackslash}p{4.7cm}>{\raggedright\arraybackslash}p{3.5cm}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{3.4cm}>{\raggedright\arraybackslash}p{6.2cm}>{\raggedright\arraybackslash}p{4.6cm}}
 \toprule
 component & options & HyperCloud setting\\
 \midrule
@@ -920,7 +860,6 @@ weights, support & \eqref{eq:weight} with $\alpha$, or $w(r)=1/(r^2+10^{-12})$; 
 \centering
 \caption{Stencil diagnostics for the clouds of \cref{sec:experiments} ($\kappa=2.5$, weight \eqref{eq:weight} with $\alpha=1$, Shepard volumes after one smoothing sweep; without the sweep the pair defects for equal degrees are $6.2\%$ and $16.9\%$ on the perturbed lattice): a periodic lattice and a periodic $300\times300$ lattice with a random perturbation of amplitude $0.2h$ per coordinate. Per-particle quantities are means over the particles with the maxima in parentheses; the shares of entries and of particles and the pair defects $\sum|V_ic_{ij}+V_jc_{ji}|/\sum(|V_ic_{ij}|+|V_jc_{ji}|)$ are global ratios. Computed with an independent NumPy implementation of the fits (script provided as supplementary material).}\label{tab:stencils}
 \small
-\begin{adjustbox}{max width=\textwidth}
 \begin{tabular}{lcccc}
 \toprule
 & \multicolumn{2}{c}{lattice} & \multicolumn{2}{c}{perturbed lattice}\\
@@ -941,42 +880,16 @@ pairs and directions with $c^{(d)}_{ij}c^{(d)}_{ji}>0$ & 0 & 0 & 5.0\% & 19\%\\
 \quad their share in $\sum(|c^{(d)}_{ij}|+|c^{(d)}_{ji}|)$ & 0 & 0 & 0.4\% & 4.7\%\\
 \bottomrule
 \end{tabular}
-\end{adjustbox}
 \end{table}
 
 
-\begin{acknowledgements}
-The computations were carried out on the high-performance cluster Elwetritsch of the Regional University Computing Center Kaiserslautern-Landau (RHRZ) at RPTU.
-\end{acknowledgements}
+\section*{Acknowledgements}
+The computations were carried out on the high-performance cluster Elwetritsch of the Regional University Computing Center Kaiserslautern-Landau (RHRZ) at RPTU. This work was funded by the Deutsche Forschungsgemeinschaft KL 1105/34 (DFG, German Research Foundation).
 
-% ===========================================================================
-% Declarations (Journal of Scientific Computing / Springer Nature): placed
-% before the reference list, as required by the submission guidelines.
-% ===========================================================================
-\section*{Declarations}
+\section*{Declaration of generative AI use}
+Declaration of generative AI and AI-assisted technologies in the manuscript preparation process. During the preparation of this work, the first author used Claude Opus 5.5 (Anthropic) to draft substantial parts of the manuscript text. The authors reviewed, revised, and verified all content take full responsibility for the content of this publication. The AI declaration for the supplemental materials can be found at \url{https://github.com/industrial-mathematics-group/meshfree-solver-paper}.
 
-\paragraph{Funding}
-This work was funded by the Deutsche Forschungsgemeinschaft (DFG, German Research Foundation), grant KL~1105/34.
-
-\paragraph{Competing interests}
-\TODO{confirm or replace: The authors have no competing interests to declare that are relevant to the content of this article.}
-
-\paragraph{Ethics approval and consent}
-Not applicable.
-
-\paragraph{Data availability}
-The run reports and tables of all computations reported in this paper, the run configurations, the finite-volume reference solutions and the scripts that produce the stencil diagnostics and the wave positions read from the figures are publicly available at \url{https://github.com/industrial-mathematics-group/meshfree-solver-paper} and archived on Zenodo at \url{https://zenodo.org/records/23807966}.
-
-\paragraph{Code availability}
-The solver HyperCloudCore.jl \cite{jung_hypercloudcore} (version 0.7.8), the simulation framework HyperCloud.jl \cite{jung_hypercloud} (version 0.5.1) and the visualization package PDEStudio \cite{jung_pdestudio} (version 0.4.5) are open source and archived on Zenodo. The run configurations and driver scripts are available in \cite{jung_meshfree_simulations}, and the finite-volume reference code, the mathematical addendum \cite{JungAddendum2026}, the stability note and its Lean~4 formalization are part of the supplementary material at \url{https://github.com/industrial-mathematics-group/meshfree-solver-paper} (archived at \url{https://zenodo.org/records/23807966}).
-
-\paragraph{Author contributions}
-\TODO{author contribution statement, e.g.\ in CRediT form: Conceptualization: \ldots; Methodology: \ldots; Software: \ldots; Formal analysis and investigation: \ldots; Writing -- original draft preparation: \ldots; Writing -- review and editing: \ldots; Funding acquisition: \ldots; Supervision: \ldots}
-
-\paragraph{Use of large language models}
-During the preparation of this work, the first author used Claude Opus 5.5 (Anthropic) to draft substantial parts of the manuscript text. The use of AI tools in the development of the software and of the finite-volume reference code is described in the section ``Software'' above. The authors reviewed, revised, and verified all content and take full responsibility for the content of this publication. The AI declaration for the supplementary material can be found at \url{https://github.com/industrial-mathematics-group/meshfree-solver-paper}.
-
-\bibliographystyle{spmpsci}
+\bibliographystyle{plainnat}
 \bibliography{refs}
 
 \end{document}
