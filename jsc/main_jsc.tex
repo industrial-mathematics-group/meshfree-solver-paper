@@ -47,6 +47,7 @@
 \usepackage{microtype}
 \usepackage[section]{placeins}% floats are output before the next section starts
 \usepackage[colorlinks=true,linkcolor=blue!50!black,citecolor=green!35!black,urlcolor=blue!60!black]{hyperref}
+\usepackage{orcidlink}
 % svjour3 + amsmath leave \cl@chapter self-referential, which makes cleveref
 % loop (TeX capacity exceeded); the paper has no chapters, so reset it.
 \makeatletter\let\cl@chapter\relax\makeatother
@@ -107,22 +108,17 @@
 \title{High-order meshfree MUSCL schemes with a~posteriori order detection for hyperbolic systems on scattered point clouds}
 \titlerunning{Meshfree MUSCL schemes with a~posteriori order detection}
 
-\author{Pascal Jung \and Klaas Willems \and Axel Klar}
+% Compact author block as in the published JSC articles: affiliations numbered
+% once, ORCID iDs as linked icons after the names.
+\author{Pascal Jung\textsuperscript{1}\,\orcidlink{0009-0004-8527-4621} \and
+  Klaas Willems\textsuperscript{1,2}\,\orcidlink{0009-0004-8527-4621} \and
+  Axel Klar\textsuperscript{1}\,\orcidlink{0000-0003-1679-9438}}
 \authorrunning{P. Jung, K. Willems, A. Klar}
 
-\institute{P. Jung \at
-  Faculty of Mathematics, RPTU Kaiserslautern-Landau, Kaiserslautern, Germany\\
-  \email{pajung@rptu.de}\\
-  ORCID: 0009-0004-8527-4621
-  \and
-  K. Willems \at
-  Faculty of Mathematics, RPTU Kaiserslautern-Landau, Kaiserslautern, Germany\\
-  Department of Computer Science, KU Leuven, Leuven, Belgium\\
-  ORCID: 0009-0004-8527-4621
-  \and
-  A. Klar \at
-  Faculty of Mathematics, RPTU Kaiserslautern-Landau, Kaiserslautern, Germany\\
-  ORCID: 0000-0003-1679-9438
+\institute{Pascal Jung (corresponding author)\\
+  pajung@rptu.de\\[4pt]
+  \textsuperscript{1}\,Faculty of Mathematics, RPTU Kaiserslautern-Landau, Kaiserslautern, Germany\\[2pt]
+  \textsuperscript{2}\,Department of Computer Science, KU Leuven, Leuven, Belgium
 }
 
 \date{Received: date / Accepted: date}

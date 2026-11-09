@@ -194,6 +194,13 @@ Jensen, P.S.: Finite difference techniques for variable grids.
 \newblock Comput. Struct. \textbf{2}(1--2), 17--29 (1972).
 \newblock \doi{10.1016/0045-7949(72)90020-X}
 
+\bibitem{jung_supplementary}
+Jung, P.:
+  \url{https://github.com/industrial-mathematics-group/meshfree-solver-paper}
+  (2026).
+\newblock \doi{10.5281/zenodo.24083834}.
+\newblock Supplementary material
+
 \bibitem{jung_hypercloudcore}
 Jung, P.: {HyperCloudCore.jl}: High-performance, physics-agnostic meshless
   solver backend for hyperbolic {PDEs}.
@@ -213,10 +220,8 @@ Jung, P.: {HyperCloud.jl}: A comprehensive meshfree simulation framework for
 
 \bibitem{JungAddendum2026}
 Jung, P.: Meshfree {MUSCL} schemes with a~posteriori order detection:
-  exactness, conservation and admissibility.
-\newblock Supplementary material,
-  \url{https://github.com/industrial-mathematics-group/meshfree-solver-paper},
-  archived at \TODO{Zenodo DOI of the repository} (2026).
+  exactness, conservation and admissibility (2026).
+\newblock \doi{10.5281/zenodo.24084098}.
 \newblock Mathematical companion to this paper
 
 \bibitem{jung_meshfree_simulations}
@@ -224,7 +229,8 @@ Jung, P.: meshfree-simulations: run configurations and driver scripts for the
   meshfree {MUSCL} experiments.
 \newblock
   \url{https://github.com/industrial-mathematics-group/meshfree-simulations}
-  (2026)
+  (2026).
+\newblock \doi{10.5281/zenodo.24084765}
 
 \bibitem{jung_pdestudio}
 Jung, P.: {PDEStudio.jl}: Interactive visualization and exploration for {PDE}
