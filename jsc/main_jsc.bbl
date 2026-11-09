@@ -113,12 +113,6 @@ Clain, S., Figueiredo, J.: Stencil and kernel optimisation for mesh-free very
 \newblock Math. Comput. Simul. \textbf{218}, 49--78 (2024).
 \newblock \doi{10.1016/j.matcom.2023.11.009}
 
-\bibitem{CockburnShu1998}
-Cockburn, B., Shu, C.W.: The {R}unge--{K}utta discontinuous {G}alerkin method
-  for conservation laws {V}: multidimensional systems.
-\newblock J. Comput. Phys. \textbf{141}(2), 199--224 (1998).
-\newblock \doi{10.1006/jcph.1998.5892}
-
 \bibitem{Diot2012}
 Diot, S., Clain, S., Loub{\`e}re, R.: Improved detection criteria for the
   {M}ulti-dimensional {O}ptimal {O}rder {D}etection ({MOOD}) on unstructured
