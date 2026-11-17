@@ -1,0 +1,25 @@
+name: File-signoff
+
+# Checks with aisignoff that every file (with [history], every line) is declared,
+# and publishes the file badges on pushes to the default branch. Without SIGNOFF.toml,
+# it opens a pull request that sets aisignoff up with the organisation's defaults.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  merge_group:   # with a merge queue: checks the commit that will land
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write   # only for the setup pull request in a repository without SIGNOFF.toml
+
+jobs:
+  file-signoff:
+    uses: industrial-mathematics-group/.github/.github/workflows/file-signoff.yml@main
+    # with:
+    #   weight: lines                 # weight the badges by lines instead of files
+    #   aisignoff-version: "1.0.0rc8" # another release of aisignoff than the organisation's default
+    #   setup: false                  # no setup pull request without SIGNOFF.toml
+    #   setup-recheck: minor          # [review] recheck of the set-up SIGNOFF.toml ("" leaves it out)
+    #   setup-history: false          # set up SIGNOFF.toml without [history]

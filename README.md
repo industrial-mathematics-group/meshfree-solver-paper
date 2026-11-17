@@ -5,9 +5,9 @@
 [![AI review](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/industrial-mathematics-group/meshfree-solver-paper/badges/ai-review.json)](https://github.com/industrial-mathematics-group/.github/blob/main/.github/CONTRIBUTING.md#a-ai-review)
 
 **Static:**
-![AI generation](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/industrial-mathematics-group/meshfree-solver-paper/badges/aidecl-generation.json)
-![Human review](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/industrial-mathematics-group/meshfree-solver-paper/badges/aidecl-human-review.json)
-![AI review](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/industrial-mathematics-group/meshfree-solver-paper/badges/aidecl-ai-review.json)
+[![AI generation](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/industrial-mathematics-group/meshfree-solver-paper/badges/aisignoff-generation.json)](https://github.com/industrial-mathematics-group/meshfree-solver-paper/blob/main/SIGNOFF.toml)
+[![Human review](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/industrial-mathematics-group/meshfree-solver-paper/badges/aisignoff-human-review.json)](https://github.com/industrial-mathematics-group/meshfree-solver-paper/blob/main/SIGNOFF.toml)
+[![AI review](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/industrial-mathematics-group/meshfree-solver-paper/badges/aisignoff-ai-review.json)](https://github.com/industrial-mathematics-group/meshfree-solver-paper/blob/main/SIGNOFF.toml)
 
 Contents of this archive, by folder:
 
