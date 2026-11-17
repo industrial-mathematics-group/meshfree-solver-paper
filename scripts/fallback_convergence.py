@@ -7,6 +7,9 @@ Heun's method (RK2), time step of the paper with weights c-hat (no constant term
 Periodic Gaussian pulse u0 = exp(-|x|^2) on [-5,5]^D, velocity (1,...,1), discrete L1 error.
 It also prints max_i dt * sum_{j,d} s |c_ij^(d)| (positivity condition, uniform wave speed).
 Run:  python3 fallback_convergence.py D kappa T N1,N2,...   e.g.  python3 fallback_convergence.py 2 2.5 1 50,100,200,400
+Note: on irregular clouds the first-order scheme advects with a slightly wrong speed (about 0.1 % of the
+speed for jitter 0.2 h, kappa = 2.5; see the stability note), which these short runs (T = 1, N <= 400) do not resolve:
+the observed orders are pre-asymptotic.
 Set Q=3 in the environment for degree-three weights (frozen mode k_div = 4).
 """
 import os
