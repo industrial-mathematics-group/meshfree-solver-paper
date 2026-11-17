@@ -351,6 +351,13 @@ Seibold, B.: M-matrices in meshless finite difference methods.
 \newblock Ph.D. thesis, Technische Universit{\"a}t Kaiserslautern (2006).
 \newblock Published by Shaker, Aachen, ISBN 978-3-8322-5643-2
 
+\bibitem{Shepard1968}
+Shepard, D.: A two-dimensional interpolation function for irregularly-spaced
+  data.
+\newblock In: Proceedings of the 1968 23rd ACM National Conference, pp.
+  517--524. ACM, New York (1968).
+\newblock \doi{10.1145/800186.810616}
+
 \bibitem{Shu1998}
 Shu, C.W.: Essentially non-oscillatory and weighted essentially non-oscillatory
   schemes for hyperbolic conservation laws.
