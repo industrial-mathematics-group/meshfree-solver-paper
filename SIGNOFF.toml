@@ -232,6 +232,16 @@ AI-Review = "A0"
 Assisted-by = "Claude Opus (Anthropic)"
 Reviewed-by = "blhackslash <dev@blackslash.win>"
 
+# PR #22 (merge c88b179), aisignoff 1.0.0rc8 setup: its description left Human review unticked.
+# Pascal declared H1 for it on 17 Nov 2026 (through PR #23).
+[[commits]]
+commit = "c88b179"   # PR #22
+AI-Generation = "G3"
+Human-Review = "H1"
+AI-Review = "A0"
+Assisted-by = "Claude Opus (Anthropic)"
+Reviewed-by = "blhackslash <dev@blackslash.win>"
+
 # ================================================================================================
 # Attestations: the independent reviews, as of the content they reviewed (aisignoff attest --at).
 # Lines changed after a review fall back to their own commit.
