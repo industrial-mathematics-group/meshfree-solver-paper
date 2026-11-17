@@ -3,9 +3,14 @@
 # Converted from AIDECL.toml version 3 (aidecl) with aisignoff 1.0.0rc1 migrate and convert-to-version-4.py;
 # the reported levels are unchanged. On the scale of version 4, a self-check by the generating session
 # (A1 of version 3) is A0, and a review by a new session (A2 of version 3) is A1.
+# The annotations are the file-level fallback: with [history], each line is declared by the commit that
+# landed it on main (pull request descriptions, [[commits]] below), and [[attestations]] raise reviews.
 # The last matching annotation wins. Human-Review levels are the ones Pascal declared on 3 Nov 2026.
 version = 4
 exclude = ["reviews/**"]   # committed AI reviews (CONTRIBUTING.md) need no declaration
+
+[history]
+enabled = true   # merge commits with "Pull request title and description" (SETUP.md)
 
 # Default: README.md. The folder table was written by an AI session together with the
 # supplementary archive; Pascal edited it and added the badges.
@@ -27,35 +32,6 @@ AI-Generation = "G3"
 Human-Review = "H0"
 AI-Review = "A0"
 Assisted-by = ["Claude Fable 5.1 (Anthropic)"]
-Reviewed-by = ["blhackslash <dev@blackslash.win>"]
-
-# Files of the Fable material that were changed or added with the fixes of the 3 Nov 2026 review
-# (commit 824d923, made by a Claude Opus 5.5 session).
-[[annotations]]
-path = [
-  "addendum/math_addendum.pdf", "addendum/math_addendum.tex", "addendum/math_addendum_refs.bib", "addendum/refs.bib",
-  "fv_reference/analyze.py", "fv_reference/reference_solutions.md",
-  "lean/MeshfreeAddendum/AxiomCheck.lean", "lean/MeshfreeAddendum/Positivity.lean", "lean/MeshfreeAddendum/Time.lean",
-  "lean/MeshfreeStability/Defects.lean", "lean/MeshfreeStability/Energy.lean", "lean/MeshfreeStability/Lattice.lean",
-  "lean/MeshfreeStability/Limits.lean", "lean/MeshfreeStability/Markov.lean", "lean/README.md", "lean/STABILITY.md",
-  "stability/data/d5_check.txt", "stability/data/exact_cert_results.txt",
-  "stability/data/ho_defect_bloch_1d_insert_shift.jsonl", "stability/data/ho_defect_super_1d.jsonl",
-  "stability/data/ho_frozen_1d.md", "stability/data/ho_lyapunov_exact_1d.jsonl", "stability/data/ho_pi_1d_j02.md",
-  "stability/data/ho_pi_1d_j02_large.md", "stability/data/ho_pi_1d_j04.md", "stability/data/ho_pi_2d_j02.md",
-  "stability/data/k2_random_search.txt", "stability/data/spectra_1d_n1600_j04.jsonl", "stability/data/spectra_2d_j005.jsonl",
-  "stability/scripts/d5_check.py", "stability/scripts/exact_cert.py", "stability/scripts/ho_defect_cert.py",
-  "stability/scripts/ho_defect_random.py", "stability/scripts/ho_fr.py", "stability/scripts/ho_frozen.py",
-  "stability/scripts/ho_lyapunov_exact.py", "stability/scripts/ho_make_tables.py", "stability/scripts/ho_pi.py",
-  "stability/scripts/k2_random_search.py", "stability/scripts/make_tables.py",
-  "stability/stability_combined.bbl", "stability/stability_combined.pdf", "stability/stability_combined.tex",
-  "stability/stability_combined_refs.bib",
-  "stability/tables/ho_bloch.tex", "stability/tables/ho_defect_super.tex", "stability/tables/ho_lyapunov.tex",
-  "stability/tables/ho_pi.tex",
-]
-AI-Generation = "G3"
-Human-Review = "H0"
-AI-Review = "A0"
-Assisted-by = ["Claude Fable 5.1 (Anthropic)", "Claude Opus 5.5 (Anthropic)"]
 Reviewed-by = ["blhackslash <dev@blackslash.win>"]
 
 # Paper text, bibliography and build output: drafted in substantial parts with Claude Opus 5.5,
@@ -101,45 +77,17 @@ Human-Review = "H1"
 AI-Review = "A0"
 Reviewed-by = ["blhackslash <dev@blackslash.win>"]
 
-# ---- A1: two independent reviews of paper/ and addendum/ at a6edcc9
-# (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper.md, reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper-pass2.md).
-# Only the first one compiled the PDFs, so the .pdf/.bbl files name only that one.
-# Files changed after a6edcc9 fall back to A0 until reviewed again.
 
-[[annotations]]
-path = ["addendum/figures/**", "paper/figures/epd_rules_light.tex", "jsc/figures/epd_rules_light.tex"]
-AI-Generation = "G3"
-Human-Review = "H0"
-AI-Review = "A1"
-Assisted-by = ["Claude Fable 5.1 (Anthropic)"]
-Reviewed-by = ["blhackslash <dev@blackslash.win>"]
-AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper-pass2.md)"]
-
-[[annotations]]
-path = ["addendum/math_addendum.tex", "addendum/math_addendum_refs.bib", "addendum/refs.bib"]
-AI-Generation = "G3"
-Human-Review = "H0"
-AI-Review = "A1"
-Assisted-by = ["Claude Fable 5.1 (Anthropic)", "Claude Opus 5.5 (Anthropic)"]
-Reviewed-by = ["blhackslash <dev@blackslash.win>"]
-AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper-pass2.md)"]
-
-[[annotations]]
-path = ["paper/main_light.tex", "paper/refs.bib"]
-AI-Generation = "G2"
-Human-Review = "H2"
-AI-Review = "A1"
-Assisted-by = ["Claude Opus 5.5 (Anthropic)"]
-Reviewed-by = ["blhackslash <dev@blackslash.win>"]
-AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper-pass2.md)"]
-
+# Copies made by PR #15 (f6aad05), which declares G2 for all its lines: these files are not its work.
+# The figures in jsc/figures are byte-identical copies of paper/figures, as reviewed at a6edcc9.
 [[annotations]]
 path = [
-  "paper/figures/*.jpg", "jsc/figures/*.jpg",
-  "paper/figures/advection_conv_radius.pdf", "jsc/figures/advection_conv_radius.pdf", "paper/figures/burgers_conv_radius.pdf", "jsc/figures/burgers_conv_radius.pdf",
-  "paper/figures/euler_sod_components.pdf", "jsc/figures/euler_sod_components.pdf",
-  "paper/figures/shock_mass_defect_epd1.pdf", "jsc/figures/shock_mass_defect_epd1.pdf", "paper/figures/shock_mass_defect_epd2.pdf", "jsc/figures/shock_mass_defect_epd2.pdf",
+  "jsc/figures/*.jpg",
+  "jsc/figures/advection_conv_radius.pdf", "jsc/figures/burgers_conv_radius.pdf",
+  "jsc/figures/euler_sod_components.pdf",
+  "jsc/figures/shock_mass_defect_epd1.pdf", "jsc/figures/shock_mass_defect_epd2.pdf",
 ]
+precedence = "override"
 AI-Generation = "G0"
 Human-Review = "H2"
 AI-Review = "A1"
@@ -147,145 +95,14 @@ Reviewed-by = ["blhackslash <dev@blackslash.win>"]
 AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper-pass2.md)"]
 
 [[annotations]]
-path = ["addendum/math_addendum.pdf"]
-AI-Generation = "G3"
-Human-Review = "H0"
-AI-Review = "A1"
-Assisted-by = ["Claude Fable 5.1 (Anthropic)", "Claude Opus 5.5 (Anthropic)"]
-Reviewed-by = ["blhackslash <dev@blackslash.win>"]
-AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper.md)"]
-
-[[annotations]]
-path = ["paper/main_light.pdf", "paper/main_light.bbl"]
-AI-Generation = "G2"
-Human-Review = "H2"
-AI-Review = "A1"
-Assisted-by = ["Claude Opus 5.5 (Anthropic)"]
-Reviewed-by = ["blhackslash <dev@blackslash.win>"]
-AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper.md)"]
-
-# ---- A1: two independent reviews of the code at a6edcc9 (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md, reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md).
-# scripts/figure_measurements/ could not be run (stays A0). results/configs needs HyperCloud (unchanged);
-# results/reports was checked against the run log and the paper by the first review only.
-
-[[annotations]]
-path = ["scripts/*.py", "fv_reference/**", "stability/scripts/**", "stability/data/**", "stability/tables/**"]
+path = "jsc/figures/epd_rules_light.tex"
+precedence = "override"
 AI-Generation = "G3"
 Human-Review = "H0"
 AI-Review = "A1"
 Assisted-by = ["Claude Fable 5.1 (Anthropic)"]
 Reviewed-by = ["blhackslash <dev@blackslash.win>"]
-AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
-
-[[annotations]]
-path = [
-  "fv_reference/analyze.py",
-  "fv_reference/reference_solutions.md",
-  "stability/data/d5_check.txt",
-  "stability/data/exact_cert_results.txt",
-  "stability/data/ho_defect_bloch_1d_insert_shift.jsonl",
-  "stability/data/ho_defect_super_1d.jsonl",
-  "stability/data/ho_frozen_1d.md",
-  "stability/data/ho_lyapunov_exact_1d.jsonl",
-  "stability/data/ho_pi_1d_j02.md",
-  "stability/data/ho_pi_1d_j02_large.md",
-  "stability/data/ho_pi_1d_j04.md",
-  "stability/data/ho_pi_2d_j02.md",
-  "stability/data/k2_random_search.txt",
-  "stability/data/spectra_1d_n1600_j04.jsonl",
-  "stability/data/spectra_2d_j005.jsonl",
-  "stability/scripts/d5_check.py",
-  "stability/scripts/exact_cert.py",
-  "stability/scripts/ho_defect_cert.py",
-  "stability/scripts/ho_defect_random.py",
-  "stability/scripts/ho_fr.py",
-  "stability/scripts/ho_frozen.py",
-  "stability/scripts/ho_lyapunov_exact.py",
-  "stability/scripts/ho_make_tables.py",
-  "stability/scripts/ho_pi.py",
-  "stability/scripts/k2_random_search.py",
-  "stability/scripts/make_tables.py",
-  "stability/tables/ho_bloch.tex",
-  "stability/tables/ho_defect_super.tex",
-  "stability/tables/ho_lyapunov.tex",
-  "stability/tables/ho_pi.tex",
-]
-AI-Generation = "G3"
-Human-Review = "H0"
-AI-Review = "A1"
-Assisted-by = ["Claude Fable 5.1 (Anthropic)", "Claude Opus 5.5 (Anthropic)"]
-Reviewed-by = ["blhackslash <dev@blackslash.win>"]
-AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
-
-[[annotations]]
-path = "results/reports/**"
-AI-Generation = "G3"
-Human-Review = "H2"
-AI-Review = "A1"
-Assisted-by = ["Claude Opus 5.5 (Anthropic)"]
-Reviewed-by = ["blhackslash <dev@blackslash.win>"]
-AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)"]
-
-# ---- A1: two independent reviews of lean/ at a6edcc9 (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06.md, reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-pass2.md):
-# lake build passes, no sorry, standard axioms only. Opus 5.5 is listed only on the Lean files that
-# commit 824d923 changed.
-
-[[annotations]]
-path = "lean/**"
-AI-Generation = "G3"
-Human-Review = "H0"
-AI-Review = "A1"
-Assisted-by = ["Claude Fable 5.1 (Anthropic)"]
-Reviewed-by = ["blhackslash <dev@blackslash.win>"]
-AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-pass2.md)"]
-
-[[annotations]]
-path = "scripts/**"
-AI-Generation = "G3"
-Human-Review = "H0"
-AI-Review = "A1"
-Assisted-by = ["Claude Fable 5.1 (Anthropic)"]
-Reviewed-by = ["blhackslash <dev@blackslash.win>"]
-AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation ", "Claude Opus 5.5 (Anthropic)"]
-
-# ---- Changed by the fixes for the findings of the a6edcc9 reviews (PR #9, Claude Opus 5.5).
-# Reviewed again at 627fab6 by two new sessions (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes.md, reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes-pass2.md).
-
-[[annotations]]
-path = "results/reports/2026-10-29-sod1d.md"
-AI-Generation = "G3"
-Human-Review = "H2"
-AI-Review = "A1"
-Assisted-by = ["Claude Opus 5.5 (Anthropic)"]
-Reviewed-by = ["blhackslash <dev@blackslash.win>"]
-AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes-pass2.md)"]
-
-# Changed again after 627fab6 (PR #11, same Opus 5.5 session as #9): A0 until reviewed again.
-
-[[annotations]]
-path = ["addendum/math_addendum.tex", "addendum/math_addendum.pdf", "stability/stability_combined.tex", "stability/stability_combined.pdf"]
-AI-Generation = "G3"
-Human-Review = "H0"
-AI-Review = "A0"
-Assisted-by = ["Claude Fable 5.1 (Anthropic)", "Claude Opus 5.5 (Anthropic)"]
-Reviewed-by = ["blhackslash <dev@blackslash.win>"]
-
-[[annotations]]
-path = ["paper/main_light.tex", "paper/main_light.pdf"]
-AI-Generation = "G2"
-Human-Review = "H2"
-AI-Review = "A0"
-Assisted-by = ["Claude Opus 5.5 (Anthropic)"]
-Reviewed-by = ["blhackslash <dev@blackslash.win>"]
-
-# New files of PR #9, changed again in PR #11.
-[[annotations]]
-path = ["CHANGES.md", "scripts/figure_measurements/frames.py"]
-AI-Generation = "G3"
-Human-Review = "H0"
-AI-Review = "A0"
-Assisted-by = ["Claude Opus 5.5 (Anthropic)"]
-Reviewed-by = ["blhackslash <dev@blackslash.win>"]
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper-pass2.md)"]
 
 # Standard MIT licence text, declared by Pascal on 5 Nov 2026 (unchanged).
 [[annotations]]
@@ -310,7 +127,1258 @@ Reviewed-by = ["blhackslash <dev@blackslash.win>"]
 # (svjour3 v3.2, svglov3.clo, spmpsci.bst), copied unchanged; not AI-generated.
 [[annotations]]
 path = ["jsc/svjour3.cls", "jsc/svglov3.clo", "jsc/spmpsci.bst"]
+precedence = "override"   # added by PRs #14 and #15, which declare G2 for all their lines
 AI-Generation = "G0"
 Human-Review = "H0"
 AI-Review = "A0"
 Reviewed-by = ["blhackslash <dev@blackslash.win>"]
+
+# ================================================================================================
+# Commits. The annotations used to describe these changes file by file; with [history] they are
+# declared by the commit that landed them on main (the merge commit of each pull request).
+
+# PR #1 (merge 798cb5a; the work is 824d923): fixes from the review of 3 Nov 2026, made by a
+# Claude Opus 5.5 session in the Fable material. Its description declared nothing.
+[[commits]]
+commit = "798cb5a"
+AI-Generation = "G3"
+Human-Review = "H0"
+AI-Review = "A0"
+Assisted-by = "Claude Opus 5.5 (Anthropic)"
+Reviewed-by = "blhackslash <dev@blackslash.win>"
+
+# PR #9 (merge 885c822): fixes for the findings of the a6edcc9 reviews (paper, addendum, code, Lean
+# docs), Claude Opus 5.5. Its description declared nothing. The re-reviews at 627fab6 are attestations below.
+[[commits]]
+commit = "885c822"
+AI-Generation = "G3"
+Human-Review = "H0"
+AI-Review = "A0"
+Assisted-by = "Claude Opus 5.5 (Anthropic)"
+Reviewed-by = "blhackslash <dev@blackslash.win>"
+
+# These pull requests ticked the A1 box of the template before version 4 ("The AI that wrote the
+# change checked its own work"), which is A0 today. The other levels and names are the ones they ticked
+# (aisignoff wants the whole declaration here, since their template is read as an error otherwise).
+[[commits]]
+commit = "1a79a59"   # PR #11, strict 1.5x safeguard and fixes from the re-reviews of 627fab6
+AI-Generation = "G2"
+Human-Review = "H1"
+AI-Review = "A0"
+Assisted-by = "Claude Opus (Anthropic)"
+Reviewed-by = "blhackslash <dev@blackslash.win>"
+
+[[commits]]
+commit = "253da51"   # PR #14, format the paper for JSC
+AI-Generation = "G2"
+Human-Review = "H1"
+AI-Review = "A0"
+Assisted-by = "Claude Opus (Anthropic)"
+Reviewed-by = "blhackslash <dev@blackslash.win>"
+
+[[commits]]
+commit = "f6aad05"   # PR #15, move the JSC version to jsc/
+AI-Generation = "G2"
+Human-Review = "H0"
+AI-Review = "A0"
+Assisted-by = "Claude Opus (Anthropic)"
+Reviewed-by = "blhackslash <dev@blackslash.win>"
+
+[[commits]]
+commit = "43b3533"   # PR #16
+AI-Generation = "G2"
+Human-Review = "H1"
+AI-Review = "A0"
+Assisted-by = "Claude Opus (Anthropic)"
+Reviewed-by = "blhackslash <dev@blackslash.win>"
+
+[[commits]]
+commit = "1c3fd29"   # PR #17
+AI-Generation = "G2"
+Human-Review = "H1"
+AI-Review = "A0"
+Assisted-by = "Claude Opus (Anthropic)"
+Reviewed-by = "blhackslash <dev@blackslash.win>"
+
+[[commits]]
+commit = "69826f2"   # PR #18
+AI-Generation = "G2"
+Human-Review = "H1"
+AI-Review = "A0"
+Assisted-by = "Claude Opus (Anthropic)"
+Reviewed-by = "blhackslash <dev@blackslash.win>"
+
+[[commits]]
+commit = "805150e"   # PR #19
+AI-Generation = "G2"
+Human-Review = "H1"
+AI-Review = "A0"
+Assisted-by = "Claude Opus (Anthropic)"
+Reviewed-by = "blhackslash <dev@blackslash.win>"
+
+[[commits]]
+commit = "f3d728d"   # PR #20
+AI-Generation = "G2"
+Human-Review = "H1"
+AI-Review = "A0"
+Assisted-by = "Claude Fable (Anthropic)"
+Reviewed-by = "blhackslash <dev@blackslash.win>"
+
+[[commits]]
+commit = "f81b50a"   # PR #21
+AI-Generation = "G2"
+Human-Review = "H1"
+AI-Review = "A0"
+Assisted-by = "Claude Opus (Anthropic)"
+Reviewed-by = "blhackslash <dev@blackslash.win>"
+
+# ================================================================================================
+# Attestations: the independent reviews, as of the content they reviewed (aisignoff attest --at).
+# Lines changed after a review fall back to their own commit.
+
+# Paper and addendum at a6edcc9: both paper reviews (PRs #5 and #3).
+[[attestations]]
+path = "addendum/figures/epd_rules_addendum.tex"
+blob = "b3a163862cd054833e8de6982e6cc97a97dd9aa5"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper-pass2.md)"]
+
+[[attestations]]
+path = "addendum/math_addendum.tex"
+blob = "c2b2901d8fc2457b058d1e5242afa5af8ceeefae"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper-pass2.md)"]
+
+[[attestations]]
+path = "addendum/math_addendum_refs.bib"
+blob = "adaf746a1947a704125a268a9acd7eae27d13b10"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper-pass2.md)"]
+
+[[attestations]]
+path = "addendum/refs.bib"
+blob = "19517a6285aaa4bdeae501b731a8505ebab3ea86"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper-pass2.md)"]
+
+[[attestations]]
+path = "paper/figures/advection_conv_radius.pdf"
+blob = "d2702c7ce011c8834690bc8c2d53f602f6a27499"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper-pass2.md)"]
+
+[[attestations]]
+path = "paper/figures/burgers_conv_radius.pdf"
+blob = "4951bdd04f0de90d81ec8fa5a99e84413e5f9076"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper-pass2.md)"]
+
+[[attestations]]
+path = "paper/figures/dmr_density_078.jpg"
+blob = "4c4db390c15b618b2cd4cd1c0c8c6308ef41233e"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper-pass2.md)"]
+
+[[attestations]]
+path = "paper/figures/dmr_zoom_078.jpg"
+blob = "e4272e99089949632bee2b2ad26389f8f96abe9a"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper-pass2.md)"]
+
+[[attestations]]
+path = "paper/figures/epd_rules_light.tex"
+blob = "6d3a3e94280057162d55c290cd23c5d20830a22a"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper-pass2.md)"]
+
+[[attestations]]
+path = "paper/figures/euler_sod_components.pdf"
+blob = "c2afbf24224efc1c5c00fc9dcd69382748a76c17"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper-pass2.md)"]
+
+[[attestations]]
+path = "paper/figures/mach3_density_078.jpg"
+blob = "07c3724af8a9faf149f7d80b71aad69e4a680cac"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper-pass2.md)"]
+
+[[attestations]]
+path = "paper/figures/riemann2d_density_078.jpg"
+blob = "f8943d22fb34df5ecb0b467776ef99e99dbdd9a3"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper-pass2.md)"]
+
+[[attestations]]
+path = "paper/figures/riemann2d_zoom_078.jpg"
+blob = "f960c58cf4aabffc1dfae812786d91f0793798d4"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper-pass2.md)"]
+
+[[attestations]]
+path = "paper/figures/shock_mass_defect_epd1.pdf"
+blob = "ad7642b87e907fa4d08a4f66ef2ed6a7f341abea"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper-pass2.md)"]
+
+[[attestations]]
+path = "paper/figures/shock_mass_defect_epd2.pdf"
+blob = "c5e9b302f5881a21099ec753aa86274ec50fd808"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper-pass2.md)"]
+
+[[attestations]]
+path = "paper/main_light.tex"
+blob = "b20c8cde4d98f321c8b4b7956bf83229a047b759"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper-pass2.md)"]
+
+[[attestations]]
+path = "paper/refs.bib"
+blob = "19517a6285aaa4bdeae501b731a8505ebab3ea86"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper-pass2.md)"]
+
+# PDFs and .bbl at a6edcc9: only the first paper review compiled them (PR #5).
+[[attestations]]
+path = "addendum/math_addendum.pdf"
+blob = "374afd393b35e0fe02820464f1e67521c1659e3c"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper.md)"]
+
+[[attestations]]
+path = "paper/main_light.bbl"
+blob = "6c0bfb5ad8ee2bebbba14de9d53544ec089594c2"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper.md)"]
+
+[[attestations]]
+path = "paper/main_light.pdf"
+blob = "34e74d7ad93017a4ce02eab38982d487893bf7ff"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-paper.md)"]
+
+# Code at a6edcc9: both code reviews (PRs #6 and #4). scripts/figure_measurements/ could not be run then.
+[[attestations]]
+path = "fv_reference/analyze.py"
+blob = "0491651e46b695ad0be54f73a924f668946ae633"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "fv_reference/fv.py"
+blob = "175a26d8ee5ebd44278b9cecb4ff8c7f7e06b2d9"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "fv_reference/plot.py"
+blob = "2f5c09c0efd33c12e6a00b25327edf0c7f6d93d2"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "fv_reference/reference_solutions.md"
+blob = "d1218cb7f52c3f5e2050b425c49f67a93f807a34"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "fv_reference/rh.py"
+blob = "47009789ad3bbb3cdbb569294f3d6a64482e4391"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "fv_reference/tst.py"
+blob = "202c37b882eddfe3b20b7fd3f21bd75b0cc10bf8"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "fv_reference/tst2.py"
+blob = "8ac3b8a0a0c769999efaa45639a06e2ab82706ab"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "scripts/aligned_flux_diagnostics.py"
+blob = "3319cd834846f7caa2939f2341dcdafd6e1c9d8d"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "scripts/fallback_positivity.py"
+blob = "343ad9026cdbc2334ade367429432a2f6a574568"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "scripts/fallback_positivity_lib.py"
+blob = "9afe216ee2c2c62e676bda2ac608f6126b4a73b0"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "scripts/make_epd_figure.py"
+blob = "4103002c0a4039b011e051def973dae4060b1166"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "scripts/make_epd_figure_addendum.py"
+blob = "3ef4d215149fe21136fdd5205223368f43431904"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "scripts/make_epd_figure_light.py"
+blob = "60b9ce30b3acf836e8c65d393e9d967e9471c5e4"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "scripts/stencil_diagnostics.py"
+blob = "3f90630df55f2988b771c4d1d53c1fec98266773"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/d5_check.txt"
+blob = "369901fa7188609c3f899f75a6012e47d0321d3f"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/exact_cert_results.txt"
+blob = "fd2ce7349998445f27e7a5d1b45a5df110645674"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/first_order_corrector_large.md"
+blob = "f6961100b3611cbdc0f923544aad172edf2cff62"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/first_order_markov.md"
+blob = "45be63e03e8fae96abe6188f5a02a756a9a3a198"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/ho_bloch_1d.jsonl"
+blob = "7d7cbaf7597e16bcb54e81822e1914a1547a770a"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/ho_bloch_2d.jsonl"
+blob = "08e6acfd11987f5cad95d237891019367faffad5"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/ho_bloch_mpcheck.md"
+blob = "79d0483c168658443c642509304d1b49da64eaf5"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/ho_defect_bloch_1d.jsonl"
+blob = "255a936b9471169420ab644049883d9231acd5c5"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/ho_defect_bloch_1d_insert_shift.jsonl"
+blob = "81c1f01c736481c0798cbdd35daaea59720deed3"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/ho_defect_bloch_2d.jsonl"
+blob = "1702269a17ea80e4776aae1eb354fd31e652f893"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/ho_defect_cert_1d.jsonl"
+blob = "2de8d1a19af673f52547f5489601c2e1def9241b"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/ho_defect_pi.md"
+blob = "adfc6aa76789702a5b1b73c8a85efa48b40358ea"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/ho_defect_random_1d.jsonl"
+blob = "d546c37c0849d650f095a9162f1bdff744340bb6"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/ho_defect_random_2d.jsonl"
+blob = "6c3898cf7d3155eac4ca8275406f67e2061343bd"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/ho_defect_super_1d.jsonl"
+blob = "8759493073976b4f15153e0071c1072da4bac8b1"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/ho_deformed_1d.jsonl"
+blob = "2076d569682c63c6eedba80d23791f4f6d5a9195"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/ho_deformed_2d.jsonl"
+blob = "c9a6939248e3766dfb7b8b600fe3cb0a4bd8af6f"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/ho_deformed_squares.md"
+blob = "8ec6190409d2178805e9f12cd6b5f0b191685237"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/ho_frozen_1d.md"
+blob = "e5b599afdf4c60b16d216cf90258ee8c88b8e616"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/ho_frozen_2d.md"
+blob = "60c65dc775a6f8718a9687b6c264161af6fa614b"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/ho_local_symbol_j02.md"
+blob = "4e343747d919331cca859b6f2a98281d1b56a852"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/ho_local_symbol_j04.md"
+blob = "1a0ddc2fe39a90ab043a1cc3a6f7e0264909168a"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/ho_local_symbol_k15.md"
+blob = "27b9c457bbc16a06240a7dbe498e764cb03fd4aa"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/ho_lyapunov_1d.jsonl"
+blob = "655855439f04d96cbebd95366a6a2b4b4681a2d3"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/ho_lyapunov_exact_1d.jsonl"
+blob = "33a140d437e068c4f2299dc307ad2d741b530147"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/ho_nn_admissible.md"
+blob = "ddfcb559a182342b32fe68a93378170852226672"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/ho_nn_identity_j02.md"
+blob = "2df7591d78508312a0d5ceb80326ca1d828c9637"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/ho_pi_1d_j02.md"
+blob = "c6be7f52fc848ab65971abe3ae49f7825f93d9f3"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/ho_pi_1d_j02_large.md"
+blob = "309eb927793da08b195197fb2ea395f8edd641db"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/ho_pi_1d_j04.md"
+blob = "2cdaf46095ecd9612f9a9448757284be7704bfbb"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/ho_pi_2d_j02.md"
+blob = "e3c6b7ddbc5f973e0bf8689152b7c40105ae1723"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/ho_random_1d.jsonl"
+blob = "b9b458a0322d8f6ba8aa86cad56da65328297fd5"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/ho_random_2d.jsonl"
+blob = "02d7a0fc6b001756d24d1cfd5b634971b36580fb"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/ho_sos2d.md"
+blob = "dcb72f50b8bd549dca93ac3e0573c40eb22b4403"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/ho_sos2d_K2_geometric_G.npy"
+blob = "25f9e69e971fb099165cbeea94b458f9219229e9"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/ho_sos2d_K3_geometric_G.npy"
+blob = "477d797757bdfab4e228f5da409de5cd8f5bb4aa"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/k2_random_search.txt"
+blob = "c7e20a287a7fd537e1484aedfcd3e14c4e8b3621"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/lattice_symbols_1d.md"
+blob = "ee584e6b5a70e9aba43fdcafaa7ee576ba857e82"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/lattice_symbols_2d.md"
+blob = "37641bd70207480658b800c25604a48baf72885c"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/spectra_1d.jsonl"
+blob = "6cffa7a00e2e59b39d716804d9a16512e9465e29"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/spectra_1d_aligned.jsonl"
+blob = "4f4ae6ff11052207740ca4e2da4b5aa37220ac4b"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/spectra_1d_n1600_j04.jsonl"
+blob = "4f4ce00d24bd09ae6184339e9e3edc826c3a2613"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/spectra_1d_summary.md"
+blob = "96bddc9cc01dbb3780ca395407cb8f261d0bcb5b"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/spectra_2d.jsonl"
+blob = "324f684728980ee990f95082273043e503a2a82e"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/spectra_2d_j005.jsonl"
+blob = "0df3462182b3d6bf1549e9c06d36fcbec73af501"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/scripts/certify_K2_1d.py"
+blob = "117f1170a9d6a6a12854c972c603b105fe8271f9"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/scripts/d5_check.py"
+blob = "b28b4f71b44ba16d6d8a7cc090748b1605d870ab"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/scripts/exact_cert.py"
+blob = "8762b886043e503d15e885a3938ea1a1967c39cd"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/scripts/first_order_corrector.py"
+blob = "9a5663e0acae11cfb27f8e36a49f70d1733f1d8b"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/scripts/first_order_corrector_large.py"
+blob = "b867b50de76895a71ed46f67599a3753bdd0160c"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/scripts/first_order_markov.py"
+blob = "60155aac4f7678fe7ec37a54e590ed4acb948570"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/scripts/first_order_moment_fix.py"
+blob = "40b31ee73465d757ba19028d80e139dfb12f0fb3"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/scripts/first_order_phase.py"
+blob = "9b8f911cb23a4c38fa4558e2bfeae3a6be8c8c6c"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/scripts/ho_bloch.py"
+blob = "571c36c02d3cc179725f7296b426dc3de1eabb7e"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/scripts/ho_bloch_mpcheck.py"
+blob = "f3bd20b92cf854a916dc1e29db567f7a9301623e"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/scripts/ho_common.py"
+blob = "98b3d6f254ca82002dc54ba935e661d7f4d5866d"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/scripts/ho_defect_bloch.py"
+blob = "bfa412668ec704d8b268bc7ca31de394c1b6c7ef"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/scripts/ho_defect_cert.py"
+blob = "a3b66b29c89edc5233e529a275e7115ab64ce03e"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/scripts/ho_defect_cert2d.py"
+blob = "9d4910752497a0e3762ce7325ca64e1a41f24027"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/scripts/ho_defect_pi.py"
+blob = "1e5ddb6d2f43e74b8ce239cd611ac8417f7895a8"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/scripts/ho_defect_random.py"
+blob = "7f210941e0fe27dc826a29d8e088562c32de9401"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/scripts/ho_deformed.py"
+blob = "8c44266c9f9c4a34b856d5c63c26a238cabe5b65"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/scripts/ho_deformed_squares.py"
+blob = "3e95fb7ac67794cbb603fea5171391f5b128a512"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/scripts/ho_fr.py"
+blob = "30c7eefa23cbe109d69eb258934a30f7f8fae916"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/scripts/ho_frozen.py"
+blob = "f2da1a0849515326e84f6e58befb0910f721606a"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/scripts/ho_local_symbol.py"
+blob = "edb5d5092cf38881dc82554cbc4378251cde9895"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/scripts/ho_lyapunov.py"
+blob = "b034c56f655d8a7ade1945a4d231186d6fe76cb6"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/scripts/ho_lyapunov_exact.py"
+blob = "885ea7eff6353aadd691fb22a69f5f21aed6d538"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/scripts/ho_make_tables.py"
+blob = "14fc3d74a7a1847fec4280b4ae457c9f80f07a83"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/scripts/ho_nn_admissible.py"
+blob = "f90531cf18c9483161132a0a8afe8272215ef1ce"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/scripts/ho_nn_identity.py"
+blob = "2f13c793e61a11e9364b48bfefcf4f9ae5404eb9"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/scripts/ho_pi.py"
+blob = "b0977d155435de2ffede99dadd630c8513767344"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/scripts/ho_random.py"
+blob = "79287abd42f75065cc84e0b2d942df2a61afa8f5"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/scripts/ho_sos2d.py"
+blob = "305efe6d52b3487c9da296169d335fe943d0194d"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/scripts/k2_random_search.py"
+blob = "4384c9f5a68bb50d4f2923eee6e3830230504c05"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/scripts/lattice_symbols.py"
+blob = "1e04fc1fcfcbc15a9ee7745ea7a0ca36b5b18efa"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/scripts/linop.py"
+blob = "db923673bce8bb68809c26ebe757743ef2a330e2"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/scripts/make_tables.py"
+blob = "127231c1343961017f67c0e6763c77311d7d17a7"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/scripts/spectra_study.py"
+blob = "46678be067aec931359580b37110642dcd61bba3"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/scripts/summarize_spectra.py"
+blob = "d7d1a2607e2c6903318d12a4a6f2e54e5a516477"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/tables/ho_bloch.tex"
+blob = "dc3b70a7acc4f7eed3fe95ab22ae9cef3305de2e"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/tables/ho_defect_bloch.tex"
+blob = "dc680188b6a307db5b21249153198bf0a65cbb0a"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/tables/ho_defect_cert.tex"
+blob = "44d88cf28fbe115d4c21bc3f64fd971026fbc251"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/tables/ho_defect_cert2d.tex"
+blob = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/tables/ho_defect_random.tex"
+blob = "f7ee2bdfbe257311d6cd978bb17dbbc9411fa819"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/tables/ho_defect_super.tex"
+blob = "30386e8b7d52853533a7ac1956730470fb2ec3e2"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/tables/ho_deformed.tex"
+blob = "0cfd85a9d5cb8b431ad9c0f7291c68c8b9a5d59e"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/tables/ho_local.tex"
+blob = "614876f3547fe4e28be628471ff8d7285551f526"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/tables/ho_lyapunov.tex"
+blob = "6c2f453e93121cd8d7d529ef4b4e28d155a82e95"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/tables/ho_pi.tex"
+blob = "a7fe6847e1bce8db488ab696b9d916f8a61f3e59"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/tables/ho_random.tex"
+blob = "a605ff7e4a4a67ea621fe57bee723fd20fea5e5e"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/tables/lattice.tex"
+blob = "3595bdde0c8ca122b4889614f646ba98c158fdae"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+[[attestations]]
+path = "stability/tables/spectra.tex"
+blob = "e53ccae5c14e8b917bf2802edfd58217909a12cf"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code-pass2.md)"]
+
+# results/reports at a6edcc9: checked against the run log and the paper by the first code review only (PR #6).
+[[attestations]]
+path = "results/reports/2026-10-29-conservation-defect-tables-078.md"
+blob = "e3c913de815dc09ffa63799414ae5d9475f6707e"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)"]
+
+[[attestations]]
+path = "results/reports/2026-10-29-rerun-078-results.txt"
+blob = "65d8db560593d89fe794a02a04a7506aa1e8e0a3"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)"]
+
+[[attestations]]
+path = "results/reports/2026-10-29-rerun-078-tables.md"
+blob = "8bcdedd618d688cd7dae79120786eab1477e896e"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)"]
+
+[[attestations]]
+path = "results/reports/2026-10-29-sod1d.md"
+blob = "d453651778cc2ebedc41cfc89fb5c1a7e6cec3f5"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)"]
+
+[[attestations]]
+path = "results/reports/RUNS.md"
+blob = "0ebb5fda139ebe18cc9acadaf70543a2e4240848"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-code.md)"]
+
+# Lean formalization at a6edcc9: both Lean reviews (PRs #7 and #8); lake build passes, no sorry, standard axioms only.
+[[attestations]]
+path = "lean/.gitignore"
+blob = "01f8cdb637da2370fa79960e25efa59dd8cffd6d"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-pass2.md)"]
+
+[[attestations]]
+path = "lean/MeshfreeAddendum.lean"
+blob = "99c8c038f1f9e9edce42dd36253e392f9e95786a"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-pass2.md)"]
+
+[[attestations]]
+path = "lean/MeshfreeAddendum/AxiomCheck.lean"
+blob = "924b6eff2fb5183f78a300e74ca757cb79572715"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-pass2.md)"]
+
+[[attestations]]
+path = "lean/MeshfreeAddendum/Imports.lean"
+blob = "82a58b4237f2b9c90ff595c6ce1fab7b77527ab1"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-pass2.md)"]
+
+[[attestations]]
+path = "lean/MeshfreeAddendum/LeastSquares.lean"
+blob = "7fb707aa2bb7818f942b2ecf5ee79594e044a47d"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-pass2.md)"]
+
+[[attestations]]
+path = "lean/MeshfreeAddendum/MLS.lean"
+blob = "73712b4357be0f03f86301c1bebe4c1dc438697c"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-pass2.md)"]
+
+[[attestations]]
+path = "lean/MeshfreeAddendum/Positivity.lean"
+blob = "0efe60f669f05c7488d4a6d86c14d99fddb1930b"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-pass2.md)"]
+
+[[attestations]]
+path = "lean/MeshfreeAddendum/Scheme.lean"
+blob = "f3cd18b3dd8b9155d687a0792bc42a4316bcb323"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-pass2.md)"]
+
+[[attestations]]
+path = "lean/MeshfreeAddendum/Taylor.lean"
+blob = "438c69a34e7a607f577b6a9d063dc2a2e4ddbf9f"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-pass2.md)"]
+
+[[attestations]]
+path = "lean/MeshfreeAddendum/Time.lean"
+blob = "51ec9a2a9bcdd3c068087b56f3341d8a852cdaaf"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-pass2.md)"]
+
+[[attestations]]
+path = "lean/MeshfreeStability.lean"
+blob = "5a1555820c56cddb5dd9c9c00c62682b3a50a8d8"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-pass2.md)"]
+
+[[attestations]]
+path = "lean/MeshfreeStability/AxiomCheck.lean"
+blob = "6d07b209438979b2acb840ec368416ffdf49b1de"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-pass2.md)"]
+
+[[attestations]]
+path = "lean/MeshfreeStability/Bloch.lean"
+blob = "32c2b1014255229381cf16d224b6c4a909531d84"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-pass2.md)"]
+
+[[attestations]]
+path = "lean/MeshfreeStability/Defects.lean"
+blob = "b7f558415344ae2108ffcdb20d70dc9e14da6427"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-pass2.md)"]
+
+[[attestations]]
+path = "lean/MeshfreeStability/Deformed.lean"
+blob = "af30b62becade611ad02e8c83a8666fb4249badb"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-pass2.md)"]
+
+[[attestations]]
+path = "lean/MeshfreeStability/Energy.lean"
+blob = "c355bed130cd7485dccc271225f174c48b1118f4"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-pass2.md)"]
+
+[[attestations]]
+path = "lean/MeshfreeStability/Imports.lean"
+blob = "242b93e6d36de0e937c2f4cca7163f76c86a8936"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-pass2.md)"]
+
+[[attestations]]
+path = "lean/MeshfreeStability/Lattice.lean"
+blob = "c19a229b1edaa409e4a3541017b7cb35865d4be9"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-pass2.md)"]
+
+[[attestations]]
+path = "lean/MeshfreeStability/Limits.lean"
+blob = "4102504ca2110c600437da5bd66253e6218e0b38"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-pass2.md)"]
+
+[[attestations]]
+path = "lean/MeshfreeStability/Markov.lean"
+blob = "2d273ed70d1ac822ae2b27508b469baec9158a0e"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-pass2.md)"]
+
+[[attestations]]
+path = "lean/MeshfreeStability/Nonlinear.lean"
+blob = "cbaac6fcdf489dac21c37e93c4c8e2ca94eb91de"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-pass2.md)"]
+
+[[attestations]]
+path = "lean/README.md"
+blob = "7826c2a66c499d33ebba354905fab2cf75b53a25"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-pass2.md)"]
+
+[[attestations]]
+path = "lean/STABILITY.md"
+blob = "81d50a0614fd271a33b31c4028c6a63a973d5a41"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-pass2.md)"]
+
+[[attestations]]
+path = "lean/lake-manifest.json"
+blob = "f79cf51eca819bafff5e6e499c6b1506c42b9732"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-pass2.md)"]
+
+[[attestations]]
+path = "lean/lakefile.toml"
+blob = "4f336eca1826c5e4e6708e5a06add276fa68c1c1"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-pass2.md)"]
+
+[[attestations]]
+path = "lean/lean-toolchain"
+blob = "a6aff065db2882c535684f8c5bcd4f16e9a23915"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/a6edcc99526b6becf0ad0d399fcef9dcc92cbd06-pass2.md)"]
+
+# The review fixes, a6edcc9..627fab6 (PR #9 and the first commit of PR #11): both re-reviews (PRs #12 and #13).
+# Not attested: README.md and stability/stability_combined.tex, of which the re-reviews saw only the changed lines.
+[[attestations]]
+path = "CHANGES.md"
+blob = "fbe1701354737460262d25662cfc98cf8ac7658c"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes-pass2.md)"]
+
+[[attestations]]
+path = "addendum/math_addendum.pdf"
+blob = "52cd3e1d0fb081ece36379c4b58ddf6c34c23827"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes-pass2.md)"]
+
+[[attestations]]
+path = "addendum/math_addendum.tex"
+blob = "6b76c07a7d9fbef96bc0af5c4253565312211115"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes-pass2.md)"]
+
+[[attestations]]
+path = "fv_reference/fv.py"
+blob = "0deafb34ab76e684fe76530ce1a80bc283c82191"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes-pass2.md)"]
+
+[[attestations]]
+path = "fv_reference/reference_solutions.md"
+blob = "8b89d537d37d25d1194c86a2bb1623f72dba3f93"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes-pass2.md)"]
+
+[[attestations]]
+path = "fv_reference/tst2.py"
+blob = "fd7f8c9a044856008a0049c08c735b78aba85bfd"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes-pass2.md)"]
+
+[[attestations]]
+path = "lean/MeshfreeAddendum/AxiomCheck.lean"
+blob = "6408d394b6664071461ea4a6d78f51c3daf5be72"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes-pass2.md)"]
+
+[[attestations]]
+path = "lean/STABILITY.md"
+blob = "97ae63a0696589d553dc483fc29424887e24b4d1"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes-pass2.md)"]
+
+[[attestations]]
+path = "paper/main_light.pdf"
+blob = "ee710fd7f2d99e7967f0baccaaa4e671d2aa54da"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes-pass2.md)"]
+
+[[attestations]]
+path = "paper/main_light.tex"
+blob = "04c1b5abc761858d7affc286328f6dc0903131a8"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes-pass2.md)"]
+
+[[attestations]]
+path = "results/reports/2026-10-29-sod1d.md"
+blob = "d8c72ba698ac861d7d7208537939e6e89b112e59"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes-pass2.md)"]
+
+[[attestations]]
+path = "scripts/aligned_flux_diagnostics.py"
+blob = "2f06f3dfdeb99477aca24d7c31edcd2c8f23a736"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes-pass2.md)"]
+
+[[attestations]]
+path = "scripts/fallback_positivity.py"
+blob = "f638f1c62ee0ce59ecbe159ba1ff5d425c36aec9"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes-pass2.md)"]
+
+[[attestations]]
+path = "scripts/fallback_positivity_lib.py"
+blob = "96b263727409f8bbe8bc31af3ed4767e41497c18"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes-pass2.md)"]
+
+[[attestations]]
+path = "scripts/figure_measurements/clainpos2.py"
+blob = "88ce2f2cce255552631fd7737e9d8a6505474188"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes-pass2.md)"]
+
+[[attestations]]
+path = "scripts/figure_measurements/dmrpos.py"
+blob = "674e54dd46ede779beb248e44e06c9bbd78246a9"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes-pass2.md)"]
+
+[[attestations]]
+path = "scripts/figure_measurements/frames.py"
+blob = "3ed52f38102253681e6e326fde6a38b5ff316972"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes-pass2.md)"]
+
+[[attestations]]
+path = "scripts/figure_measurements/steppos.py"
+blob = "79d6ea8241cd49160dbf0f263429b439a3e73716"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes-pass2.md)"]
+
+[[attestations]]
+path = "scripts/make_epd_figure.py"
+blob = "7abcbc77b1da589752e954bab82d9f21d1e85b55"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes-pass2.md)"]
+
+[[attestations]]
+path = "scripts/make_epd_figure_addendum.py"
+blob = "5ac927f9605fecdf7afda4ff1ba0217303ae1fee"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes-pass2.md)"]
+
+[[attestations]]
+path = "scripts/make_epd_figure_light.py"
+blob = "ef5c62ef2abddc77e77062762a026301fe4d024a"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes-pass2.md)"]
+
+[[attestations]]
+path = "scripts/stencil_diagnostics.py"
+blob = "c5af3d7e9fef91188f92119a5770ba43394dfd50"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/ho_defect_bloch_1d.jsonl"
+blob = "ba7431e55ec4e522d996947d72bfa669aebd8c3a"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes-pass2.md)"]
+
+[[attestations]]
+path = "stability/data/ho_defect_bloch_1d_insert_shift.jsonl"
+blob = "8ab86bc8a36f3b7909a6e7bd5460dc329f328cc5"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes-pass2.md)"]
+
+[[attestations]]
+path = "stability/scripts/certify_K2_1d.py"
+blob = "70469742a761e302384b1193dc6b4e34fa29e1f6"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes-pass2.md)"]
+
+[[attestations]]
+path = "stability/scripts/ho_common.py"
+blob = "4fec0eed18284db46d1bd8485196efad1d9829cd"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes-pass2.md)"]
+
+[[attestations]]
+path = "stability/scripts/ho_defect_bloch.py"
+blob = "13679ef26abd463ad685264b288025e77ea5fff6"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes-pass2.md)"]
+
+[[attestations]]
+path = "stability/scripts/ho_defect_cert.py"
+blob = "4865da512718d03f5220cda7069c0a9e4d56bfef"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes-pass2.md)"]
+
+[[attestations]]
+path = "stability/scripts/ho_make_tables.py"
+blob = "a7c94ba4c2b795e1fabc2a9667831b23e45826eb"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes-pass2.md)"]
+
+[[attestations]]
+path = "stability/stability_combined.pdf"
+blob = "863481f4c1dea65a01a640fc310d762003875051"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes-pass2.md)"]
+
+[[attestations]]
+path = "stability/tables/ho_defect_bloch.tex"
+blob = "5dab19ff7f4f07a86de2e113fad3b8c34e4f2463"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes-pass2.md)"]
+
+[[attestations]]
+path = "stability/tables/ho_random.tex"
+blob = "cedbb1975f1f525c7e4bcff14d257a04f223df48"
+AI-Review = "A1"
+AI-Reviewed-by = ["Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes.md)", "Claude Opus 5.5 (Anthropic), new session without the generating conversation (reviews/627fab6ad80f99057b8ddf62f0feb2b412e9e132-fixes-pass2.md)"]
