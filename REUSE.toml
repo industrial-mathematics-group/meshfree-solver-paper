@@ -1,0 +1,11 @@
+version = 1
+
+[[annotations]]
+path = ["**"]
+SPDX-FileCopyrightText = "2026 Pascal Jung"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = ["paper/**", "jsc/**", "addendum/**", "stability/**"]
+SPDX-FileCopyrightText = "2026 Pascal Jung"
+SPDX-License-Identifier = "CC-BY-4.0"
